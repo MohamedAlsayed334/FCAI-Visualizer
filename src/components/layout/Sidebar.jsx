@@ -2,6 +2,8 @@ import { Link, NavLink } from 'react-router-dom';
 import {
   Binary,
   BookOpen,
+  ChevronLeft,
+  ChevronRight,
   GitBranch,
   Home,
   KeyRound,
@@ -16,7 +18,7 @@ import {
   Workflow,
 } from 'lucide-react';
 import './Sidebar.css';
-import logo from '../../assets/fcai-cu.svg';
+import logo from '../../../assets/ddc-logo-transparent.png';
 
 const COURSE_LINKS = [
   {
@@ -57,6 +59,8 @@ function SidebarLink({ to, label, icon: Icon, onNavigate, end = false }) {
       to={to}
       end={end}
       onClick={onNavigate}
+      title={label}
+      aria-label={label}
       className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}
     >
       <Icon size={17} aria-hidden="true" />
@@ -72,13 +76,29 @@ export default function Sidebar({ collapsed, onToggle }) {
 
   return (
     <aside className={`sidebar${collapsed ? ' collapsed' : ''}`} aria-label="Main navigation">
-      <Link to="/" className="sidebar-brand" onClick={handleNavigate}>
+      <Link
+        to="/"
+        className="sidebar-brand"
+        onClick={handleNavigate}
+        title="Home"
+        aria-label="FCAI-Visualizer home"
+      >
         <img src={logo} alt="" className="sidebar-brand-logo" />
         <span className="sidebar-brand-copy">
           <strong>FCAI-CU</strong>
           <small>Learn by visualizing</small>
         </span>
       </Link>
+      <button
+        type="button"
+        className="sidebar-toggle"
+        onClick={onToggle}
+        title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        aria-expanded={!collapsed}
+      >
+        {collapsed ? <ChevronRight size={17} /> : <ChevronLeft size={17} />}
+      </button>
 
       <nav className="sidebar-nav">
         <p className="sidebar-section-title">Workspace</p>
@@ -93,6 +113,8 @@ export default function Sidebar({ collapsed, onToggle }) {
                 to={course.to}
                 className="sidebar-course-heading"
                 onClick={handleNavigate}
+                title={course.title}
+                aria-label={course.title}
               >
                 <Icon size={17} aria-hidden="true" />
                 <span>{course.title}</span>

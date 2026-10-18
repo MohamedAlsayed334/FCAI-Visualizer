@@ -9,6 +9,8 @@ import { RedBlackTree } from './RedBlackTree.js';
 import { BST } from './BST.js';
 import { AVLTree } from './AVLTree.js';
 
+const hintIcon = (paths) => `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+
 /**
  * Initialize the tree visualizer inside a container element.
  * @param {HTMLElement} container - DOM element to mount into
@@ -31,6 +33,7 @@ export function initTreeVisualizer(container, type = 'avl') {
   // Side panel
   const panel = document.createElement('aside');
   panel.className = 'tree-panel';
+  if (isRBT) panel.classList.add('tree-panel-rbt');
   panel.innerHTML = `
     <div class="tree-panel-title">
       <span class="tree-title-main">${titleName}</span>
@@ -80,8 +83,35 @@ export function initTreeVisualizer(container, type = 'avl') {
         <button class="tree-speed-btn" data-speed="2">Fast</button>
       </div>
     </section>
+    ${isRBT ? `
     <hr class="tree-divider"/>
-    <section class="tree-section">
+    <section class="tree-section rbt-learning-panel" aria-live="polite">
+      <div class="tree-section-label">ALGORITHM STEPS</div>
+      <div class="rbt-step-count" id="tv-rbt-step-count">No operation yet</div>
+      <h3 class="rbt-step-title" id="tv-rbt-step-title">Ready to explore</h3>
+      <p class="rbt-step-explanation" id="tv-rbt-step-explanation">Insert or delete a value to see the real Red-Black Tree algorithm, one step at a time.</p>
+      <div class="rbt-step-involved" id="tv-rbt-step-involved"></div>
+      <div class="rbt-lock-message" id="tv-rbt-lock-message" hidden>Finish or replay the current history before starting another operation.</div>
+      <div class="rbt-playback-controls">
+        <button class="tree-btn tree-btn-ghost sm" id="tv-rbt-previous" type="button" disabled aria-label="Previous algorithm step">Previous</button>
+        <button class="tree-btn tree-btn-accent sm" id="tv-rbt-play" type="button" disabled>Play</button>
+        <button class="tree-btn tree-btn-ghost sm" id="tv-rbt-pause" type="button" disabled>Pause</button>
+        <button class="tree-btn tree-btn-ghost sm" id="tv-rbt-next" type="button" disabled aria-label="Next algorithm step">Next</button>
+        <button class="tree-btn tree-btn-ghost sm" id="tv-rbt-restart" type="button" disabled>Restart</button>
+      </div>
+      <div class="rbt-properties-title">RED-BLACK TREE PROPERTIES</div>
+      <div class="rbt-property-status" id="tv-rbt-property-status">The properties will be checked after an operation.</div>
+      <ol class="rbt-properties-list">
+        <li data-property="1">Every node is red or black.</li>
+        <li data-property="2">The root is black.</li>
+        <li data-property="3">Every NIL leaf is black (NIL leaves are implicit).</li>
+        <li data-property="4">A red node cannot have a red child.</li>
+        <li data-property="5">Every path to descendant NIL leaves has equal black height.</li>
+      </ol>
+    </section>
+    ` : ''}
+    <hr class="tree-divider"/>
+    <section class="tree-section tree-preset-section">
       <div class="tree-section-label">PRESET SCENARIOS</div>
       <button class="tree-btn tree-btn-preset sm" id="tv-btn-preset-ll">Insert: LL Imbalance</button>
       <button class="tree-btn tree-btn-preset sm" id="tv-btn-preset-rr">Insert: RR Imbalance</button>
@@ -123,7 +153,12 @@ export function initTreeVisualizer(container, type = 'avl') {
       <span class="tree-legend-dot" style="background:#e1c828"></span>
       <span class="tree-legend-dot" style="background:#8cd23c"></span>
     </div>
-    <div class="tree-hints">Scroll: Zoom &nbsp;|&nbsp; Right-click+Drag: Pan &nbsp;|&nbsp; Double-click: Reset View &nbsp;|&nbsp; Enter: Insert</div>
+    <div class="tree-hints" aria-label="Canvas instructions">
+      <span class="tree-hint"><span class="tree-hint-icon">${hintIcon('<circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/>')}</span><span>Scroll to zoom</span></span>
+      <span class="tree-hint"><span class="tree-hint-icon">${hintIcon('<path d="m5 3 14 9-7 1-3 7z"/>')}</span><span>Right-click + drag to pan</span></span>
+      <span class="tree-hint"><span class="tree-hint-icon">${hintIcon('<path d="M3 7v6h6"/><path d="M3.5 13a9 9 0 1 0 2.1-6.5L3 9"/>')}</span><span>Double-click to reset view</span></span>
+      <span class="tree-hint"><span class="tree-hint-icon">${hintIcon('<path d="m9 10-5 5 5 5"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/>')}</span><span><kbd>Enter</kbd> to insert</span></span>
+    </div>
     <div class="tree-trav-bar" id="tv-trav-bar" style="display:none">
       <span class="tree-trav-title" id="tv-trav-title"></span>
       <span class="tree-trav-result" id="tv-trav-result"></span>
@@ -153,6 +188,14 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
   let speedIdx = 0;
   let destroyed = false;
+  let rbtHistory = [];
+  let rbtHistoryIndex = -1;
+  let rbtProgress = 1;
+  let rbtPlaying = false;
+  let rbtTransitioning = false;
+  let rbtDirection = 1;
+  let rbtBusy = false;
+  let rbtPlayElapsed = 0;
 
   const cam = { x:0, y:0, zoom:1, offsetX:0, offsetY:0 };
   let camReady = false;
@@ -202,8 +245,131 @@ export function initTreeVisualizer(container, type = 'avl') {
     canvasWrap.querySelector('#tv-trav-result').textContent = result;
   }
 
+  function updateRbtControls() {
+    if (!isRBT) return;
+    const hasHistory = rbtHistory.length > 0;
+    const atEnd = rbtHistoryIndex >= rbtHistory.length - 1;
+    panel.querySelector('#tv-rbt-previous').disabled = !hasHistory || rbtHistoryIndex <= 0;
+    panel.querySelector('#tv-rbt-play').disabled = !hasHistory || rbtPlaying || rbtHistory.length < 2;
+    panel.querySelector('#tv-rbt-pause').disabled = !hasHistory || !rbtPlaying;
+    panel.querySelector('#tv-rbt-next').disabled = !hasHistory || atEnd;
+    panel.querySelector('#tv-rbt-restart').disabled = !hasHistory;
+    panel.querySelector('#tv-rbt-play').textContent = atEnd ? 'Replay' : 'Play';
+  }
+
+  function updateRbtLesson() {
+    if (!isRBT) return;
+    const event = rbtHistory[rbtHistoryIndex];
+    const count = panel.querySelector('#tv-rbt-step-count');
+    const title = panel.querySelector('#tv-rbt-step-title');
+    const explanation = panel.querySelector('#tv-rbt-step-explanation');
+    const involved = panel.querySelector('#tv-rbt-step-involved');
+    const properties = panel.querySelectorAll('.rbt-properties-list li');
+    if (!event) {
+      count.textContent = 'No operation yet';
+      title.textContent = 'Ready to explore';
+      explanation.textContent = 'Insert or delete a value to see the real Red-Black Tree algorithm, one step at a time.';
+      involved.textContent = '';
+      panel.querySelector('#tv-rbt-property-status').textContent = 'The properties will be checked after an operation.';
+      properties.forEach((item) => item.classList.remove('is-current', 'is-satisfied'));
+      updateRbtControls();
+      return;
+    }
+    count.textContent = `Step ${rbtHistoryIndex + 1} of ${rbtHistory.length}`;
+    title.textContent = event.operation;
+    explanation.textContent = event.explanation;
+    const roles = Object.entries(event.roles || {})
+      .filter(([, value]) => value !== null && value !== undefined)
+      .map(([role, value]) => `${role}: ${value}`);
+    involved.textContent = roles.length ? `Nodes involved — ${roles.join(' · ')}` : '';
+    const propertyStatus = panel.querySelector('#tv-rbt-property-status');
+    propertyStatus.textContent = event.property === 'all'
+      ? 'All five properties are satisfied.'
+      : typeof event.property === 'number'
+        ? `Property ${event.property} is being repaired.`
+        : 'No Red-Black property violation is flagged at this step.';
+    properties.forEach((item) => {
+      const property = Number(item.dataset.property);
+      item.classList.toggle('is-current', event.property === property);
+      item.classList.toggle('is-satisfied', event.property === 'all');
+    });
+    updateRbtControls();
+  }
+
+  function setRbtBusy(busy) {
+    if (!isRBT) return;
+    rbtBusy = busy;
+    panel.querySelector('#tv-rbt-lock-message').hidden = !busy;
+    panel.querySelector('#tv-val-input').disabled = busy;
+    panel.querySelectorAll('#tv-btn-insert, #tv-btn-delete, #tv-btn-clear, #tv-btn-gen, #tv-btn-pred, #tv-btn-succ, .tv-trav-btn')
+      .forEach((button) => { button.disabled = busy; });
+  }
+
+  function startRbtOperation(action, value) {
+    if (rbtBusy) return;
+    const history = [];
+    if (action === 'insert') tree.insert(value, (event) => history.push(event));
+    else tree.delete(value, (event) => history.push(event));
+    rbtHistory = history;
+    rbtHistoryIndex = history.length ? 0 : -1;
+    rbtProgress = 1;
+    rbtDirection = 1;
+    rbtTransitioning = false;
+    rbtPlayElapsed = 0;
+    rbtPlaying = history.length > 1;
+    setRbtBusy(history.length > 1);
+    updateRbtLesson();
+    const detail = `${history.length} real algorithm steps recorded`;
+    setStatus(`${action === 'insert' ? 'Insert' : 'Delete'} ${value}`, detail);
+    setTraversal('', '');
+  }
+
+  function advanceRbtStep() {
+    if (!isRBT || rbtHistoryIndex >= rbtHistory.length - 1) return;
+    rbtHistoryIndex++;
+    rbtDirection = 1;
+    rbtProgress = 0;
+    rbtPlayElapsed = 0;
+    updateRbtLesson();
+  }
+
+  function tickRbtPlayback(dt) {
+    if (!isRBT) return;
+    const duration = [1.45, 0.8, 0.34][speedIdx];
+    if (rbtProgress < 1 && (rbtPlaying || rbtTransitioning)) {
+      rbtProgress = Math.min(1, rbtProgress + dt / duration);
+      if (rbtProgress >= 1 && rbtTransitioning) {
+        rbtTransitioning = false;
+        if (!rbtPlaying && rbtHistoryIndex >= rbtHistory.length - 1) setRbtBusy(false);
+      }
+      return;
+    }
+    if (!rbtPlaying) return;
+    rbtPlayElapsed += dt;
+    if (rbtPlayElapsed < duration) return;
+    if (rbtHistoryIndex < rbtHistory.length - 1) {
+      advanceRbtStep();
+    } else {
+      rbtPlaying = false;
+      rbtTransitioning = false;
+      setRbtBusy(false);
+      updateRbtControls();
+    }
+  }
+
   function updateLiveStats() {
-    const nc = tree.getNodeCount(), ht = tree.getTreeHeight();
+    let nc = tree.getNodeCount(), ht = tree.getTreeHeight();
+    if (isRBT && rbtHistoryIndex >= 0 && rbtHistory[rbtHistoryIndex]) {
+      const measure = (node) => {
+        if (!node) return { count: 0, height: -1 };
+        const left = measure(node.left);
+        const right = measure(node.right);
+        return { count: left.count + right.count + 1, height: Math.max(left.height, right.height) + 1 };
+      };
+      const visible = measure(rbtHistory[rbtHistoryIndex].snapshot);
+      nc = visible.count;
+      ht = visible.height;
+    }
     const bal = nc <= 1 || ht <= Math.ceil(1.45 * Math.log2(nc + 1) + 1.6);
     canvasWrap.querySelector('#tv-ls-nodes').textContent = `Nodes: ${nc}`;
     canvasWrap.querySelector('#tv-ls-height').textContent = `Height: ${ht}`;
@@ -256,6 +422,10 @@ export function initTreeVisualizer(container, type = 'avl') {
 
   function doInsert() {
     const val = getVal(); tree.searchPath = [];
+    if (isRBT) {
+      startRbtOperation('insert', val);
+      return;
+    }
     const T = getT();
     const rotMsg = tree.insertNode(val);
     let m = `Inserted: ${val}`; if (rotMsg) m += `  (${rotMsg})`;
@@ -266,6 +436,10 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
   function doDelete() {
     const val = getVal(); tree.searchPath = [];
+    if (isRBT) {
+      startRbtOperation('delete', val);
+      return;
+    }
     const T = getT();
     const rotMsg = tree.deleteNode(val);
     let m = `Deleted: ${val}`; if (rotMsg) m += `  (${rotMsg})`;
@@ -275,7 +449,17 @@ export function initTreeVisualizer(container, type = 'avl') {
     setTraversal('', '');
   }
   function doClear() {
+    if (isRBT && rbtBusy) return;
     tree.clearTree(); tree.searchPath = [];
+    if (isRBT) {
+      rbtHistory = [];
+      rbtHistoryIndex = -1;
+      rbtPlaying = false;
+      rbtTransitioning = false;
+      rbtDirection = 1;
+      rbtProgress = 1;
+      updateRbtLesson();
+    }
     const T = getT();
     setTraversal('', ''); setStatus('Tree cleared', 'Start fresh!');
     showPopup('Tree cleared!', T.danger, 2);
@@ -299,9 +483,28 @@ function doGenerate() {
     if (count > 99) count = 99;
     tree.clearTree(); tree.searchPath = [];
     const used = new Set(); let ins = 0, att = 0;
+    const generated = [];
     while (ins < count && att < count * 30) {
       const v = Math.floor(Math.random() * 199) - 99;
-      if (!used.has(v)) { used.add(v); tree.insertNode(v); ins++; att++; }
+      if (!used.has(v)) {
+        used.add(v);
+        if (isRBT) generated.push(v);
+        else tree.insertNode(v);
+        ins++; att++;
+      }
+    }
+    if (isRBT) {
+      const history = [];
+      generated.forEach((value) => tree.insert(value, (event) => history.push(event)));
+      rbtHistory = history;
+      rbtHistoryIndex = history.length ? 0 : -1;
+      rbtProgress = 1;
+      rbtPlayElapsed = 0;
+      rbtDirection = 1;
+      rbtTransitioning = false;
+      rbtPlaying = history.length > 1;
+      setRbtBusy(history.length > 1);
+      updateRbtLesson();
     }
     showPopup(`Generated ${ins} random nodes!`, T.success);
     setStatus(`Random tree: ${ins} nodes`, 'Add / delete nodes freely!');
@@ -655,6 +858,57 @@ function doGenerate() {
     });
   });
 
+  if (isRBT) {
+    panel.querySelector('#tv-rbt-previous').addEventListener('click', () => {
+      rbtPlaying = false;
+      rbtTransitioning = true;
+      rbtDirection = -1;
+      if (rbtHistoryIndex > 0) {
+        rbtHistoryIndex--;
+        rbtProgress = 0;
+        rbtPlayElapsed = 0;
+        setRbtBusy(true);
+        updateRbtLesson();
+      } else rbtTransitioning = false;
+    });
+    panel.querySelector('#tv-rbt-next').addEventListener('click', () => {
+      rbtPlaying = false;
+      advanceRbtStep();
+      rbtTransitioning = rbtHistoryIndex >= 0 && rbtProgress < 1;
+      setRbtBusy(rbtTransitioning || rbtHistoryIndex < rbtHistory.length - 1);
+      updateRbtLesson();
+    });
+    panel.querySelector('#tv-rbt-play').addEventListener('click', () => {
+      if (rbtHistory.length < 2) return;
+      if (rbtHistoryIndex >= rbtHistory.length - 1) {
+        rbtHistoryIndex = 0;
+        rbtProgress = 1;
+        rbtPlayElapsed = 0;
+        updateRbtLesson();
+      }
+      rbtDirection = 1;
+      rbtTransitioning = false;
+      setRbtBusy(true);
+      rbtPlaying = true;
+      updateRbtControls();
+    });
+    panel.querySelector('#tv-rbt-pause').addEventListener('click', () => {
+      rbtPlaying = false;
+      rbtTransitioning = false;
+      updateRbtControls();
+    });
+    panel.querySelector('#tv-rbt-restart').addEventListener('click', () => {
+      rbtPlaying = false;
+      rbtTransitioning = false;
+      rbtDirection = 1;
+      rbtHistoryIndex = 0;
+      rbtProgress = 1;
+      rbtPlayElapsed = 0;
+      setRbtBusy(rbtHistory.length > 1);
+      updateRbtLesson();
+    });
+  }
+
   // ── Canvas interactions ────────────────────────────────────────────────
   canvas.addEventListener('wheel', (e) => {
     e.preventDefault();
@@ -706,6 +960,138 @@ function doGenerate() {
   let lastTime = performance.now();
   let rafId = null;
 
+  function layoutRbtSnapshot(snapshot, width, height) {
+    const nodes = [];
+    const edges = [];
+    let maxDepth = 0;
+    const visit = (node, depth, parentValue = null) => {
+      if (!node) return;
+      maxDepth = Math.max(maxDepth, depth);
+      visit(node.left, depth + 1, node.value);
+      nodes.push({ ...node, depth, parentValue });
+      visit(node.right, depth + 1, node.value);
+    };
+    visit(snapshot, 0);
+    const spacing = nodes.length > 1
+      ? Math.min(90, Math.max(34, (width - 80) / (nodes.length - 1)))
+      : 84;
+    const levelGap = maxDepth > 0
+      ? Math.max(48, Math.min(78, (height - 110) / maxDepth))
+      : 78;
+    nodes.forEach((node, index) => {
+      node.x = (index - (nodes.length - 1) / 2) * spacing;
+      node.y = node.depth * levelGap;
+      if (node.parentValue !== null) edges.push({ parentValue: node.parentValue, value: node.value });
+    });
+    return {
+      nodes: new Map(nodes.map((node) => [node.value, node])),
+      edges,
+      radius: Math.max(13, Math.min(20, spacing * 0.27)),
+    };
+  }
+
+  function mixHex(from, to, progress) {
+    const a = from.match(/[0-9a-f]{2}/gi) || ['00', '00', '00'];
+    const b = to.match(/[0-9a-f]{2}/gi) || ['00', '00', '00'];
+    return `#${a.map((part, index) => {
+      const start = parseInt(part, 16);
+      const end = parseInt(b[index], 16);
+      return Math.round(start + (end - start) * progress).toString(16).padStart(2, '0');
+    }).join('')}`;
+  }
+
+  function drawRbtSnapshot(snapshot, previousSnapshot, progress, event, theme, width, height) {
+    if (!snapshot && !previousSnapshot) return;
+    const eased = progress * progress * (3 - 2 * progress);
+    const before = layoutRbtSnapshot(previousSnapshot, width, height);
+    const after = layoutRbtSnapshot(snapshot, width, height);
+    const nodeRadius = Math.min(before.radius, after.radius);
+    const pointFor = (value, oldNode, newNode) => {
+      if (oldNode && newNode) {
+        return {
+          x: oldNode.x + (newNode.x - oldNode.x) * eased,
+          y: oldNode.y + (newNode.y - oldNode.y) * eased,
+        };
+      }
+      if (newNode) {
+        const oldParent = before.nodes.get(newNode.parentValue);
+        const start = oldParent || { x: newNode.x, y: newNode.y - 42 };
+        return { x: start.x + (newNode.x - start.x) * eased, y: start.y + (newNode.y - start.y) * eased };
+      }
+      const newParent = after.nodes.get(oldNode.parentValue);
+      const end = newParent || { x: oldNode.x, y: oldNode.y - 36 };
+      return { x: oldNode.x + (end.x - oldNode.x) * eased, y: oldNode.y + (end.y - oldNode.y) * eased };
+    };
+    const point = (value) => pointFor(value, before.nodes.get(value), after.nodes.get(value));
+
+    const drawEdges = (layout, alpha) => {
+      if (alpha <= 0) return;
+      ctx.globalAlpha = alpha;
+      ctx.strokeStyle = theme.nodeStroke;
+      ctx.lineWidth = 2;
+      layout.edges.forEach(({ parentValue, value }) => {
+        const from = point(parentValue);
+        const to = point(value);
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y + nodeRadius);
+        ctx.lineTo(to.x, to.y - nodeRadius);
+        ctx.stroke();
+      });
+    };
+    drawEdges(before, 1 - eased);
+    drawEdges(after, eased);
+
+    const roleColors = {
+      current: '#ffd166',
+      target: '#ff6b6b',
+      parent: '#62b6ff',
+      grandparent: '#b794f4',
+      uncle: '#ff9f43',
+      sibling: '#45d6c5',
+      successor: '#f472b6',
+      nearChild: '#fb7185',
+      farChild: '#4ade80',
+    };
+    const roles = event ? event.roles : {};
+    const roleByValue = new Map();
+    Object.entries(roles || {}).forEach(([role, value]) => {
+      if (value !== null && value !== undefined && roleColors[role] && !roleByValue.has(value)) {
+        roleByValue.set(value, role);
+      }
+    });
+    const values = new Set([...before.nodes.keys(), ...after.nodes.keys()]);
+    values.forEach((value) => {
+      const oldNode = before.nodes.get(value);
+      const newNode = after.nodes.get(value);
+      const position = point(value);
+      const alpha = oldNode && newNode ? 1 : oldNode ? 1 - eased : eased;
+      if (alpha <= 0) return;
+      const oldFill = oldNode ? (oldNode.color === 'red' ? '#d94f59' : '#202532') : null;
+      const newFill = newNode ? (newNode.color === 'red' ? '#d94f59' : '#202532') : null;
+      const fill = oldFill && newFill ? mixHex(oldFill, newFill, eased) : newFill || oldFill;
+      const role = roleByValue.get(value);
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = fill;
+      ctx.strokeStyle = role ? roleColors[role] : theme.nodeStroke;
+      ctx.lineWidth = role ? 4 : 2;
+      ctx.beginPath();
+      ctx.arc(position.x, position.y, nodeRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '700 12px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(String(value), position.x, position.y);
+      if (role) {
+        ctx.font = '600 9px Inter, sans-serif';
+        ctx.fillStyle = roleColors[role];
+        ctx.fillText(role === 'grandparent' ? 'grandparent' : role, position.x, position.y - nodeRadius - 8);
+      }
+    });
+    ctx.globalAlpha = 1;
+  }
+
   function drawTreeFrame() {
     const W = canvas.clientWidth, H = canvas.clientHeight;
     const T = getT();
@@ -716,7 +1102,17 @@ function doGenerate() {
     ctx.translate(cam.offsetX, cam.offsetY);
     ctx.scale(cam.zoom, cam.zoom);
     ctx.translate(-cam.x, -cam.y);
-    drawTree(ctx, tree.root, 0, tree.searchPath, T);
+    if (isRBT) {
+      const event = rbtHistory[rbtHistoryIndex];
+      const snapshot = event ? event.snapshot : tree._snapshotTree();
+      const transitionFromIndex = rbtHistoryIndex - rbtDirection;
+      const previous = rbtProgress < 1 && transitionFromIndex >= 0 && transitionFromIndex < rbtHistory.length
+        ? rbtHistory[transitionFromIndex].snapshot
+        : snapshot;
+      drawRbtSnapshot(snapshot, previous, rbtProgress, event, T, W, H);
+    } else {
+      drawTree(ctx, tree.root, 0, tree.searchPath, T);
+    }
     ctx.restore();
   }
 
@@ -725,6 +1121,7 @@ function doGenerate() {
     const dt = Math.min((now - lastTime) / 1000, 0.1);
     lastTime = now;
     tree.tickAnimations(dt, SPEED_TABLE[speedIdx]);
+    tickRbtPlayback(dt);
     tickPopup(dt);
     updateLiveStats();
     drawTreeFrame();

@@ -3,7 +3,7 @@
 //  Matches Tree Visualizer patterns exactly
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { THEMES, SPEED_TABLE } from '../trees/avlTree.js';
+import { THEMES, SPEED_TABLE } from '../trees/AVLTree.js';
 import { codeSnippets } from '../../data/algorithmData.js';
 
 const NODE_R = 22;

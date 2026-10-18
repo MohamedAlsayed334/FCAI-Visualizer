@@ -4,10 +4,9 @@
 //  Attaches imperatively to a DOM container — zero React dependencies
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { THEMES, SPEED_TABLE, drawTree } from './avlTree.js';
+import { THEMES, SPEED_TABLE, drawTree, AVLTree } from './AVLTree.js';
 import { RedBlackTree } from './RedBlackTree.js';
 import { BST } from './BST.js';
-import { AVLTree } from './AVLTree.js';
 
 const hintIcon = (paths) => `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
 

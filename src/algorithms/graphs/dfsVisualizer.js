@@ -3,7 +3,7 @@
 //  Matches BFS Graph Visualizer patterns exactly
 // ══════════════════════════════════════════════════════════════════════════════
 
-import { THEMES, SPEED_TABLE, colA } from '../trees/avlTree.js';
+import { THEMES, SPEED_TABLE } from '../trees/avlTree.js';
 import { codeSnippets } from '../../data/algorithmData.js';
 
 const NODE_R = 22;

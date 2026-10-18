@@ -1,0 +1,137 @@
+import {
+  Binary,
+  GitBranch,
+  Layers3,
+  ListOrdered,
+  Network,
+  Search,
+  Workflow,
+} from 'lucide-react';
+
+export const dataStructureCourse = {
+  id: 'data-structure',
+  title: 'Data Structure',
+  eyebrow: 'Core course',
+  description: 'Build a strong foundation in the structures and algorithms that power modern software. Explore each concept through an interactive visualizer.',
+  icon: Layers3,
+  color: 'blue',
+  lessonCount: 7,
+  topics: [
+    {
+      id: 'arrays',
+      title: 'Arrays',
+      description: 'Understand indexed storage, access, updates, and common array operations.',
+      route: '/courses/data-structure/arrays',
+      icon: Binary,
+      tags: ['Indexing', 'Insertion', 'Deletion'],
+    },
+    {
+      id: 'stacks',
+      title: 'Stacks',
+      description: 'Explore last-in, first-out behavior with push, pop, and peek operations.',
+      route: '/courses/data-structure/stacks',
+      icon: Layers3,
+      tags: ['LIFO', 'Push', 'Pop'],
+    },
+    {
+      id: 'queues',
+      title: 'Queues',
+      description: 'See how first-in, first-out structures manage data and scheduling.',
+      route: '/courses/data-structure/queues',
+      icon: Workflow,
+      tags: ['FIFO', 'Enqueue', 'Dequeue'],
+    },
+    {
+      id: 'linked-lists',
+      title: 'Linked Lists',
+      description: 'Follow node connections in singly, doubly, circular, and ordered lists.',
+      route: '/courses/data-structure/linked-lists',
+      icon: GitBranch,
+      tags: ['Nodes', 'Pointers', 'Variants'],
+    },
+    {
+      id: 'sorting',
+      title: 'Sorting Algorithms',
+      description: 'Compare how sorting strategies order data, one operation at a time.',
+      route: '/courses/data-structure/sorting',
+      icon: ListOrdered,
+      tags: ['8 algorithms', 'Step controls', 'Code'],
+    },
+    {
+      id: 'searching',
+      title: 'Searching Algorithms',
+      description: 'Trace linear, binary, and jump search to find values efficiently.',
+      route: '/courses/data-structure/searching',
+      icon: Search,
+      tags: ['3 algorithms', 'Sorted data', 'Complexity'],
+    },
+    {
+      id: 'graphs',
+      title: 'Graphs',
+      description: 'Model connected data and explore traversals and shortest paths.',
+      route: '/courses/data-structure/graphs',
+      icon: Network,
+      tags: ['BFS', 'DFS', 'Dijkstra'],
+    },
+  ],
+};
+
+export const advancedDataStructureCourse = {
+  id: 'advanced-data-structure',
+  title: 'Advanced Data Structure',
+  eyebrow: 'Advanced course',
+  description: 'Study tree structures that organize hierarchical data and keep operations efficient as collections grow.',
+  icon: GitBranch,
+  color: 'gold',
+  lessonCount: 3,
+  topics: [
+    {
+      id: 'trees',
+      title: 'Binary Search Trees',
+      description: 'Insert, find, and remove values while exploring tree traversals.',
+      route: '/courses/advanced-data-structure/trees',
+      icon: GitBranch,
+      tags: ['BST', 'Traversals', 'Search'],
+    },
+    {
+      id: 'avl-tree',
+      title: 'AVL Tree',
+      description: 'See how self-balancing rotations preserve logarithmic tree height.',
+      route: '/courses/advanced-data-structure/avl-tree',
+      icon: GitBranch,
+      tags: ['Self-balancing', 'Rotations', 'Height'],
+    },
+    {
+      id: 'red-black-tree',
+      title: 'Red-Black Tree',
+      description: 'Explore node coloring, insertion fix-ups, and balanced search paths.',
+      route: '/courses/advanced-data-structure/red-black-tree',
+      icon: GitBranch,
+      tags: ['Color rules', 'Rotations', 'Balancing'],
+    },
+  ],
+};
+
+export const learningTools = [
+  {
+    title: 'Practice Mode',
+    description: 'Check your understanding with interactive algorithm questions.',
+    route: '/practice',
+    icon: 'practice',
+    label: 'Practice',
+  },
+  {
+    title: 'Compare Algorithms',
+    description: 'Run two algorithms side by side and compare their steps.',
+    route: '/compare',
+    icon: 'compare',
+    label: 'Compare',
+  },
+  {
+    title: 'AI Learning Tools',
+    description: 'Manage AI access for algorithm explanations and quizzes.',
+    route: '/api-keys',
+    icon: 'ai',
+    label: 'AI settings',
+  },
+];

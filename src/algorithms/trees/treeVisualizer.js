@@ -4,7 +4,10 @@
 //  Attaches imperatively to a DOM container — zero React dependencies
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { BST, THEMES, SPEED_TABLE, drawTree } from './avlTree.js';
+import { THEMES, SPEED_TABLE, drawTree } from './avlTree.js';
+import { RedBlackTree } from './RedBlackTree.js';
+import { BST } from './BST.js';
+import { AVLTree } from './AVLTree.js';
 
 /**
  * Initialize the tree visualizer inside a container element.
@@ -13,8 +16,12 @@ import { BST, THEMES, SPEED_TABLE, drawTree } from './avlTree.js';
  */
 export function initTreeVisualizer(container, type = 'avl') {
   const isBST = type === 'bst';
-  const titleName = isBST ? 'Binary Search Tree' : 'AVL Tree';
-  const readyMsg = isBST ? 'BST Ready' : 'AVL Tree Ready';
+  const isAVL = type === 'avl';
+  const isRBT = type === 'rbt';
+  const titleName = isBST ? 'Binary Search Tree' : isAVL ? 'AVL Tree' : 'Red‑Black Tree';
+  const readyMsg = isBST ? 'BST Ready' : isAVL ? 'AVL Tree Ready' : 'Red‑Black Tree Ready';
+
+
 
   // ── Build DOM ──────────────────────────────────────────────────────────
   container.innerHTML = '';
@@ -133,8 +140,17 @@ export function initTreeVisualizer(container, type = 'avl') {
   // ── References ─────────────────────────────────────────────────────────
   const canvas = canvasWrap.querySelector('#tv-canvas');
   const ctx = canvas.getContext('2d');
-  const tree = new BST();
-  tree.isAVL = !isBST;
+  let tree;
+  if (isBST) {
+    tree = new BST();
+    tree.isAVL = false;
+  } else if (isAVL) {
+    tree = new AVLTree();
+    tree.isAVL = true;
+  } else if (isRBT) {
+    tree = new RedBlackTree();
+    tree.isAVL = false;
+  }
   let speedIdx = 0;
   let destroyed = false;
 
@@ -159,6 +175,8 @@ export function initTreeVisualizer(container, type = 'avl') {
     popupProg.style.width = '100%';
     popupProg.style.background = color;
     popupTimer = dur; popupMaxT = dur;
+    updateLiveStats();
+    drawTreeFrame();
   }
 
   function tickPopup(dt) {
@@ -190,7 +208,10 @@ export function initTreeVisualizer(container, type = 'avl') {
     canvasWrap.querySelector('#tv-ls-nodes').textContent = `Nodes: ${nc}`;
     canvasWrap.querySelector('#tv-ls-height').textContent = `Height: ${ht}`;
     const balEl = canvasWrap.querySelector('#tv-ls-balance');
-    if (!tree.isAVL) {
+    if (tree.isRedBlack) {
+      balEl.textContent = 'Red-Black rules';
+      balEl.className = 'tree-ls-balance tree-ls-balanced';
+    } else if (!tree.isAVL) {
       balEl.textContent = 'Unbalanced Mode';
       balEl.className = 'tree-ls-balance';
       balEl.style.color = '#78829b';
@@ -685,14 +706,7 @@ function doGenerate() {
   let lastTime = performance.now();
   let rafId = null;
 
-  function loop(now) {
-    if (destroyed) return;
-    const dt = Math.min((now - lastTime) / 1000, 0.1);
-    lastTime = now;
-    tree.tickAnimations(dt, SPEED_TABLE[speedIdx]);
-    tickPopup(dt);
-    updateLiveStats();
-
+  function drawTreeFrame() {
     const W = canvas.clientWidth, H = canvas.clientHeight;
     const T = getT();
     ctx.clearRect(0, 0, W, H);
@@ -704,9 +718,21 @@ function doGenerate() {
     ctx.translate(-cam.x, -cam.y);
     drawTree(ctx, tree.root, 0, tree.searchPath, T);
     ctx.restore();
+  }
+
+  function loop(now) {
+    if (destroyed) return;
+    const dt = Math.min((now - lastTime) / 1000, 0.1);
+    lastTime = now;
+    tree.tickAnimations(dt, SPEED_TABLE[speedIdx]);
+    tickPopup(dt);
+    updateLiveStats();
+    drawTreeFrame();
 
     rafId = requestAnimationFrame(loop);
   }
+  updateLiveStats();
+  drawTreeFrame();
   rafId = requestAnimationFrame(loop);
 
   // ── Destroy (cleanup for React useEffect) ──────────────────────────────

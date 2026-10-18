@@ -16,19 +16,25 @@ export default function Layout() {
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
-  // ── Theme: read from localStorage, default to dark ──────────────────
+  // ── Theme: read from localStorage, default to the academic light theme ─
   const [theme, setTheme] = useState(() => {
     try {
       const stored = localStorage.getItem(THEME_KEY);
       if (stored === 'light' || stored === 'dark') return stored;
-    } catch (_) { /* blocked */ }
-    return 'dark';
+    } catch {
+      return 'light';
+    }
+    return 'light';
   });
 
   // Apply theme to <html data-theme="..."> whenever it changes
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
-    try { localStorage.setItem(THEME_KEY, theme); } catch (_) { /* ignore */ }
+    try {
+      localStorage.setItem(THEME_KEY, theme);
+    } catch (error) {
+      console.warn('Unable to save theme preference:', error);
+    }
   }, [theme]);
 
   const toggleSidebar = () => setSidebarCollapsed((v) => !v);
@@ -39,7 +45,13 @@ export default function Layout() {
       {!sidebarCollapsed && (
         <div
           className="sidebar-overlay visible"
+          role="button"
+          tabIndex={0}
+          aria-label="Close navigation"
           onClick={toggleSidebar}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') toggleSidebar();
+          }}
         />
       )}
       <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
@@ -49,9 +61,9 @@ export default function Layout() {
           theme={theme}
           onToggleTheme={toggleTheme}
         />
-        <div className="app-content">
+        <main className="app-content">
           <Outlet />
-        </div>
+        </main>
       </div>
     </div>
   );

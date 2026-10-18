@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fcai-ink: #16324f;
+  --color-fcai-blue: #1769aa;
+  --color-fcai-gold: #d8a52b;
+  --color-fcai-mist: #f4f8fc;
+  --font-sans: "Inter", "Segoe UI", sans-serif;
+  --font-display: "Manrope", "Segoe UI", sans-serif;
+}

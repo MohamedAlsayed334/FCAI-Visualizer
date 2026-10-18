@@ -1,135 +1,129 @@
-import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import {
+  Binary,
+  BookOpen,
+  GitBranch,
+  Home,
+  KeyRound,
+  Layers,
+  ListOrdered,
+  Network,
+  Scale,
+  Search,
+  Sparkles,
+  TreePine,
+  Trophy,
+  Workflow,
+} from 'lucide-react';
 import './Sidebar.css';
-import logo from '../../../assets/fcainew.png';
+import logo from '../../assets/fcai-cu.svg';
 
-const NAV_SECTIONS = [
+const COURSE_LINKS = [
   {
-    id: 'sorting', icon: '📊', label: 'Sorting',
+    title: 'Data Structure',
+    to: '/courses/data-structure',
+    icon: Layers,
     children: [
-      { to: '/sorting/bubble',    label: 'Bubble Sort' },
-      { to: '/sorting/selection', label: 'Selection Sort' },
-      { to: '/sorting/insertion', label: 'Insertion Sort' },
-      { to: '/sorting/merge',    label: 'Merge Sort' },
-      { to: '/sorting/quick',    label: 'Quick Sort' },
-      { to: '/sorting/heap',     label: 'Heap Sort' },
-      { to: '/sorting/counting', label: 'Counting Sort' },
-      { to: '/sorting/radix',    label: 'Radix Sort' },
+      { to: '/courses/data-structure/arrays', label: 'Arrays', icon: Binary },
+      { to: '/courses/data-structure/stacks', label: 'Stacks', icon: Layers },
+      { to: '/courses/data-structure/queues', label: 'Queues', icon: Workflow },
+      { to: '/courses/data-structure/linked-lists', label: 'Linked Lists', icon: GitBranch },
+      { to: '/courses/data-structure/sorting', label: 'Sorting', icon: ListOrdered },
+      { to: '/courses/data-structure/searching', label: 'Searching', icon: Search },
+      { to: '/courses/data-structure/graphs', label: 'Graphs', icon: Network },
     ],
   },
   {
-    id: 'searching', icon: '🔍', label: 'Searching',
+    title: 'Advanced Data Structure',
+    to: '/courses/advanced-data-structure',
+    icon: GitBranch,
     children: [
-      { to: '/searching/linear', label: 'Linear Search' },
-      { to: '/searching/binary', label: 'Binary Search' },
-      { to: '/searching/jump',   label: 'Jump Search' },
-    ],
-  },
-  {
-    id: 'ds', icon: '🗂️', label: 'Data Structures',
-    children: [
-      { to: '/data-structures/array',       label: 'Array' },
-      { to: '/data-structures/stack',       label: 'Stack' },
-      { to: '/data-structures/queue',       label: 'Queue' },
-      { to: '/data-structures/singly-ll',   label: 'Singly Linked List' },
-      { to: '/data-structures/doubly-ll',   label: 'Doubly Linked List' },
-      { to: '/data-structures/circular-ll', label: 'Circular Linked List' },
-      { to: '/data-structures/ordered-ll',  label: 'Ordered Linked List' },
-    ],
-  },
-  {
-    id: 'trees', icon: '🌳', label: 'Trees',
-    children: [
-      { to: '/trees/bst', label: 'Binary Search Tree' },
-      { to: '/trees/avl', label: 'AVL Tree' },
-    ],
-  },
-  {
-    id: 'graphs', icon: '🕸️', label: 'Graphs',
-    children: [
-      { to: '/graphs/bfs',      label: 'BFS' },
-      { to: '/graphs/dfs',      label: 'DFS' },
-      { to: '/graphs/dijkstra', label: 'Dijkstra' },
+      { to: '/courses/advanced-data-structure/trees', label: 'Binary Search Trees', icon: TreePine },
+      { to: '/courses/advanced-data-structure/avl-tree', label: 'AVL Tree', icon: TreePine },
+      { to: '/courses/advanced-data-structure/red-black-tree', label: 'Red-Black Tree', icon: TreePine },
     ],
   },
 ];
 
-export default function Sidebar({ collapsed, onToggle }) {
-  const [openSections, setOpenSections] = useState(['trees']);
+const TOOLS = [
+  { to: '/practice', label: 'Practice Mode', icon: Trophy },
+  { to: '/compare', label: 'Compare Algorithms', icon: Scale },
+  { to: '/api-keys', label: 'AI & API Settings', icon: KeyRound },
+];
 
-  const toggleSection = (id) => {
-    setOpenSections((prev) =>
-      prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]
-    );
+function SidebarLink({ to, label, icon: Icon, onNavigate, end = false }) {
+  return (
+    <NavLink
+      to={to}
+      end={end}
+      onClick={onNavigate}
+      className={({ isActive }) => `sidebar-link${isActive ? ' active' : ''}`}
+    >
+      <Icon size={17} aria-hidden="true" />
+      <span>{label}</span>
+    </NavLink>
+  );
+}
+
+export default function Sidebar({ collapsed, onToggle }) {
+  const handleNavigate = () => {
+    if (window.matchMedia('(max-width: 1199px)').matches) onToggle();
   };
 
   return (
-    <nav className={`sidebar ${collapsed ? 'collapsed' : 'mobile-open'}`}>
-      <Link to="/" className="sidebar-header" style={{ textDecoration: 'none' }}>
-        <img src={logo} alt="FCAI Logo" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
-        <span className="sidebar-logo">FCAI-Visualizer</span>
+    <aside className={`sidebar${collapsed ? ' collapsed' : ''}`} aria-label="Main navigation">
+      <Link to="/" className="sidebar-brand" onClick={handleNavigate}>
+        <img src={logo} alt="" className="sidebar-brand-logo" />
+        <span className="sidebar-brand-copy">
+          <strong>FCAI-CU</strong>
+          <small>Learn by visualizing</small>
+        </span>
       </Link>
-      <div className="sidebar-nav">
-        {NAV_SECTIONS.map((section) => (
-          <div
-            key={section.id}
-            className={`sidebar-section${openSections.includes(section.id) ? ' open' : ''}`}
-          >
-            <button
-              className="sidebar-item"
-              onClick={() => toggleSection(section.id)}
-            >
-              <span className="icon">{section.icon}</span>
-              <span className="label">{section.label}</span>
-              <span className="sidebar-arrow">▶</span>
-            </button>
-            <div className="sidebar-children">
-              {section.children.map((child) => (
-                <NavLink
-                  key={child.to}
-                  to={child.to}
-                  className={({ isActive }) =>
-                    `sidebar-child${isActive ? ' active' : ''}`
-                  }
-                >
-                  {child.label}
-                </NavLink>
-              ))}
-            </div>
-          </div>
+
+      <nav className="sidebar-nav">
+        <p className="sidebar-section-title">Workspace</p>
+        <SidebarLink to="/" label="Home" icon={Home} onNavigate={handleNavigate} end />
+
+        <p className="sidebar-section-title">Courses</p>
+        {COURSE_LINKS.map((course) => {
+          const Icon = course.icon;
+          return (
+            <section className="sidebar-course" key={course.to}>
+              <Link
+                to={course.to}
+                className="sidebar-course-heading"
+                onClick={handleNavigate}
+              >
+                <Icon size={17} aria-hidden="true" />
+                <span>{course.title}</span>
+              </Link>
+              <div className="sidebar-course-topics">
+                {course.children.map((item) => (
+                <SidebarLink key={item.to} {...item} onNavigate={handleNavigate} />
+                ))}
+              </div>
+            </section>
+          );
+        })}
+
+        <p className="sidebar-section-title">Learning tools</p>
+        {TOOLS.map((tool) => (
+          <SidebarLink key={tool.to} {...tool} onNavigate={handleNavigate} />
         ))}
 
-        {/* Modes */}
-        <div className="sidebar-section-title">Modes</div>
-        <NavLink
-          to="/practice"
-          className={({ isActive }) =>
-            `sidebar-mode-item${isActive ? ' active' : ''}`
-          }
-        >
-          <span className="icon">🎯</span>
-          Practice Mode
-        </NavLink>
-        <NavLink
-          to="/compare"
-          className={({ isActive }) =>
-            `sidebar-mode-item${isActive ? ' active' : ''}`
-          }
-        >
-          <span className="icon">⚖️</span>
-          Compare
-        </NavLink>
-        <div className="sidebar-section-title">System</div>
-        <NavLink
-          to="/api-keys"
-          className={({ isActive }) =>
-            `sidebar-mode-item${isActive ? ' active' : ''}`
-          }
-        >
-          <span className="icon">🔑</span>
-          API Keys
-        </NavLink>
+        <div className="sidebar-support-card">
+          <div className="sidebar-support-icon"><Sparkles size={16} /></div>
+          <strong>Learn actively</strong>
+          <span>Watch an algorithm, then try it yourself.</span>
+          <Link to="/practice" onClick={handleNavigate}>Explore practice <Trophy size={14} /></Link>
+        </div>
+      </nav>
+
+      <div className="sidebar-footer">
+        <span className="sidebar-footer-mark"><BookOpen size={15} /></span>
+        <span>Faculty of Computers &amp; AI<br /><b>Cairo University</b></span>
+        <span className="sidebar-footer-cu">CU</span>
       </div>
-    </nav>
+    </aside>
   );
 }

@@ -1,6 +1,18 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import Home from './pages/Home';
+import DataStructureHome from './pages/courses/DataStructure/DataStructureHome';
+import Arrays from './pages/courses/DataStructure/Arrays';
+import Stacks from './pages/courses/DataStructure/Stacks';
+import Queues from './pages/courses/DataStructure/Queues';
+import LinkedLists from './pages/courses/DataStructure/LinkedLists';
+import CourseSorting from './pages/courses/DataStructure/Sorting';
+import CourseSearching from './pages/courses/DataStructure/Searching';
+import CourseGraphs from './pages/courses/DataStructure/Graphs';
+import AdvancedHome from './pages/courses/AdvancedDataStructure/AdvancedHome';
+import TreesCourse from './pages/courses/AdvancedDataStructure/Trees';
+import AVLTree from './pages/courses/AdvancedDataStructure/AVLTree';
+import RedBlackTree from './pages/courses/AdvancedDataStructure/RedBlackTree';
 import Trees from './pages/Trees';
 import Sorting from './pages/Sorting';
 import Searching from './pages/Searching';
@@ -9,6 +21,7 @@ import Graphs from './pages/Graphs';
 import PracticeMode from './pages/PracticeMode';
 import ApiKeys from './pages/ApiKeys';
 import Compare from './pages/Compare';
+import NotFound from './pages/NotFound';
 import { Analytics } from '@vercel/analytics/react';
 
 export default function App() {
@@ -17,6 +30,18 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
+          <Route path="courses/data-structure" element={<DataStructureHome />} />
+          <Route path="courses/data-structure/arrays" element={<Arrays />} />
+          <Route path="courses/data-structure/stacks" element={<Stacks />} />
+          <Route path="courses/data-structure/queues" element={<Queues />} />
+          <Route path="courses/data-structure/linked-lists" element={<LinkedLists />} />
+          <Route path="courses/data-structure/sorting" element={<CourseSorting />} />
+          <Route path="courses/data-structure/searching" element={<CourseSearching />} />
+          <Route path="courses/data-structure/graphs" element={<CourseGraphs />} />
+          <Route path="courses/advanced-data-structure" element={<AdvancedHome />} />
+          <Route path="courses/advanced-data-structure/trees" element={<TreesCourse />} />
+          <Route path="courses/advanced-data-structure/avl-tree" element={<AVLTree />} />
+          <Route path="courses/advanced-data-structure/red-black-tree" element={<RedBlackTree />} />
 
           {/* Trees — fully functional */}
           <Route path="trees" element={<Trees />} />
@@ -48,7 +73,7 @@ export default function App() {
           <Route path="compare" element={<Compare />} />
 
           {/* Catch-all */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
       <Analytics />

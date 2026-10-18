@@ -1,13 +1,21 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, Moon, Sun } from 'lucide-react';
 
 const TITLES = {
-  '/': 'Welcome',
+  '/': 'Learning dashboard',
+  '/courses/data-structure': 'Data Structure',
+  '/courses/advanced-data-structure': 'Advanced Data Structure',
+  '/courses/advanced-data-structure/trees': 'Trees',
+  '/courses/advanced-data-structure/avl-tree': 'AVL Tree',
+  '/courses/advanced-data-structure/red-black-tree': 'Red-Black Tree',
   '/sorting': 'Sorting Algorithms',
   '/searching': 'Searching Algorithms',
   '/data-structures': 'Data Structures',
   '/trees': 'Tree Visualizer',
   '/graphs': 'Graph Algorithms',
   '/practice': 'Practice Mode',
+  '/compare': 'Algorithm Comparison',
+  '/api-keys': 'AI Settings',
 };
 
 function getTitle(pathname) {
@@ -21,7 +29,9 @@ function getTitle(pathname) {
       merge: 'Merge Sort', quick: 'Quick Sort', heap: 'Heap Sort',
       counting: 'Counting Sort', radix: 'Radix Sort',
       linear: 'Linear Search', binary: 'Binary Search', jump: 'Jump Search',
-      bst: 'Binary Search Tree', avl: 'AVL Tree',
+      sorting: 'Sorting Algorithms', searching: 'Searching Algorithms', graphs: 'Graph Algorithms',
+      arrays: 'Arrays', stacks: 'Stacks', queues: 'Queues', 'linked-lists': 'Linked Lists',
+      bst: 'Binary Search Tree', avl: 'AVL Tree', rbt: 'Red-Black Tree',
       bfs: 'BFS', dfs: 'DFS', dijkstra: 'Dijkstra',
       array: 'Array', stack: 'Stack', queue: 'Queue',
       'singly-ll': 'Singly Linked List', 'doubly-ll': 'Doubly Linked List',
@@ -37,59 +47,30 @@ export default function Header({ onToggleSidebar, theme, onToggleTheme }) {
   const title = getTitle(location.pathname);
 
   return (
-    <div style={{
-      height: 'var(--header-h)',
-      background: 'var(--surface)',
-      borderBottom: '1px solid var(--border)',
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0 20px',
-      gap: '12px',
-      flexShrink: 0,
-    }}>
+    <header className="app-header">
       <button
         onClick={onToggleSidebar}
-        style={{
-          background: 'none',
-          border: '1px solid var(--border)',
-          borderRadius: '6px',
-          padding: '6px 10px',
-          color: 'var(--text-muted)',
-          fontSize: '16px',
-          cursor: 'pointer',
-          lineHeight: 1,
-          flexShrink: 0,
-          transition: 'background .15s, color .15s',
-        }}
-        title="Toggle sidebar"
+        className="icon-button mobile-menu-button"
+        title="Toggle navigation"
+        aria-label="Toggle navigation"
       >
-        ☰
+        <Menu size={19} />
       </button>
 
-      <div style={{
-        fontFamily: 'var(--font-head)',
-        fontSize: '18px',
-        fontWeight: 700,
-        flex: 1,
-      }}>
-        {title}
+      <div className="header-title-group">
+        <p className="header-eyebrow">FCAI-CU · Learning platform</p>
+        <div className="header-title">{title}</div>
       </div>
 
       <button
         onClick={onToggleTheme}
-        style={{
-          background: 'var(--surface2)',
-          border: '1px solid var(--border)',
-          borderRadius: '20px',
-          padding: '6px 14px',
-          color: 'var(--text)',
-          fontSize: '13px',
-          cursor: 'pointer',
-          transition: 'background .15s',
-        }}
+        className="theme-toggle"
+        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
       >
-        {theme === 'dark' ? '☀️ Light' : '🌙 Dark'}
+        {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        <span>{theme === 'dark' ? 'Light' : 'Dark'} mode</span>
       </button>
-    </div>
+      <Link className="header-help-link" to="/practice">Start learning</Link>
+    </header>
   );
 }

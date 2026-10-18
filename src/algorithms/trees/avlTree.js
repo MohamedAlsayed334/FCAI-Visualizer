@@ -1,406 +1,258 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-//  AVL Tree Core Logic — STRICTLY PORTED from native BST.js
-//  Pure JS module — zero React dependencies
-// ═══════════════════════════════════════════════════════════════════════════════
-
-'use strict';
-
-export const NODE_SEP  = 68;
-export const LEVEL_SEP = 92;
-export const NODE_R    = 24;
-
-export const NODE_COLORS = [
-  '#5aa0ff', '#37be73', '#ff913c', '#b450f0',
-  '#f54b82', '#2dc3c8', '#e1c828', '#8cd23c',
-];
-
+// src/algorithms/trees/AVLTree.js
+/**
+ * AVLTree implementation extending the abstract TreeBase.
+ * Provides self‑balancing binary search tree functionality for the visualizer.
+ */
+import { TreeBase } from "./TreeBase.js";
+import { AVLNode } from "./AVLNode.js";
+// --- Visualizer configuration (added) ---
 export const THEMES = {
-  night: {
-    bg:'#0d0f17', panel:'#141826', panelEdge:'#2a344e', accent:'#5aa0ff',
-    accent2:'#ff913c', success:'#48d782', danger:'#ff4b4b', textMain:'#e4e9ff',
-    textDim:'#697698', nodeShadow:'rgba(0,0,0,0.45)', edgeCol:'#485478', isNight:true,
-  },
   light: {
-    bg:'#f0f3fc', panel:'#ffffff', panelEdge:'#c3cde1', accent:'#2d6ee6',
-    accent2:'#d26414', success:'#1ea05a', danger:'#d22d2d', textMain:'#161c32',
-    textDim:'#78829b', nodeShadow:'rgba(0,0,0,0.18)', edgeCol:'#8291af', isNight:false,
+    background: "#f4f8fc", bg: "#f4f8fc", nodeFill: "#1769aa",
+    nodeStroke: "#ffffff", nodeText: "#ffffff", accent: "#1769aa",
+    accent2: "#d8a52b", success: "#16876b", danger: "#d85b68",
+  },
+  night: {
+    background: "#0e1825", bg: "#0e1825", nodeFill: "#70b7f0",
+    nodeStroke: "#152437", nodeText: "#0e1825", accent: "#70b7f0",
+    accent2: "#ecc365", success: "#5bd0aa", danger: "#ff8490",
   },
 };
+THEMES.dark = THEMES.night;
 
-export const SPEED_TABLE = [3, 9, 22];
+// Speed table: 0=slow,1=normal,2=fast (ms per step)
+export const SPEED_TABLE = [400, 200, 80];
 
-export function colA(hex, alpha) {
-  if (hex.startsWith('rgba') || hex.startsWith('rgb')) {
-    const parts = hex.match(/[\d.]+/g).map(Number);
-    return `rgba(${parts[0]},${parts[1]},${parts[2]},${alpha.toFixed(3)})`;
-  }
-  const r = parseInt(hex.slice(1,3),16);
-  const g = parseInt(hex.slice(3,5),16);
-  const b = parseInt(hex.slice(5,7),16);
-  return `rgba(${r},${g},${b},${alpha.toFixed(3)})`;
+export function drawTree(ctx, root, initialDepth = 0, searchPath = [], theme = THEMES.light) {
+  if (!root) return;
+
+  const width = ctx.canvas.clientWidth || ctx.canvas.width;
+  const nodes = [];
+  const edges = [];
+  const place = (node, x, y, depth) => {
+    if (!node) return;
+    const value = node.value ?? node.data;
+    node.cur_x = x;
+    node.cur_y = y;
+    nodes.push({ node, value, x, y });
+    const offset = Math.max(30, width / 2 ** (depth + 2));
+    if (node.left) {
+      const child = { node: node.left, x: x - offset, y: y + 78, depth: depth + 1 };
+      edges.push({ x1: x, y1: y, x2: child.x, y2: child.y });
+      place(child.node, child.x, child.y, child.depth);
+    }
+    if (node.right) {
+      const child = { node: node.right, x: x + offset, y: y + 78, depth: depth + 1 };
+      edges.push({ x1: x, y1: y, x2: child.x, y2: child.y });
+      place(child.node, child.x, child.y, child.depth);
+    }
+  };
+
+  place(root, 0, 0, initialDepth);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = theme.nodeStroke;
+  edges.forEach(({ x1, y1, x2, y2 }) => {
+    ctx.beginPath();
+    ctx.moveTo(x1, y1 + 18);
+    ctx.lineTo(x2, y2 - 18);
+    ctx.stroke();
+  });
+
+  nodes.forEach(({ node, value, x, y }) => {
+    const fill = node.highlightColor
+      || (searchPath.includes(value) ? theme.accent2 : node.color === 'red' ? '#d94f59' : node.color === 'black' ? '#30465c' : theme.nodeFill);
+    ctx.fillStyle = fill;
+    ctx.strokeStyle = theme.nodeStroke;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(x, y, 18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.fillStyle = node.color === 'red' || node.color === 'black' ? '#ffffff' : theme.nodeText;
+    ctx.font = '700 12px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(value), x, y);
+  });
 }
 
-export class AVLNode {
-  constructor(data) {
-    this.data = data;
-    this.left = null;
-    this.right = null;
-    this.height = 1;
-    this.cur_x = 0; this.cur_y = 0;
-    this.tgt_x = 0; this.tgt_y = 0;
-    this.isNew = false; this.isRotating = false;
-    this.alpha = 0; this.pulseTimer = 0; this.highlightVal = 0;
-    this.prelim = 0; this.mod = 0;
-    this.highlightColor = null;
-    this.highlightDuration = 0;
-  }
-}
+// --- End of added config ---
 
-export class BST {
+
+export class AVLTree extends TreeBase {
   constructor() {
-    this.root = null;
-    this.searchPath = [];
-    this.isAVL = true;
-    this._slowMode = false;
+    super();
+    this.nodeCount = 0;
   }
 
-  clearTree() { this.root = null; }
-  getNodeCount()  { return this._countRec(this.root); }
-  getTreeHeight() { return this.root ? this.root.height : 0; }
-
-  insertNode(val) {
-    this._lastMsg = '';
-    this.root = this._insertRec(this.root, val);
-    this._rebuildPositions();
-    this._snapNewNodesToCurrent();
-    return this._lastMsg;
+  // ----- Core operations -----
+  insert(value) {
+    if (this.search(value)) return;
+    this.root = this._insertRec(this.root, value);
+    this.nodeCount++;
   }
 
-  deleteNode(val) {
-    this._lastMsg = '';
-    this.root = this._deleteRec(this.root, val);
-    this._rebuildPositions();
-    return this._lastMsg;
+  _insertRec(node, value) {
+    if (!node) return new AVLNode(value);
+    if (value < node.value) node.left = this._insertRec(node.left, value);
+    else if (value > node.value) node.right = this._insertRec(node.right, value);
+    // duplicate values are ignored
+    else return node;
+    return this._rebalance(node);
   }
 
-  getPredecessor(val) {
-    this.searchPath = [];
-    let cur = this.root, pred = null;
-    while (cur) {
-      this.searchPath.push(cur.data);
-      if (val < cur.data) { cur = cur.left; }
-      else if (val > cur.data) { pred = cur; cur = cur.right; }
-      else {
-        if (cur.left) { let t = this._maxNode(cur.left); this.searchPath.push(t.data); return t.data; }
-        break;
-      }
+  delete(value) {
+    if (!this.search(value)) return;
+    this.root = this._deleteRec(this.root, value);
+    this.nodeCount--;
+  }
+
+  _deleteRec(node, value) {
+    if (!node) return null;
+    if (value < node.value) node.left = this._deleteRec(node.left, value);
+    else if (value > node.value) node.right = this._deleteRec(node.right, value);
+    else {
+      // node with one or no child
+      if (!node.left) return node.right;
+      if (!node.right) return node.left;
+      // node with two children: get inorder successor
+      const succ = this._minValueNode(node.right);
+      node.value = succ.value;
+      node.right = this._deleteRec(node.right, succ.value);
     }
-    return pred ? pred.data : null;
+    return this._rebalance(node);
   }
 
-  getSuccessor(val) {
-    this.searchPath = [];
-    let cur = this.root, succ = null;
-    while (cur) {
-      this.searchPath.push(cur.data);
-      if (val < cur.data) { succ = cur; cur = cur.left; }
-      else if (val > cur.data) { cur = cur.right; }
-      else {
-        if (cur.right) { let t = this._minNode(cur.right); this.searchPath.push(t.data); return t.data; }
-        break;
-      }
+  _minValueNode(node) {
+    let cur = node;
+    while (cur.left) cur = cur.left;
+    return cur;
+  }
+
+  search(value) {
+    return this._searchRec(this.root, value);
+  }
+
+  _searchRec(node, value) {
+    if (!node) return null;
+    if (value === node.value) return node;
+    return value < node.value ? this._searchRec(node.left, value) : this._searchRec(node.right, value);
+  }
+
+  // ----- Balancing helpers -----
+  _height(node) {
+    return node ? node.height : -1;
+  }
+
+  _updateHeight(node) {
+    node.height = Math.max(this._height(node.left), this._height(node.right)) + 1;
+  }
+
+  _balanceFactor(node) {
+    return this._height(node.left) - this._height(node.right);
+  }
+
+  _rebalance(node) {
+    this._updateHeight(node);
+    const bf = this._balanceFactor(node);
+    if (bf > 1) {
+      if (this._balanceFactor(node.left) < 0) node.left = this._rotateLeft(node.left);
+      return this._rotateRight(node);
     }
-    return succ ? succ.data : null;
-  }
-
-  getPreOrderString()  { const v=[]; this._preV(this.root,v);  return this._fmt(v); }
-  getInOrderString()   { const v=[]; this._inV(this.root,v);   return this._fmt(v); }
-  getPostOrderString() { const v=[]; this._postV(this.root,v); return this._fmt(v); }
-  getBreadthFirstString() {
-    const v = [];
-    if (this.root) {
-      const q = [this.root];
-      while (q.length) { const n = q.shift(); v.push(n.data); if (n.left) q.push(n.left); if (n.right) q.push(n.right); }
+    if (bf < -1) {
+      if (this._balanceFactor(node.right) > 0) node.right = this._rotateRight(node.right);
+      return this._rotateLeft(node);
     }
-    return this._fmt(v);
+    return node;
   }
 
-  buildFromArray(arr) {
-    this.root = null;
-    for (const val of arr) {
-      this.root = this._insertNoAnim(this.root, val);
-    }
-    this._rebuildPositions();
-    this._snapNewNodesToCurrent();
-  }
-
-  _insertNoAnim(n, val) {
-    if (!n) { const nd = new AVLNode(val); nd.alpha = 1; return nd; }
-    if (val < n.data) n.left = this._insertNoAnim(n.left, val);
-    else if (val > n.data) n.right = this._insertNoAnim(n.right, val);
-    else return n;
-    this._uh(n);
-    return n;
-  }
-
-  clearHighlight() {
-    this._clearHL(this.root);
-  }
-  _clearHL(n) {
-    if (!n) return;
-    n.highlightColor = null;
-    n.highlightDuration = 0;
-    this._clearHL(n.left);
-    this._clearHL(n.right);
-  }
-
-  highlightNode(data, color, duration = 2) {
-    this._highlightRec(this.root, data, color, duration);
-  }
-  _highlightRec(n, data, color, duration) {
-    if (!n) return;
-    if (n.data === data) {
-      n.highlightColor = color;
-      n.highlightDuration = duration;
-    }
-    this._highlightRec(n.left, data, color, duration);
-    this._highlightRec(n.right, data, color, duration);
-  }
-
-  getNodeByData(data) {
-    return this._getNodeRec(this.root, data);
-  }
-  _getNodeRec(n, data) {
-    if (!n) return null;
-    if (n.data === data) return n;
-    const l = this._getNodeRec(n.left, data);
-    if (l) return l;
-    return this._getNodeRec(n.right, data);
-  }
-
-  getBalanceFactor(data) {
-    const node = this.getNodeByData(data);
-    if (!node) return 0;
-    return this._h(node.left) - this._h(node.right);
-  }
-
-  getInsertionPath(val) {
-    const path = [];
-    let cur = this.root;
-    while (cur) {
-      path.push(cur.data);
-      if (val < cur.data) cur = cur.left;
-      else if (val > cur.data) cur = cur.right;
-      else break;
-    }
-    return path;
-  }
-
-  tickAnimations(dt, lerpSpeed) { this._tickNode(this.root, dt, lerpSpeed); }
-
-  // ── Private AVL helpers ──
-  _h(n) { return n ? n.height : 0; }
-  _bf(n) { return n ? this._h(n.left) - this._h(n.right) : 0; }
-  _uh(n) { if (n) n.height = 1 + Math.max(this._h(n.left), this._h(n.right)); }
-  _minNode(n) { while (n && n.left) n = n.left; return n; }
-  _maxNode(n) { while (n && n.right) n = n.right; return n; }
-
-  _rotR(y) {
-    const x = y.left, t = x.right;
-    x.right = y; y.left = t;
-    this._uh(y); this._uh(x);
-    y.isRotating = x.isRotating = true;
-    y.highlightVal = x.highlightVal = 1.0;
-    return x;
-  }
-  _rotL(x) {
-    const y = x.right, t = y.left;
-    y.left = x; x.right = t;
-    this._uh(x); this._uh(y);
-    x.isRotating = y.isRotating = true;
-    x.highlightVal = y.highlightVal = 1.0;
+  _rotateLeft(z) {
+    const y = z.right;
+    const T2 = y.left;
+    y.left = z;
+    z.right = T2;
+    this._updateHeight(z);
+    this._updateHeight(y);
     return y;
   }
 
-  _insertRec(n, val) {
-    if (!n) { const nd = new AVLNode(val); nd.isNew = true; nd.pulseTimer = 1.4; nd.alpha = 0; return nd; }
-    if (val < n.data) n.left = this._insertRec(n.left, val);
-    else if (val > n.data) n.right = this._insertRec(n.right, val);
-    else return n;
-    this._uh(n);
-    if (this.isAVL) {
-      const b = this._bf(n);
-      if (b >  1 && val < n.left.data)  { this._lastMsg = 'Right Rotation';      return this._rotR(n); }
-      if (b < -1 && val > n.right.data) { this._lastMsg = 'Left Rotation';       return this._rotL(n); }
-      if (b >  1 && val > n.left.data)  { this._lastMsg = 'Left-Right Rotation'; n.left = this._rotL(n.left); return this._rotR(n); }
-      if (b < -1 && val < n.right.data) { this._lastMsg = 'Right-Left Rotation'; n.right = this._rotR(n.right); return this._rotL(n); }
+  _rotateRight(z) {
+    const y = z.left;
+    const T3 = y.right;
+    y.right = z;
+    z.left = T3;
+    this._updateHeight(z);
+    this._updateHeight(y);
+    return y;
+  }
+
+  // ----- Traversal utilities (used by UI) -----
+  getPreOrder() {
+    const res = [];
+    const walk = (n) => {
+      if (!n) return;
+      res.push(n.value);
+      walk(n.left);
+      walk(n.right);
+    };
+    walk(this.root);
+    return res;
+  }
+
+  getInOrder() {
+    const res = [];
+    const walk = (n) => {
+      if (!n) return;
+      walk(n.left);
+      res.push(n.value);
+      walk(n.right);
+    };
+    walk(this.root);
+    return res;
+  }
+
+  getPostOrder() {
+    const res = [];
+    const walk = (n) => {
+      if (!n) return;
+      walk(n.left);
+      walk(n.right);
+      res.push(n.value);
+    };
+    walk(this.root);
+    return res;
+  }
+
+  getBreadthFirst() {
+    const res = [];
+    const q = [];
+    if (this.root) q.push(this.root);
+    while (q.length) {
+      const n = q.shift();
+      res.push(n.value);
+      if (n.left) q.push(n.left);
+      if (n.right) q.push(n.right);
     }
-    return n;
+    return res;
   }
 
-  _deleteRec(n, val) {
-    if (!n) return null;
-    if (val < n.data) n.left = this._deleteRec(n.left, val);
-    else if (val > n.data) n.right = this._deleteRec(n.right, val);
-    else {
-      if (!n.left || !n.right) {
-        const child = n.left || n.right;
-        if (!child) return null;
-        Object.assign(n, child); n.left = child.left; n.right = child.right;
-      } else {
-        const s = this._minNode(n.right);
-        n.data = s.data;
-        n.right = this._deleteRec(n.right, s.data);
-      }
-    }
-    if (!n) return null;
-    this._uh(n);
-    if (this.isAVL) {
-      const b = this._bf(n);
-      if (b >  1 && this._bf(n.left) >= 0)  { this._lastMsg = 'Right Rotation (rebalance)';      return this._rotR(n); }
-      if (b >  1 && this._bf(n.left) <  0)  { this._lastMsg = 'Left-Right Rotation (rebalance)'; n.left = this._rotL(n.left); return this._rotR(n); }
-      if (b < -1 && this._bf(n.right) <= 0) { this._lastMsg = 'Left Rotation (rebalance)';       return this._rotL(n); }
-      if (b < -1 && this._bf(n.right) >  0) { this._lastMsg = 'Right-Left Rotation (rebalance)'; n.right = this._rotR(n.right); return this._rotL(n); }
-    }
-    return n;
+  // ----- UI helper overrides -----
+  getHTMLControls() {
+    return `
+      <div class="tree-controls">
+        <input type="number" id="avl-insert" placeholder="Insert value" />
+        <button onclick="window.avlInsertHandler && window.avlInsertHandler()">Insert</button>
+        <input type="number" id="avl-delete" placeholder="Delete value" />
+        <button onclick="window.avlDeleteHandler && window.avlDeleteHandler()">Delete</button>
+      </div>
+    `;
   }
 
-  _rebuildPositions() {
-    if (!this.root) return;
-    this._firstWalk(this.root);
-    this._secondWalk(this.root, 0, 0);
+  getSize() {
+    return this.nodeCount;
   }
 
-  _rightContour(n, modAcc, depth, cont) {
-    if (!n) return;
-    const absX = n.prelim + modAcc;
-    if (cont.length <= depth) cont.push(absX); else cont[depth] = Math.max(cont[depth], absX);
-    this._rightContour(n.left, modAcc + n.mod, depth + 1, cont);
-    this._rightContour(n.right, modAcc + n.mod, depth + 1, cont);
+  getTreeHeight() {
+    return this._height(this.root);
   }
-  _leftContour(n, modAcc, depth, cont) {
-    if (!n) return;
-    const absX = n.prelim + modAcc;
-    if (cont.length <= depth) cont.push(absX); else cont[depth] = Math.min(cont[depth], absX);
-    this._leftContour(n.left, modAcc + n.mod, depth + 1, cont);
-    this._leftContour(n.right, modAcc + n.mod, depth + 1, cont);
-  }
-
-  _firstWalk(n) {
-    n.prelim = 0; n.mod = 0;
-    if (!n.left && !n.right) return;
-    if (n.left) this._firstWalk(n.left);
-    if (n.right) this._firstWalk(n.right);
-    if (n.left && n.right) {
-      const rc = [], lc = [];
-      this._rightContour(n.left, 0, 0, rc);
-      this._leftContour(n.right, 0, 0, lc);
-      let shift = 0;
-      const levels = Math.min(rc.length, lc.length);
-      for (let i = 0; i < levels; i++) shift = Math.max(shift, (rc[i] - lc[i]) + NODE_SEP);
-      if (shift < NODE_SEP) shift = NODE_SEP;
-      n.left.prelim = -shift * 0.5; n.right.prelim = shift * 0.5;
-      n.left.mod = n.left.prelim; n.right.mod = n.right.prelim;
-      n.prelim = 0;
-    } else if (n.left) { n.prelim = n.left.prelim; }
-    else { n.prelim = n.right.prelim; }
-  }
-
-  _secondWalk(n, modAcc, depth) {
-    if (!n) return;
-    n.tgt_x = n.prelim + modAcc;
-    n.tgt_y = depth * LEVEL_SEP;
-    this._secondWalk(n.left, modAcc + n.mod, depth + 1);
-    this._secondWalk(n.right, modAcc + n.mod, depth + 1);
-  }
-
-  _snapNewNodesToCurrent() { this._snapNew(this.root); }
-  _snapNew(n) {
-    if (!n) return;
-    if (n.isNew && n.alpha < 0.05) { n.cur_x = n.tgt_x; n.cur_y = n.tgt_y; }
-    this._snapNew(n.left); this._snapNew(n.right);
-  }
-
-  _tickNode(n, dt, lerpSpeed) {
-    if (!n) return;
-    const effectiveSpeed = this._slowMode ? Math.max(0.3, lerpSpeed * 0.15) : lerpSpeed;
-    const t = 1 - Math.exp(-effectiveSpeed * dt);
-    n.cur_x += (n.tgt_x - n.cur_x) * t;
-    n.cur_y += (n.tgt_y - n.cur_y) * t;
-    if (n.alpha < 1) n.alpha = Math.min(1, n.alpha + dt * effectiveSpeed * 0.35);
-    if (n.pulseTimer > 0) { n.pulseTimer -= dt; if (n.pulseTimer <= 0) { n.pulseTimer = 0; n.isNew = false; } }
-    if (n.highlightVal > 0) { n.highlightVal -= dt * 0.9; if (n.highlightVal <= 0) { n.highlightVal = 0; n.isRotating = false; } }
-    if (n.highlightDuration > 0) { n.highlightDuration -= dt; if (n.highlightDuration <= 0) { n.highlightColor = null; n.highlightDuration = 0; } }
-    this._tickNode(n.left, dt, lerpSpeed);
-    this._tickNode(n.right, dt, lerpSpeed);
-  }
-
-  setSlowMode(enabled) { this._slowMode = enabled; }
-
-  _preV(n, v)  { if (!n) return; v.push(n.data); this._preV(n.left,v); this._preV(n.right,v); }
-  _inV(n, v)   { if (!n) return; this._inV(n.left,v); v.push(n.data); this._inV(n.right,v); }
-  _postV(n, v) { if (!n) return; this._postV(n.left,v); this._postV(n.right,v); v.push(n.data); }
-  _fmt(v) { return !v.length ? '[ Empty Tree ]' : '[ ' + v.join(',  ') + ' ]'; }
-  _countRec(n) { return n ? 1 + this._countRec(n.left) + this._countRec(n.right) : 0; }
-}
-
-export function drawTree(ctx, node, depth, searchPath, T) {
-  if (!node) return;
-  const cx = node.cur_x, cy = node.cur_y, a = node.alpha;
-
-  if (node.left) {
-    const ea = Math.min(a, node.left.alpha);
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(node.left.cur_x,node.left.cur_y);
-    ctx.strokeStyle = colA(T.edgeCol, ea*0.82); ctx.lineWidth = 2.4; ctx.stroke();
-    drawTree(ctx, node.left, depth+1, searchPath, T);
-  }
-  if (node.right) {
-    const ea = Math.min(a, node.right.alpha);
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(node.right.cur_x,node.right.cur_y);
-    ctx.strokeStyle = colA(T.edgeCol, ea*0.82); ctx.lineWidth = 2.4; ctx.stroke();
-    drawTree(ctx, node.right, depth+1, searchPath, T);
-  }
-
-  const base = NODE_COLORS[depth % 8];
-
-  if (node.isNew && node.pulseTimer > 0) {
-    const p = Math.sin(node.pulseTimer*7)*0.5+0.5;
-    ctx.beginPath(); ctx.arc(cx,cy,NODE_R+p*12,0,Math.PI*2);
-    ctx.fillStyle = colA(base,0.22*a); ctx.fill();
-  }
-  if (node.isRotating && node.highlightVal > 0) {
-    ctx.beginPath(); ctx.arc(cx,cy,NODE_R+12,0,Math.PI*2);
-    ctx.fillStyle = colA('#ffc832',node.highlightVal*0.5*a); ctx.fill();
-  }
-  if (node.highlightColor && node.highlightDuration > 0) {
-    const hlAlpha = Math.min(1, node.highlightDuration * 0.5);
-    ctx.beginPath(); ctx.arc(cx,cy,NODE_R+16,0,Math.PI*2);
-    ctx.fillStyle = colA(node.highlightColor, hlAlpha * a * 0.6); ctx.fill();
-    ctx.beginPath(); ctx.arc(cx,cy,NODE_R+10,0,Math.PI*2);
-    ctx.strokeStyle = colA(node.highlightColor, hlAlpha * a); ctx.lineWidth = 3; ctx.stroke();
-  }
-  if (searchPath.includes(node.data)) {
-    ctx.beginPath(); ctx.arc(cx,cy,NODE_R+9,0,Math.PI*2);
-    ctx.fillStyle = colA('#ffe628',0.42*a); ctx.fill();
-  }
-
-  ctx.beginPath(); ctx.arc(cx+3,cy+4,NODE_R,0,Math.PI*2);
-  ctx.fillStyle = colA(T.nodeShadow,a*0.5); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx,cy,NODE_R,0,Math.PI*2);
-  ctx.fillStyle = colA(base,a); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx-5,cy-6,10,0,Math.PI*2);
-  ctx.fillStyle = colA('#ffffff',0.08*a); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx,cy,NODE_R,0,Math.PI*2);
-  ctx.strokeStyle = colA('#ffffff',0.18*a); ctx.lineWidth = 1.4; ctx.stroke();
-
-  const val = String(node.data);
-  const fs = val.length > 4 ? 11 : val.length > 3 ? 13 : val.length > 2 ? 15 : 18;
-  ctx.font = `700 ${fs}px 'JetBrains Mono', monospace`;
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillStyle = colA('#ffffff',a); ctx.fillText(val,cx,cy+1);
-
-  ctx.font = `600 11px 'Space Grotesk', sans-serif`;
-  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = colA(T.textDim,0.7*a);
-  ctx.fillText('h'+node.height, cx+NODE_R-2, cy-NODE_R+2);
 }

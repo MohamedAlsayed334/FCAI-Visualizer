@@ -144,13 +144,13 @@
 }
 
 .api-badge--active {
-  background: rgba(166, 227, 161, 0.15);
-  color: #a6e3a1;
+  background: rgba(22, 135, 107, 0.12);
+  color: #0b7458;
 }
 
 .api-badge--cooldown {
-  background: rgba(249, 226, 175, 0.15);
-  color: #f9e2af;
+  background: rgba(183, 125, 24, 0.12);
+  color: #865b12;
 }
 
 .api-badge--missing {
@@ -159,8 +159,8 @@
 }
 
 .api-badge--unknown {
-  background: rgba(203, 166, 247, 0.15);
-  color: #cba6f7;
+  background: rgba(112, 91, 173, 0.12);
+  color: #65499d;
 }
 
 [data-theme='light'] .api-key-table-wrapper {
@@ -170,3 +170,8 @@
   --text: #1e1e2e;
   --text-muted: #666;
 }
+
+[data-theme='dark'] .api-badge--active { background: rgba(91, 208, 170, .14); color: #8ce4c8; }
+[data-theme='dark'] .api-badge--cooldown { background: rgba(241, 202, 104, .14); color: #f1d78d; }
+[data-theme='dark'] .api-badge--missing { background: rgba(165, 184, 202, .12); color: #b6c3ce; }
+[data-theme='dark'] .api-badge--unknown { background: rgba(181, 152, 232, .14); color: #cfbaf5; }

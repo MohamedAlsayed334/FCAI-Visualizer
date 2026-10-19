@@ -28,7 +28,7 @@ function getTitle(pathname) {
       bubble: 'Bubble Sort', selection: 'Selection Sort', insertion: 'Insertion Sort',
       merge: 'Merge Sort', quick: 'Quick Sort', heap: 'Heap Sort',
       counting: 'Counting Sort', radix: 'Radix Sort',
-      linear: 'Linear Search', binary: 'Binary Search', jump: 'Jump Search',
+      'linear-search': 'Linear Search', 'binary-search': 'Binary Search', 'jump-search': 'Jump Search',
       sorting: 'Sorting Algorithms', searching: 'Searching Algorithms', graphs: 'Graph Algorithms',
       arrays: 'Arrays', stacks: 'Stacks', queues: 'Queues', 'linked-lists': 'Linked Lists',
       bst: 'Binary Search Tree', avl: 'AVL Tree', rbt: 'Red-Black Tree',

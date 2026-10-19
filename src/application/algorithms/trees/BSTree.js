@@ -1,4 +1,5 @@
-import { TreeAlgorithm } from './TreeAlgorithm';
+import { TreeAlgorithm, buildInsertSteps } from './TreeAlgorithm';
+import { BST } from '../../../algorithms/trees/BST.js';
 
 export class BSTree extends TreeAlgorithm {
   constructor() {
@@ -6,13 +7,8 @@ export class BSTree extends TreeAlgorithm {
   }
 
   generateSteps(input) {
-    const values = [...input];
-    return values.map((val, i) => ({
-      arr: values.slice(0, i + 1),
-      current: [i],
-      msg: `Insert ${val} into BST`,
-      codeLine: 1,
-      codeLines: { js: 1, python: 1, cpp: 1, java: 1, csharp: 1 },
-    }));
+    const engine = new BST();
+    return buildInsertSteps(engine, [...input], (value, height, nodeCount) =>
+      `Insert ${value}: plain BST keeps the insertion order, height ${height} with ${nodeCount} node${nodeCount === 1 ? '' : 's'}.`);
   }
 }

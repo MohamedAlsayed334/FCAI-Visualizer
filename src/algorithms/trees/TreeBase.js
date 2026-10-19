@@ -98,6 +98,20 @@ export class TreeBase {
     }
     return path;
   }
+
+  // Plain-object copy of the current tree, safe to keep as a playback step.
+  snapshot() {
+    const walk = (node) => {
+      if (!node) return null;
+      return {
+        value: this._nodeValue(node),
+        color: node.color ?? null,
+        left: walk(node.left),
+        right: walk(node.right),
+      };
+    };
+    return walk(this.root);
+  }
   getBalanceFactor(value) {
     const node = this.getNodeByData(value);
     if (!node) return 0;

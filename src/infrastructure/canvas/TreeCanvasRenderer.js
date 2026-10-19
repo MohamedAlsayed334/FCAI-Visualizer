@@ -1,3 +1,5 @@
+import { stepText } from '../../i18n/stepText';
+
 const THEMES = {
   dark: {
     bg: '#1e1e2e', node: '#313244', border: '#585b70', text: '#cdd6f4',
@@ -54,7 +56,10 @@ export class TreeCanvasRenderer {
       ctx.font = '13px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(step?.msg || 'Press Play to insert values.', this.width / 2, this.height / 2);
+      const hint = step?.msgKey
+        ? stepText(step)
+        : (step?.msg || stepText({ msgKey: 'steps:tree.pressPlay' }));
+      ctx.fillText(hint, this.width / 2, this.height / 2);
       return;
     }
 

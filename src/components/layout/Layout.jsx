@@ -2,10 +2,12 @@ import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { useLocale } from '../../hooks/useLocale';
 
 const THEME_KEY = 'fcai_visualizer_theme';
 
 export default function Layout() {
+  const { locale } = useLocale();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => window.innerWidth <= 1199);
 
   useEffect(() => {
@@ -61,7 +63,9 @@ export default function Layout() {
           theme={theme}
           onToggleTheme={toggleTheme}
         />
-        <main className="app-content">
+        {/* key={locale} remounts route content on language switch so any
+            imperative visualizers and page state reinitialize in-context. */}
+        <main className="app-content" key={locale}>
           <Outlet />
         </main>
       </div>

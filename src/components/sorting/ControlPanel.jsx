@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Play, Pause, Square, SkipBack, SkipForward, RefreshCw, Edit3, Check } from 'lucide-react';
+import { useT } from '../../hooks/useT';
 
 /**
  * ControlPanel — shared by Sorting and Searching pages.
@@ -30,6 +31,7 @@ export default function ControlPanel({
   onApplyCustom  = null,
   extraControls  = null,
 }) {
+  const t = useT();
   const [inputError, setInputError] = useState(false);
 
   const handleApply = () => {
@@ -60,12 +62,12 @@ export default function ControlPanel({
           onChange={(e) => setAlgorithm(e.target.value)}
         >
           {Object.entries(algorithms).map(([key, data]) => (
-            <option key={key} value={key}>{data.name}</option>
+            <option key={key} value={key}>{t(`algorithms:${key}.name`, { defaultValue: data.name })}</option>
           ))}
         </select>
 
         <button className="btn" onClick={onGenerateRandom}>
-          <RefreshCw size={14} /> Random
+          <RefreshCw size={14} /> {t('actions.random')}
         </button>
       </div>
 
@@ -76,14 +78,14 @@ export default function ControlPanel({
           <input
             type="text"
             className={`custom-input-field${inputError ? ' input-error' : ''}`}
-            placeholder="e.g.  5, 3, 8, 1, 9"
+            placeholder={t('actions.customInputPlaceholder')}
             value={customInput}
             onChange={(e) => setCustomInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            title="Enter comma-separated integers then press Apply"
+            title={t('actions.customInputHint')}
           />
-          <button className="btn success" onClick={handleApply} title="Apply custom input">
-            <Check size={13} /> Apply
+          <button className="btn success" onClick={handleApply} title={t('actions.applyCustom')}>
+            <Check size={13} /> {t('actions.apply')}
           </button>
         </div>
       )}
@@ -96,7 +98,7 @@ export default function ControlPanel({
       {/* ── Row 4: Size + Speed sliders ──────────────────────────────── */}
       <div className="control-group">
         <div className="slider-group">
-          <span>Size</span>
+          <span>{t('actions.size')}</span>
           <input
             type="range"
             min="5"
@@ -108,7 +110,7 @@ export default function ControlPanel({
         </div>
 
         <div className="slider-group">
-          <span>Speed</span>
+          <span>{t('actions.speed')}</span>
           <input
             type="range"
             min="1"
@@ -122,7 +124,7 @@ export default function ControlPanel({
 
       {/* ── Row 5: Playback controls ──────────────────────────────────── */}
       <div className="control-group" style={{ marginLeft: 'auto' }}>
-        <button className="btn" onClick={onStepBack} disabled={isPlaying}>
+        <button className="btn" onClick={onStepBack} disabled={isPlaying} aria-label={t('actions.stepBack')}>
           <SkipBack size={14} />
         </button>
         <button
@@ -130,18 +132,15 @@ export default function ControlPanel({
           onClick={onPlayPause}
         >
           {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-          {isPlaying ? 'Pause' : 'Start'}
+          {isPlaying ? t('actions.pause') : t('actions.start')}
         </button>
-        <button className="btn" onClick={onStepForward} disabled={isPlaying}>
+        <button className="btn" onClick={onStepForward} disabled={isPlaying} aria-label={t('actions.stepForward')}>
           <SkipForward size={14} />
         </button>
         <button className="btn" onClick={onReset}>
-          <Square size={14} /> Reset
+          <Square size={14} /> {t('actions.reset')}
         </button>
       </div>
     </div>
   );
 }
-
-
-

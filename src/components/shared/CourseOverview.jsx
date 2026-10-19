@@ -1,22 +1,28 @@
 import { ArrowLeft, BookOpen, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TopicCard from './TopicCard';
+import { useT } from '../../hooks/useT';
 import '../../styles/CourseCatalog.css';
 
-export default function CourseOverview({ course, backTo = '/', backLabel = 'All courses' }) {
+export default function CourseOverview({ course, backTo = '/', backLabelKey = 'catalog:back' }) {
+  const t = useT();
   const Icon = course.icon;
 
   return (
     <div className={`course-overview page course-overview--${course.color} animate-in`}>
-      <Link className="back-link" to={backTo}><ArrowLeft size={15} /> {backLabel}</Link>
+      <Link className="back-link" to={backTo}><ArrowLeft size={15} className="rtl-flip" /> {t(backLabelKey)}</Link>
       <section className="course-overview-hero">
         <div className="course-overview-copy">
-          <span className="course-overview-eyebrow"><BookOpen size={14} /> {course.eyebrow} · FCAI-CU</span>
-          <h1>{course.title}</h1>
-          <p>{course.description}</p>
+          <span className="course-overview-eyebrow">
+            <BookOpen size={14} /> {t(`catalog:course.${course.id}.eyebrow`)} · FCAI-CU
+          </span>
+          <h1>{t(`catalog:course.${course.id}.title`)}</h1>
+          <p>{t(`catalog:course.${course.id}.description`)}</p>
           <div className="course-overview-meta">
-            <span><Icon size={16} /> {course.lessonCount} topics</span>
-            <span><Sparkles size={15} /> Interactive lessons</span>
+            <span>
+              <Icon size={16} /> {t('catalog:overview.metaTopics', { count: course.lessonCount })}
+            </span>
+            <span><Sparkles size={15} /> {t('catalog:overview.interactiveLessons')}</span>
           </div>
         </div>
         <div className="course-overview-art" aria-hidden="true">
@@ -30,10 +36,10 @@ export default function CourseOverview({ course, backTo = '/', backLabel = 'All 
 
       <div className="course-section-heading">
         <div>
-          <span>COURSE CONTENT</span>
-          <h2>Choose a topic to explore</h2>
+          <span>{t('catalog:overview.contentEyebrow')}</span>
+          <h2>{t('catalog:overview.contentTitle')}</h2>
         </div>
-        <p>Learn the idea, then see it in action.</p>
+        <p>{t('catalog:overview.contentSubtitle')}</p>
       </div>
 
       <div className="topic-grid">

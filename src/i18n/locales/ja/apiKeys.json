@@ -1,0 +1,23 @@
+{
+  "title": "APIキー管理",
+  "subtitle": "AI API キーの監視と管理。キーは自動的にローテーションされ、レート制限中は 24 時間のクールダウンに入ります。",
+  "table": {
+    "title": "AI API キーの状態",
+    "summary": "{{available}} / {{total}} 件が利用可能",
+    "resetAll": "すべてリセット",
+    "headers": {
+      "provider": "プロバイダ",
+      "model": "モデル",
+      "status": "状態",
+      "lastUsed": "最終利用",
+      "cooldown": "残りクールダウン"
+    },
+    "empty": "API キーが設定されていません。",
+    "noKey": "キーなし",
+    "active": "有効",
+    "cooldown": "クールダウン",
+    "unknown": "不明",
+    "notUsed": "—"
+  },
+  "cooldownShort": "{{hours}}時間 {{mins}}分"
+}

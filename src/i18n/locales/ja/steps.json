@@ -1,0 +1,158 @@
+{
+  "sorting": {
+    "done": "配列がソートされました！",
+    "doneFull": "✅ 配列が完全にソートされました！",
+    "doneList": "✅ 配列がソートされました！ [{{list}}]",
+    "doneOut": "OUTPUT 完成 — 配列がソートされました！ ✅",
+    "bubble": {
+      "compare": "a[{{j}}]={{a}} と a[{{jj}}]={{ajj}} を比較",
+      "swap": "{{x}} と {{y}} を交換（左 > 右）"
+    },
+    "selection": {
+      "compare": "min(a[{{m}}]={{mv}}) と a[{{j}}]={{a}} を比較",
+      "swap": "a[{{i}}]={{a}} を位置 {{i}} へ移動"
+    },
+    "insertion": {
+      "pick": "a[{{j}}] = {{a}} をキーとして取り出す",
+      "compare": "a[{{j}}] = {{a}} と a[{{j2}}] = {{a2}} を比較",
+      "swap": "交換: {{x}} を左のインデックス {{to}} へ移動",
+      "place": "キー {{key}} を配置 → 先頭 {{count}} 要素がソート済み"
+    },
+    "merge": {
+      "intro": "マージソート: 配列 [{{list}}]。左から先に分割します。",
+      "single": "[{{value}}] — 単一要素、すでにソート済み。",
+      "splitLeft": "[{{list}}] を分割 → 左側 [{{left}}]",
+      "splitRight": "次に右半分 [{{list}}] を分割",
+      "merging": "[{{left}}] + [{{right}}] をマージ中",
+      "comparePair": "{{x}} と {{y}} を比較",
+      "placeWinner": "{{value}} を配置 → merged[{{pos}}]",
+      "copyLeft": "左側の残りをコピー: {{value}}",
+      "copyRight": "右側の残りをコピー: {{value}}",
+      "merged": "マージ完了 → [{{list}}]"
+    },
+    "quick": {
+      "pivot": "ピボット = a[{{pos}}] = {{pivot}}  部分配列: [{{list}}]",
+      "scan": "j={{j}}: a[{{j}}]={{a}} {{op}} ピボット {{pivot}}",
+      "swap": "a[{{j}}]={{a}} ≤ {{pivot}} → i={{i}}, a[{{i}}] ↔ a[{{j}}] を交換",
+      "inPlace": "a[{{j}}]={{a}} ≤ {{pivot}} → i={{i}}, すでに正しい位置",
+      "place": "ピボット {{pivot}} → 位置 [{{pos}}]  左側 < {{pivot}}: [{{left}}]  右側 ≥ {{pivot}}: [{{right}}]"
+    },
+    "heap": {
+      "heapify": "{{i}} でヒープ化",
+      "swap": "{{x}} と {{y}} を交換",
+      "moveMax": "最大値 {{v}} を位置 {{i}} へ移動"
+    },
+    "counting": {
+      "init": "最大値 = {{max}}。サイズ {{size}} の count 配列をすべて0で作成。",
+      "initZero": "count 配列を初期化。",
+      "reading": "orig[{{i}}] = {{val}} を読み取り。count[{{val}}] をインクリメントします。",
+      "updated": "count[{{val}}] は {{count}} になりました。",
+      "buildOutput": "計数完了。次に COUNT から OUTPUT 配列を作ります。",
+      "duplicate": "count[{{v}}] = {{freq}}。値 {{v}} を {{freq}} 個 OUTPUT に配置します。",
+      "placedOut": "{{v}} を output[{{out}}] に配置。"
+    },
+    "radix": {
+      "passOnes": "桁位置 {{pos}}（1の位）のパス",
+      "passTens": "桁位置 {{pos}}（10の位）のパス",
+      "passHundreds": "桁位置 {{pos}}（100の位）のパス",
+      "extract": "{{v}} から桁 {{digit}} を取り出す",
+      "bucket": "{{v}} をバケット [{{digit}}] に配置",
+      "collect": "{{v}} を配列へ戻す"
+    }
+  },
+  "searching": {
+    "found": "✅ {{target}} をインデックス {{i}} で発見！",
+    "linear": {
+      "intro": "線形探索: [{{list}}] から {{target}} を探します",
+      "checkMatch": "a[{{i}}] = {{a}} を確認 → 一致！ ✅",
+      "checkMiss": "a[{{i}}] = {{a}} を確認 ≠ {{target}}",
+      "notFound": "❌ {{target}} は配列内に見つかりません。"
+    },
+    "binary": {
+      "intro": "二分探索: ターゲット = {{target}}。配列はソート済み: [{{list}}]",
+      "window": "lo={{lo}}  hi={{hi}}  mid={{mid}}  a[mid]={{am}}",
+      "found": "✅ a[{{mid}}] = {{am}} = ターゲット。インデックス {{mid}} で発見！",
+      "goRight": "a[{{mid}}]={{am}} < {{target}} → 右半分 [{{from}}..{{to}}] を探索",
+      "goLeft": "a[{{mid}}]={{am}} > {{target}} → 左半分 [{{from}}..{{to}}] を探索",
+      "exhausted": "❌ lo({{lo}}) > hi({{hi}}): 探索範囲が空になりました。{{target}} は見つかりません。"
+    },
+    "jump": {
+      "intro": "ジャンプ探索: ターゲット={{target}}, n={{n}}, ステップ=√{{n}}≈{{step}}。配列: [{{list}}]",
+      "jump": "ジャンプ: a[{{i}}]={{a}} ≤ {{target}} → 前へジャンプ。ブロック [{{from}}..{{to}}] を通過。",
+      "scanBlock": "a[{{i}}]={{a}} > {{target}}（または終端）。ブロック [{{from}}..{{to}}] を線形走査。",
+      "scanMatch": "線形走査: a[{{i}}] = {{a}} → 一致！ ✅",
+      "scanMiss": "線形走査: a[{{i}}] = {{a}} ≠ {{target}}",
+      "notFoundBlock": "❌ {{target}} はブロック [{{from}}..{{to}}] 内にありません。配列に存在しません。"
+    }
+  },
+  "ds": {
+    "ll": {
+      "insert": "位置 {{idx}} に {{v}} を挿入",
+      "delete": "位置 {{idx}} の {{v}} を削除"
+    },
+    "sll": { "init": "空の片方向連結リストを初期化" },
+    "dll": { "init": "空の双方向連結リストを初期化" },
+    "cll": { "init": "空の循環連結リストを初期化" },
+    "oll": {
+      "init": "空の順序付き連結リスト（ソート済み）を初期化",
+      "insert": "ソート位置 {{idx}} に {{v}} を挿入"
+    },
+    "array": {
+      "init": "空の配列を初期化",
+      "insert": "インデックス {{idx}} に {{v}} を挿入",
+      "delete": "インデックス {{idx}} の {{v}} を削除",
+      "set": "インデックス {{idx}} に {{v}} を設定"
+    },
+    "stack": {
+      "init": "空のスタック（LIFO）を初期化",
+      "push": "{{v}} をスタックにプッシュ",
+      "pop": "{{v}} をスタックからポップ",
+      "peek": "先頭を確認: {{v}}"
+    },
+    "queue": {
+      "init": "空のキュー（FIFO）を初期化",
+      "enqueue": "{{v}} をエンキュー",
+      "dequeue": "{{v}} をデキュー"
+    }
+  },
+  "graphs": {
+    "bfs": {
+      "start": "ノード {{start}} から BFS を開始",
+      "visit": "{{node}} を訪問、キュー: [{{queue}}]",
+      "discover": "{{node}} から {{nb}} を発見",
+      "done": "✅ BFS 完了: {{order}}"
+    },
+    "dfs": {
+      "visit": "{{node}} を訪問、訪問済み: [{{visited}}]",
+      "done": "✅ DFS 完了: {{order}}"
+    },
+    "dijkstra": {
+      "init": "距離を初期化: {{start}} = 0、その他すべて = ∞",
+      "select": "{{node}} を選択（dist = {{dist}}）、訪問済みにマーク",
+      "update": "{{node}} を更新: dist = {{du}} + {{w}} = {{dv}}",
+      "path": "✅ {{start}} から {{dest}} への最短経路: {{path}}（コスト: {{cost}}）"
+    },
+    "kruskal": {
+      "start": "クラスカルの MST を開始 — {{count}} 辺を重みでソート",
+      "add": "辺 {{from}}—{{to}} を追加（重み: {{w}}）",
+      "skip": "辺 {{from}}—{{to}} をスキップ（サイクルが生じるため）",
+      "done": "✅ MST 完了: {{list}}"
+    },
+    "prim": {
+      "start": "ノード {{start}} からプリムの MST を開始",
+      "add": "辺 {{from}}—{{to}} を追加（重み: {{w}}）",
+      "done": "✅ MST 完了: {{list}}"
+    }
+  },
+  "tree": {
+    "pressPlay": "再生を押すと値を挿入します。",
+    "insertBst_one": "{{v}} を挿入: 普通の BST は挿入順を保ちます。高さ {{height}}、ノード {{count}} 個。",
+    "insertBst_other": "{{v}} を挿入: 普通の BST は挿入順を保ちます。高さ {{height}}、ノード {{count}} 個。",
+    "insertAvl_one": "{{v}} を挿入: AVL は必要に応じて再平衡化します。高さ {{height}}、ノード {{count}} 個。",
+    "insertAvl_other": "{{v}} を挿入: AVL は必要に応じて再平衡化します。高さ {{height}}、ノード {{count}} 個。",
+    "insertDuplicate": "{{v}} を挿入: 重複は無視されました — 木は変わりません（高さ {{height}}）。",
+    "heap": {
+      "building": "ヒープを構築中: {{v}} を挿入"
+    }
+  }
+}

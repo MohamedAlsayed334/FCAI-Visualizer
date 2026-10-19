@@ -1,0 +1,133 @@
+{
+  "page": {
+    "eyebrow": "Algorithm comparison lab",
+    "title": "One input. Two approaches.",
+    "subtitle": "Compare existing algorithm visualizations side by side, one recorded step at a time."
+  },
+  "groups": {
+    "sorting": "Sorting",
+    "searching": "Searching",
+    "graph-traversal": "Graph traversal",
+    "graph-mst": "Minimum spanning tree",
+    "data-structures": "Stack vs queue",
+    "trees": "BST vs AVL tree"
+  },
+  "setup": {
+    "forLabel": "Compare algorithms for",
+    "algorithmSide": "Algorithm {{side}}",
+    "graphLabel": "Shared weighted graph",
+    "operationsLabel": "Shared operations",
+    "arrayLabel": "Shared input",
+    "treeLabel": "Shared insertion order",
+    "targetLabel": "Search target",
+    "startNode": "Start node",
+    "addEdgesFirst": "Add edges first",
+    "prepare": "Prepare comparison",
+    "tryInput": "Try an input:",
+    "graphHelp": "Write undirected edges as A-B or weighted edges as A-B:4. Separate edges with commas. Traversal compares visit order; MST compares the selected edges and total weight.",
+    "operationsHelp": "Use insert 10 and delete, separated by commas. Both structures receive the same sequence. A stack removes the newest value (LIFO); a queue removes the oldest (FIFO). Ignored removes on an empty structure are skipped in its trace.",
+    "arrayHelp": "1–32 whole numbers, 0–99. Each algorithm receives its own copy of the same array.",
+    "treeHelp": "1–10 whole numbers, 0–99. Values are inserted in the written order; duplicates are ignored — a duplicate insert still appears as a step so both traces stay aligned.",
+    "targetHelp": "Binary and jump search require ascending order. Prepare sorts one shared copy for both sides, including linear search. Sorting is preprocessing and is not counted in the search trace. With duplicates, algorithms may find different matching indices."
+  },
+  "presets": {
+    "random": "Random",
+    "sorted": "Sorted",
+    "reversed": "Reversed",
+    "duplicates": "Duplicates",
+    "zigzag": "Zigzag",
+    "interleaved": "Interleaved",
+    "removeAll": "Remove all",
+    "lifoFifo": "LIFO vs FIFO",
+    "weighted": "Weighted",
+    "cycle": "Cycle",
+    "grid": "Grid"
+  },
+  "panel": {
+    "badge": {
+      "finished": "Finished",
+      "ready": "Ready",
+      "inProgress": "In progress"
+    },
+    "recordedSteps": "Recorded steps",
+    "resultLabel": "Result: ",
+    "narrationStart": "Same starting input. Press Play or Next to begin.",
+    "previewPlay": "Press Play to insert values in order.",
+    "viewCode": "View existing implementation (JavaScript)",
+    "aria": {
+      "panel": "Algorithm {{side}}: {{name}}",
+      "canvas": "{{name}} visualization: {{message}}",
+      "progress": "{{name}} progress",
+      "original": "Original input"
+    },
+    "metrics": {
+      "time": "Time",
+      "space": "Space",
+      "insert": "Insert",
+      "delete": "Delete",
+      "search": "Search",
+      "avgTime": "Average time",
+      "worstTime": "Worst time",
+      "extraSpace": "Extra space"
+    }
+  },
+  "result": {
+    "searchFound": "{{value}} found at index {{index}} (zero-based).",
+    "searchNotFound": "{{value}} was not found.",
+    "mstEdges": "MST edges: {{edges}}",
+    "visitOrder": "Visit order: {{order}}",
+    "remainingValues": "Remaining values: [{{values}}]",
+    "treeSummary": "Final height: {{height}} · {{count}} {{nodeWord}} · In-order: {{order}}",
+    "treeNodes": {
+      "one": "node",
+      "other": "nodes"
+    },
+    "finalOutput": "See final visualization above."
+  },
+  "playback": {
+    "aria": "Shared playback controls",
+    "back": "Back",
+    "replay": "Replay",
+    "next": "Next",
+    "speed": "Speed",
+    "stepsPerSecond": "{{value}} steps/s",
+    "timeline": "Timeline",
+    "disclaimer": "One recorded step per side per tick. Finished panels hold their result. Step counts describe the teaching trace, not execution time or equal computational work."
+  },
+  "status": {
+    "searchingFor": "Searching for {{target}}",
+    "sortedArray": "Shared sorted array (indices start at 0): [{{values}}]",
+    "graph": "Shared graph",
+    "edges": "Edges: {{edges}}",
+    "operations": "Shared operation sequence",
+    "insertionOrder": "Shared insertion order"
+  },
+  "empty": {
+    "title": "Explore how two algorithms solve the same problem",
+    "body": "Choose algorithms and a shared input, then prepare your comparison. Try different presets to see how their behavior changes."
+  },
+  "errors": {
+    "fallback": "Unable to prepare this comparison. Check your input.",
+    "sameAlgo": "Choose two different algorithms to compare.",
+    "noSteps": "{{name}} did not generate any steps.",
+    "graphEmpty": "Add at least one edge, for example A-B:4.",
+    "graphItem": "Could not read \"{{item}}\". Use A-B for an unweighted edge or A-B:4 for a weighted edge.",
+    "selfLoop": "Edge {{edge}} is a self-loop. Use two different node names.",
+    "weightRange": "Edge weights must be greater than 0 and no more than 999.",
+    "duplicateEdge": "Edge {{edge}} is listed more than once.",
+    "tooManyNodes": "Use no more than 12 graph nodes so both visualizations stay readable.",
+    "tooManyEdges": "Use no more than 24 edges so both visualizations stay readable.",
+    "opEmpty": "Add at least one operation, for example \"insert 10, delete\".",
+    "opItem": "Could not read \"{{item}}\". Use \"insert 10\" or \"delete\".",
+    "opValue": "Operation \"{{item}}\" needs a whole-number value.",
+    "opRange": "Operation values must be between -999 and 999.",
+    "opNoValue": "Operation \"{{item}}\" should not include a value.",
+    "tooManyOps": "Use no more than 24 operations.",
+    "needsInsert": "Add at least one insert operation.",
+    "treeRange": "Enter 1–10 comma-separated whole numbers from 0 to 99. Insertion order matters.",
+    "treeValues": "Use values from 0 to 99 so both trees share the same keys.",
+    "arrayRange": "Enter 1–32 comma-separated whole numbers from 0 to 99. Empty entries are not allowed.",
+    "arrayValues": "Use values from 0 to 99 so both visualizations can share this input.",
+    "target": "Enter a whole-number search target from 0 to 99. It does not need to be present in the array."
+  }
+}

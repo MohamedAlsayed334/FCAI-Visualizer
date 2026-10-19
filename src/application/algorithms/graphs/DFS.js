@@ -21,6 +21,7 @@ export class DFS extends GraphAlgorithm {
       steps.push({
         graph: { nodes, edges, visited: [...visited], current: node, order: [...order], stack: [...order] },
         msg: `Visit ${node}, visited: [${[...visited].join(', ')}]`,
+        msgKey: 'steps:graphs.dfs.visit', msgParams: { node, visited: [...visited].join(', ') },
         codeLine: 1,
         codeLines: { js: 1, python: 1, cpp: 1, java: 1, csharp: 1 },
       });
@@ -36,6 +37,7 @@ export class DFS extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, visited: [...visited], order: [...order] },
       msg: `✅ DFS complete: ${order.join(' → ')}`,
+      msgKey: 'steps:graphs.dfs.done', msgParams: { order: order.join(' → ') },
       codeLine: -1,
     });
     return steps;

@@ -1,0 +1,95 @@
+{
+  "brand": "FCAI-Visualizer",
+  "campus": "FCAI-CU",
+  "header": {
+    "eyebrow": "FCAI-CU · Learning platform",
+    "toggleNav": "Toggle navigation",
+    "startLearning": "Start learning",
+    "switchTheme": "Switch to {{mode}} theme"
+  },
+  "theme": {
+    "light": "light",
+    "dark": "dark",
+    "modeLabel": "{{name}} mode"
+  },
+  "settings": {
+    "language": "Language",
+    "digits": "Digit style",
+    "digitsToLatn": "Switch to Western digits",
+    "digitsToArab": "Switch to Arabic-Indic digits"
+  },
+  "routes": {
+    "home": "Learning dashboard",
+    "data-structure": "Data Structure",
+    "advanced-data-structure": "Advanced Data Structure",
+    "course-trees": "Trees",
+    "course-avl-tree": "AVL Tree",
+    "course-red-black-tree": "Red-Black Tree",
+    "sorting": "Sorting Algorithms",
+    "searching": "Searching Algorithms",
+    "data-structures": "Data Structures",
+    "trees": "Tree Visualizer",
+    "graphs": "Graph Algorithms",
+    "practice": "Practice Mode",
+    "compare": "Algorithm Comparison",
+    "api-keys": "AI Settings"
+  },
+  "nav": {
+    "mainNavigation": "Main navigation",
+    "home": "Home",
+    "workspace": "Workspace",
+    "courses": "Courses",
+    "learningTools": "Learning tools",
+    "expandSidebar": "Expand sidebar",
+    "collapseSidebar": "Collapse sidebar",
+    "homeLink": "FCAI-Visualizer home",
+    "brandTagline": "Learn by visualizing",
+    "closeOverlay": "Close navigation"
+  },
+  "sidebar": {
+    "supportTitle": "Learn actively",
+    "supportBody": "Watch an algorithm, then try it yourself.",
+    "supportLink": "Explore practice",
+    "faculty": "Faculty of Computers & AI",
+    "university": "Cairo University"
+  },
+  "actions": {
+    "random": "Random",
+    "apply": "Apply",
+    "reset": "Reset",
+    "start": "Start",
+    "pause": "Pause",
+    "play": "Play",
+    "size": "Size",
+    "speed": "Speed",
+    "customInputHint": "Enter comma-separated integers then press Apply",
+    "customInputPlaceholder": "e.g.  5, 3, 8, 1, 9",
+    "applyCustom": "Apply custom input",
+    "close": "Close",
+    "clear": "Clear",
+    "generate": "Generate",
+    "stepBack": "Step back",
+    "stepForward": "Step forward"
+  },
+  "panel": {
+    "description": "Description",
+    "complexity": {
+      "title": "Time & Space Complexity",
+      "best": "Best Time:",
+      "average": "Average Time:",
+      "worst": "Worst Time:",
+      "space": "Space Complexity:"
+    }
+  },
+  "codePanel": {
+    "title": "Implementation",
+    "ariaLabel": "Algorithm implementation",
+    "viewIn": "View in {{lang}}"
+  },
+  "notFound": {
+    "eyebrow": "404 · PAGE NOT FOUND",
+    "title": "This page is off the map.",
+    "body": "The link may have changed, but your learning path is still here.",
+    "backHome": "Back to FCAI-CU"
+  }
+}

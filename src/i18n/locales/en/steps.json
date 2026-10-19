@@ -1,0 +1,158 @@
+{
+  "sorting": {
+    "done": "Array sorted!",
+    "doneFull": "✅ Array fully sorted!",
+    "doneList": "✅ Array sorted! [{{list}}]",
+    "doneOut": "OUTPUT complete — array is sorted! ✅",
+    "bubble": {
+      "compare": "Comparing a[{{j}}]={{a}} and a[{{jj}}]={{ajj}}",
+      "swap": "Swapping {{x}} and {{y}} (left > right)"
+    },
+    "selection": {
+      "compare": "Comparing min(a[{{m}}]={{mv}}) with a[{{j}}]={{a}}",
+      "swap": "Swapping a[{{i}}]={{a}} to position {{i}}"
+    },
+    "insertion": {
+      "pick": "Pick a[{{j}}] = {{a}} as the key",
+      "compare": "Compare a[{{j}}] = {{a}} and a[{{j2}}] = {{a2}}",
+      "swap": "Swap: move {{x}} left to index {{to}}",
+      "place": "Key {{key}} placed → first {{count}} elements sorted"
+    },
+    "merge": {
+      "intro": "Merge Sort: array [{{list}}]. Will split left-first.",
+      "single": "[{{value}}] — single element, already sorted.",
+      "splitLeft": "Split [{{list}}] → left [{{left}}]",
+      "splitRight": "Now split right half [{{list}}]",
+      "merging": "Merging [{{left}}] + [{{right}}]",
+      "comparePair": "Compare {{x}} vs {{y}}",
+      "placeWinner": "Place {{value}} → merged[{{pos}}]",
+      "copyLeft": "Copy left remainder: {{value}}",
+      "copyRight": "Copy right remainder: {{value}}",
+      "merged": "Merged → [{{list}}]"
+    },
+    "quick": {
+      "pivot": "Pivot = a[{{pos}}] = {{pivot}}  Subarray: [{{list}}]",
+      "scan": "j={{j}}: a[{{j}}]={{a}} {{op}} pivot {{pivot}}",
+      "swap": "a[{{j}}]={{a}} ≤ {{pivot}} → i={{i}}, swap a[{{i}}] ↔ a[{{j}}]",
+      "inPlace": "a[{{j}}]={{a}} ≤ {{pivot}} → i={{i}}, already in place",
+      "place": "Pivot {{pivot}} → placed at [{{pos}}]  Left < {{pivot}}: [{{left}}]  Right ≥ {{pivot}}: [{{right}}]"
+    },
+    "heap": {
+      "heapify": "Heapify at {{i}}",
+      "swap": "Swap {{x}} and {{y}}",
+      "moveMax": "Move max {{v}} to position {{i}}"
+    },
+    "counting": {
+      "init": "Max value = {{max}}. Create count array of size {{size}}, all zeros.",
+      "initZero": "Initialize count array.",
+      "reading": "Reading orig[{{i}}] = {{val}}. About to increment count[{{val}}].",
+      "updated": "count[{{val}}] is now {{count}}.",
+      "buildOutput": "Counting done. Now build OUTPUT array from COUNT.",
+      "duplicate": "count[{{v}}] = {{freq}}. Will place {{freq}}× the value {{v}} into OUTPUT.",
+      "placedOut": "Placed {{v}} at output[{{out}}]."
+    },
+    "radix": {
+      "passOnes": "Pass for digit position {{pos}} (ones)",
+      "passTens": "Pass for digit position {{pos}} (tens)",
+      "passHundreds": "Pass for digit position {{pos}} (hundreds)",
+      "extract": "Extracting digit {{digit}} from {{v}}",
+      "bucket": "Placed {{v}} into bucket [{{digit}}]",
+      "collect": "Collecting {{v}} back to array"
+    }
+  },
+  "searching": {
+    "found": "✅ Found {{target}} at index {{i}}!",
+    "linear": {
+      "intro": "Linear Search: looking for {{target}} in [{{list}}]",
+      "checkMatch": "Check a[{{i}}] = {{a}}  → Match! ✅",
+      "checkMiss": "Check a[{{i}}] = {{a}}  ≠ {{target}}",
+      "notFound": "❌ {{target}} not found in array."
+    },
+    "binary": {
+      "intro": "Binary Search: target = {{target}}. Array is sorted: [{{list}}]",
+      "window": "lo={{lo}}  hi={{hi}}  mid={{mid}}  a[mid]={{am}}",
+      "found": "✅ a[{{mid}}] = {{am}} = target. Found at index {{mid}}!",
+      "goRight": "a[{{mid}}]={{am}} < {{target}} → search RIGHT half [{{from}}..{{to}}]",
+      "goLeft": "a[{{mid}}]={{am}} > {{target}} → search LEFT half [{{from}}..{{to}}]",
+      "exhausted": "❌ lo({{lo}}) > hi({{hi}}): search space exhausted. {{target}} not found."
+    },
+    "jump": {
+      "intro": "Jump Search: target={{target}}, n={{n}}, step=√{{n}}≈{{step}}. Array: [{{list}}]",
+      "jump": "Jump: a[{{i}}]={{a}} ≤ {{target}} → jump forward. Block [{{from}}..{{to}}] cleared.",
+      "scanBlock": "a[{{i}}]={{a}} > {{target}} (or end). Linear scan in block [{{from}}..{{to}}].",
+      "scanMatch": "Linear scan: a[{{i}}] = {{a}}  → Match! ✅",
+      "scanMiss": "Linear scan: a[{{i}}] = {{a}}  ≠ {{target}}",
+      "notFoundBlock": "❌ {{target}} not found in block [{{from}}..{{to}}]. Not in array."
+    }
+  },
+  "ds": {
+    "ll": {
+      "insert": "Insert {{v}} at position {{idx}}",
+      "delete": "Delete {{v}} at position {{idx}}"
+    },
+    "sll": { "init": "Initialize empty singly linked list" },
+    "dll": { "init": "Initialize empty doubly linked list" },
+    "cll": { "init": "Initialize empty circular linked list" },
+    "oll": {
+      "init": "Initialize empty ordered linked list (sorted)",
+      "insert": "Insert {{v}} at sorted position {{idx}}"
+    },
+    "array": {
+      "init": "Initialize empty array",
+      "insert": "Insert {{v}} at index {{idx}}",
+      "delete": "Delete {{v}} at index {{idx}}",
+      "set": "Set index {{idx}} = {{v}}"
+    },
+    "stack": {
+      "init": "Initialize empty stack (LIFO)",
+      "push": "Push {{v}} onto stack",
+      "pop": "Pop {{v}} from stack",
+      "peek": "Peek top: {{v}}"
+    },
+    "queue": {
+      "init": "Initialize empty queue (FIFO)",
+      "enqueue": "Enqueue {{v}}",
+      "dequeue": "Dequeue {{v}}"
+    }
+  },
+  "graphs": {
+    "bfs": {
+      "start": "Start BFS from node {{start}}",
+      "visit": "Visit {{node}}, queue: [{{queue}}]",
+      "discover": "Discovered {{nb}} from {{node}}",
+      "done": "✅ BFS complete: {{order}}"
+    },
+    "dfs": {
+      "visit": "Visit {{node}}, visited: [{{visited}}]",
+      "done": "✅ DFS complete: {{order}}"
+    },
+    "dijkstra": {
+      "init": "Initialize distances: {{start}} = 0, all others = ∞",
+      "select": "Select {{node}} (dist = {{dist}}), mark visited",
+      "update": "Update {{node}}: dist = {{du}} + {{w}} = {{dv}}",
+      "path": "✅ Shortest path from {{start}} to {{dest}}: {{path}} (cost: {{cost}})"
+    },
+    "kruskal": {
+      "start": "Start Kruskal's MST — sorted {{count}} edges by weight",
+      "add": "Add edge {{from}}—{{to}} (weight: {{w}})",
+      "skip": "Skip edge {{from}}—{{to}} (would create cycle)",
+      "done": "✅ MST complete: {{list}}"
+    },
+    "prim": {
+      "start": "Start Prim's MST from node {{start}}",
+      "add": "Add edge {{from}}—{{to}} (weight: {{w}})",
+      "done": "✅ MST complete: {{list}}"
+    }
+  },
+  "tree": {
+    "pressPlay": "Press Play to insert values.",
+    "insertBst_one": "Insert {{v}}: plain BST keeps the insertion order, height {{height}} with {{count}} node.",
+    "insertBst_other": "Insert {{v}}: plain BST keeps the insertion order, height {{height}} with {{count}} nodes.",
+    "insertAvl_one": "Insert {{v}}: AVL rebalances when needed, height {{height}} with {{count}} node.",
+    "insertAvl_other": "Insert {{v}}: AVL rebalances when needed, height {{height}} with {{count}} nodes.",
+    "insertDuplicate": "Insert {{v}}: duplicate ignored — the tree is unchanged (height {{height}}).",
+    "heap": {
+      "building": "Building heap: inserted {{v}}"
+    }
+  }
+}

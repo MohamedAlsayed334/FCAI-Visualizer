@@ -3,6 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { initGraphVisualizer } from '../algorithms/graphs/graphVisualizer';
 import { initDFSVisualizer } from '../algorithms/graphs/dfsVisualizer';
 import { initDijkstraVisualizer } from '../algorithms/graphs/dijkstraVisualizer';
+import { useT } from '../hooks/useT';
 import '../styles/TreeVisualizer.css';
 
 const VIZ_MAP = {
@@ -11,13 +12,15 @@ const VIZ_MAP = {
   dijkstra: initDijkstraVisualizer,
 };
 
+// Tab labels resolve through the algorithms namespace (canonical graph names).
 const GRAPH_TABS = [
-  { id: 'bfs', label: 'Breadth-First Search (BFS)' },
-  { id: 'dfs', label: 'Depth-First Search (DFS)' },
-  { id: 'dijkstra', label: "Dijkstra's Algorithm" },
+  { id: 'bfs' },
+  { id: 'dfs' },
+  { id: 'dijkstra' },
 ];
 
 export default function Graphs() {
+  const t = useT();
   const containerRef = useRef(null);
   const vizRef = useRef(null);
   const { algo = 'bfs' } = useParams();
@@ -53,7 +56,7 @@ export default function Graphs() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', overflow: 'hidden' }}>
-      <nav className="graph-algo-nav" role="tablist" aria-label="Graph algorithm tabs">
+      <nav className="graph-algo-nav" role="tablist" aria-label={t('graphs:tabs.aria')}>
         {GRAPH_TABS.map((tab) => (
           <button
             key={tab.id}
@@ -63,7 +66,7 @@ export default function Graphs() {
             className={`graph-algo-tab${currentAlgo === tab.id ? ' active' : ''}`}
             onClick={() => handleTabChange(tab.id)}
           >
-            {tab.label}
+            {t(`algorithms:${tab.id}.name`)}
           </button>
         ))}
       </nav>

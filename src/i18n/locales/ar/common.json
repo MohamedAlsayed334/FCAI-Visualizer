@@ -1,0 +1,95 @@
+{
+  "brand": "FCAI-Visualizer",
+  "campus": "FCAI-CU",
+  "header": {
+    "eyebrow": "FCAI-CU · منصّة تعلّم",
+    "toggleNav": "إظهار/إخفاء قائمة التنقّل",
+    "startLearning": "ابدأ التعلّم",
+    "switchTheme": "التبديل إلى الوضع {{mode}}"
+  },
+  "theme": {
+    "light": "الفاتح",
+    "dark": "الداكن",
+    "modeLabel": "الوضع {{name}}"
+  },
+  "settings": {
+    "language": "اللغة",
+    "digits": "نمط الأرقام",
+    "digitsToLatn": "التبديل إلى الأرقام الإنجليزية",
+    "digitsToArab": "التبديل إلى الأرقام العربية (الهندية)"
+  },
+  "routes": {
+    "home": "لوحة التعلّم",
+    "data-structure": "هياكل البيانات",
+    "advanced-data-structure": "هياكل البيانات المتقدّمة",
+    "course-trees": "الأشجار",
+    "course-avl-tree": "شجرة AVL",
+    "course-red-black-tree": "شجرة الأحمر-الأسود",
+    "sorting": "خوارزميات الترتيب",
+    "searching": "خوارزميات البحث",
+    "data-structures": "هياكل البيانات",
+    "trees": "عارض الأشجار",
+    "graphs": "الرسوم البيانية",
+    "practice": "وضع التدرب",
+    "compare": "مقارنة الخوارزميات",
+    "api-keys": "إعدادات الذكاء الاصطناعي"
+  },
+  "nav": {
+    "mainNavigation": "التنقّل الرئيسي",
+    "home": "الرئيسية",
+    "workspace": "مساحة العمل",
+    "courses": "المقررات",
+    "learningTools": "أدوات التعلّم",
+    "expandSidebar": "تكبير الشريط الجانبي",
+    "collapseSidebar": "تصغير الشريط الجانبي",
+    "homeLink": "الصفحة الرئيسية لـ FCAI-Visualizer",
+    "brandTagline": "تعلّم بصريًا",
+    "closeOverlay": "إغلاق التنقّل"
+  },
+  "sidebar": {
+    "supportTitle": "تعلّم بنشاط",
+    "supportBody": "شاهد خوارزمية، ثم جرّبها بنفسك.",
+    "supportLink": "استكشف التدرب",
+    "faculty": "كلية الحوسبات والذكاء الاصطناعي",
+    "university": "جامعة القاهرة"
+  },
+  "actions": {
+    "random": "عشوائي",
+    "apply": "تطبيق",
+    "reset": "إعادة الضبط",
+    "start": "ابدأ",
+    "pause": "إيقاف مؤقت",
+    "play": "تشغيل",
+    "size": "الحجم",
+    "speed": "السرعة",
+    "customInputHint": "أدخل أعدادًا صحيحة مفصولة بفواصل ثم اضغط «تطبيق»",
+    "customInputPlaceholder": "مثال: 5، 3، 8، 1، 9",
+    "applyCustom": "تطبيق المدخل المخصّص",
+    "close": "إغلاق",
+    "clear": "مسح",
+    "generate": "إنشاء",
+    "stepBack": "خطوة للخلف",
+    "stepForward": "خطوة للأمام"
+  },
+  "panel": {
+    "description": "الوصف",
+    "complexity": {
+      "title": "التعقيد الزمني والمكاني",
+      "best": "أفضل زمن:",
+      "average": "المتوسط:",
+      "worst": "أسوأ زمن:",
+      "space": "التعقيد المكاني:"
+    }
+  },
+  "codePanel": {
+    "title": "التنفيذ",
+    "ariaLabel": "تنفيذ الخوارزمية",
+    "viewIn": "العرض بـ {{lang}}"
+  },
+  "notFound": {
+    "eyebrow": "404 · الصفحة غير موجودة",
+    "title": "هذه الصفحة خارج الخريطة.",
+    "body": "ربما تغيّر الرابط، لكن مسار تعلّمك ما زال هنا.",
+    "backHome": "الرجوع إلى FCAI-CU"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "types": {
+    "array": { "label": "Array" },
+    "stack": { "label": "Stack" },
+    "queue": { "label": "Queue" },
+    "singly": { "label": "Singly Linked List" },
+    "doubly": { "label": "Doubly Linked List" },
+    "circular": { "label": "Circular Linked List" },
+    "ordered": { "label": "Ordered Linked List" }
+  },
+  "tabs": {
+    "aria": "Graph algorithm tabs"
+  }
+}

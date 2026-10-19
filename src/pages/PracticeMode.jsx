@@ -3,13 +3,14 @@ import QuizPanel from '../components/ai/QuizPanel';
 import TracePanel from '../components/ai/TracePanel';
 import ScoreBoard from '../components/ai/ScoreBoard';
 import { useProgress } from '../hooks/useProgress';
+import { useT } from '../hooks/useT';
 import '../styles/Training.css';
 
 const TOPICS = {
-  sorting: { title: 'Sorting', icon: '⊞' },
-  searching: { title: 'Searching', icon: '⌕' },
-  trees: { title: 'Trees', icon: '⬡' },
-  graphs: { title: 'Graphs', icon: '◇' },
+  sorting: { icon: '⊞' },
+  searching: { icon: '⌕' },
+  trees: { icon: '⬡' },
+  graphs: { icon: '◇' },
 };
 
 const TOPIC_COLORS = {
@@ -20,18 +21,18 @@ const TOPIC_COLORS = {
 };
 
 const MODES = [
-  { id: 'quiz', title: 'AI Quiz', description: 'Multiple choice questions', icon: '⊕' },
-  { id: 'trace', title: 'Tracing', description: 'Step-by-step practice', icon: '⟳', comingSoon: true },
+  { id: 'quiz', icon: '⊕' },
+  { id: 'trace', icon: '⟳', comingSoon: true },
 ];
 
 export default function PracticeMode() {
+  const t = useT('practice');
   const [selectedMode, setSelectedMode] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState('sorting');
   const [showTopicSelect, setShowTopicSelect] = useState(true);
-  const { progress, recordAnswer, getTopicScore, getStats, resetProgress } = useProgress();
-  
+  const { progress, recordAnswer, getStats, resetProgress } = useProgress();
+
   const stats = getStats();
-  const topicScore = getTopicScore(selectedTopic);
 
   const handleStart = (modeId) => {
     if (modeId === 'trace') return;
@@ -55,19 +56,15 @@ export default function PracticeMode() {
     recordAnswer(topic, isCorrect, 'medium');
   }, [recordAnswer]);
 
-  const handleTopicChange = (topic) => {
-    setSelectedTopic(topic);
-  };
-
   if (!selectedMode) {
     return (
       <div className="training-page">
         <header className="training-header">
           <h1 className="training-title">
-            <span>Practice</span> Mode
+            {t('title')}
           </h1>
           <p className="training-subtitle">
-            Test your algorithm knowledge
+            {t('subtitle')}
           </p>
         </header>
 
@@ -84,8 +81,10 @@ export default function PracticeMode() {
               <div className="training-card-icon">
                 {mode.icon}
               </div>
-              <h3 className="training-card-title">{mode.title}</h3>
-              <p className="training-card-desc">{mode.comingSoon ? 'Coming Soon' : mode.description}</p>
+              <h3 className="training-card-title">{t(`modes.${mode.id}.title`)}</h3>
+              <p className="training-card-desc">
+                {mode.comingSoon ? t('comingSoon') : t(`modes.${mode.id}.description`)}
+              </p>
             </div>
           ))}
         </div>
@@ -95,30 +94,30 @@ export default function PracticeMode() {
 
   return (
     <div className="training-page">
-      <button 
-        className="btn btn-outline" 
+      <button
+        className="btn btn-outline"
         onClick={handleBack}
         style={{ marginBottom: '1.5rem' }}
       >
-        ← Back to Menu
+        <span className="rtl-flip" aria-hidden="true">←</span> {t('backToMenu')}
       </button>
 
-      
+
 
       {showTopicSelect ? (
-        <div style={{ 
-          textAlign: 'center', 
-          maxWidth: '600px', 
+        <div style={{
+          textAlign: 'center',
+          maxWidth: '600px',
           margin: '0 auto',
           padding: '2rem'
         }}>
           <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>
-            Select a Topic
+            {t('selectTopic')}
           </h2>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', 
-            gap: '1rem' 
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+            gap: '1rem'
           }}>
             {Object.entries(TOPICS).map(([topicId, topicInfo]) => {
               const color = TOPIC_COLORS[topicId];
@@ -130,7 +129,7 @@ export default function PracticeMode() {
                     setSelectedTopic(topicId);
                     handleTopicSelect();
                   }}
-                  style={{ 
+                  style={{
                     padding: '1.5rem 1rem',
                     background: color.bg,
                     border: `2px solid ${color.border}`,
@@ -143,20 +142,20 @@ export default function PracticeMode() {
                   <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>
                     {topicInfo.icon}
                   </div>
-                  <h3 style={{ 
-                    color: color.text, 
+                  <h3 style={{
+                    color: color.text,
                     fontWeight: '700',
                     fontSize: '1.1rem',
                     margin: '0 0 0.25rem 0'
                   }}>
-                    {topicInfo.title}
+                    {t(`topics.${topicId}`)}
                   </h3>
-                  <p style={{ 
-                    color: 'var(--text-muted)', 
+                  <p style={{
+                    color: 'var(--text-muted)',
                     fontSize: '0.8rem',
                     margin: 0
                   }}>
-                    {topicProgress} questions
+                    {t('questionsAttempted', { count: topicProgress })}
                   </p>
                 </button>
               );
@@ -166,16 +165,16 @@ export default function PracticeMode() {
       ) : (
         <div>
           <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-            {TOPICS[selectedTopic].icon} {selectedMode === 'quiz' ? 'Quiz' : 'Tracing'}: {TOPICS[selectedTopic].title}
+            {TOPICS[selectedTopic].icon} {t(`session.${selectedMode}`)}: {t(`topics.${selectedTopic}`)}
           </h2>
-          
+
           {selectedMode === 'quiz' ? (
-            <QuizPanel 
-              topic={selectedTopic} 
+            <QuizPanel
+              topic={selectedTopic}
               onComplete={(topic, isCorrect) => handleComplete(topic, isCorrect)}
             />
           ) : (
-            <TracePanel 
+            <TracePanel
               topic={selectedTopic}
               onComplete={(topic, isCorrect) => handleComplete(topic, isCorrect)}
             />

@@ -1,0 +1,100 @@
+{
+  "title": "Practice Mode",
+  "subtitle": "Test your algorithm knowledge",
+  "modes": {
+    "quiz": { "title": "AI Quiz", "description": "Multiple choice questions" },
+    "trace": { "title": "Tracing", "description": "Step-by-step practice" }
+  },
+  "session": {
+    "quiz": "Quiz",
+    "trace": "Tracing"
+  },
+  "comingSoon": "Coming Soon",
+  "selectTopic": "Select a Topic",
+  "backToMenu": "Back to Menu",
+  "questionsAttempted": {
+    "zero": "no questions",
+    "one": "{{count}} question",
+    "other": "{{count}} questions"
+  },
+  "topics": {
+    "sorting": "Sorting",
+    "searching": "Searching",
+    "trees": "Trees",
+    "graphs": "Graphs"
+  },
+  "score": {
+    "title": "Your Progress",
+    "questions": "Questions",
+    "correct": "Correct",
+    "accuracy": "Accuracy",
+    "bestStreak": "Best Streak",
+    "reset": "🗑️ Clear",
+    "confirm": "Click to Confirm"
+  },
+  "quiz": {
+    "title": "{{topic}} Quiz",
+    "settings": {
+      "questions": "Questions:",
+      "unlimited": "Unlimited",
+      "mode": "Mode:",
+      "lang": "Lang:"
+    },
+    "modes": {
+      "general": "📚 General",
+      "code": "💻 Code",
+      "complexity": "📊 Complexity"
+    },
+    "descriptions": {
+      "general": "General {{topic}} multiple choice questions",
+      "code": "Analyze code snippets related to {{topic}}",
+      "complexity": "Time/Space complexity questions for {{topic}}"
+    },
+    "actions": {
+      "start": "▶ Start Quiz",
+      "retryAI": "🔄 Try Again (AI)",
+      "useBuiltIn": "📚 Use Built-in Questions",
+      "tryAgain": "↺ Try Again",
+      "submit": "Submit Answer",
+      "next": "Next Question →"
+    },
+    "loading": {
+      "ai": "🤖 Generating AI question...",
+      "builtIn": "📚 Loading built-in question...",
+      "generic": "Loading question..."
+    },
+    "errors": {
+      "heading": "⚠️ Unable to generate AI question",
+      "rateLimit": "AI service is rate limited. Please try again.",
+      "auth": "AI service authentication failed.",
+      "server": "AI service is temporarily unavailable.",
+      "network": "Network error. Could not connect to AI service.",
+      "parse": "AI returned invalid response format.",
+      "generic": "AI error: {{message}}"
+    },
+    "progress": {
+      "question": "Question {{count}}"
+    },
+    "results": {
+      "title": "🎉 Quiz Complete!",
+      "points": "Points",
+      "score": "Score",
+      "answered_one": "You answered {{count}} question",
+      "answered_other": "You answered {{count}} questions"
+    },
+    "badges": {
+      "builtIn": "📚 Built-in",
+      "complexity": "📊 Complexity"
+    },
+    "levels": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "feedback": {
+      "correct": "✓ Correct!",
+      "incorrect": "✗ Incorrect",
+      "wrongAnswer": "Wrong! Answer: {{answer}}"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "hero": {
+    "kicker": "FCAI-CU · 可视化学习",
+    "titleLine1": "让算法",
+    "titleLine2": "一目了然。",
+    "subtitle": "专为计算机科学学生打造的清晰、交互式可视化，带你探索数据结构与算法。",
+    "cta": "浏览课程",
+    "proof1": "交互式可视化",
+    "proof2": "分步学习",
+    "label": "可视化 · 探索 · 学习"
+  },
+  "courses": {
+    "eyebrow": "你的学习路径",
+    "title": "选择课程",
+    "subtitle": "从基础开始，逐步深入高级结构。"
+  },
+  "tools": {
+    "eyebrow": "继续前进",
+    "title": "实践出真知",
+    "settingsLink": "AI 学习设置"
+  },
+  "footer": {
+    "faculty": "计算机与人工智能学院 · 开罗大学"
+  }
+}

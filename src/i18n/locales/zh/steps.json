@@ -1,0 +1,158 @@
+{
+  "sorting": {
+    "done": "数组排序完成！",
+    "doneFull": "✅ 数组已完全排序！",
+    "doneList": "✅ 数组已排序！ [{{list}}]",
+    "doneOut": "OUTPUT 完成 — 数组已排序！ ✅",
+    "bubble": {
+      "compare": "比较 a[{{j}}]={{a}} 和 a[{{jj}}]={{ajj}}",
+      "swap": "交换 {{x}} 和 {{y}}（左 > 右）"
+    },
+    "selection": {
+      "compare": "比较 min(a[{{m}}]={{mv}}) 与 a[{{j}}]={{a}}",
+      "swap": "将 a[{{i}}]={{a}} 移到位置 {{i}}"
+    },
+    "insertion": {
+      "pick": "取出 a[{{j}}] = {{a}} 作为键",
+      "compare": "比较 a[{{j}}] = {{a}} 和 a[{{j2}}] = {{a2}}",
+      "swap": "交换: 将 {{x}} 左移到索引 {{to}}",
+      "place": "键 {{key}} 已就位 → 前 {{count}} 个元素已排序"
+    },
+    "merge": {
+      "intro": "归并排序: 数组 [{{list}}]。先分割左半部分。",
+      "single": "[{{value}}] — 单个元素，已有序。",
+      "splitLeft": "分割 [{{list}}] → 左侧 [{{left}}]",
+      "splitRight": "继续分割右半部分 [{{list}}]",
+      "merging": "正在归并 [{{left}}] + [{{right}}]",
+      "comparePair": "比较 {{x}} 与 {{y}}",
+      "placeWinner": "放置 {{value}} → merged[{{pos}}]",
+      "copyLeft": "复制左半剩余: {{value}}",
+      "copyRight": "复制右半剩余: {{value}}",
+      "merged": "归并完成 → [{{list}}]"
+    },
+    "quick": {
+      "pivot": "基准 = a[{{pos}}] = {{pivot}}  子数组: [{{list}}]",
+      "scan": "j={{j}}: a[{{j}}]={{a}} {{op}} 基准 {{pivot}}",
+      "swap": "a[{{j}}]={{a}} ≤ {{pivot}} → i={{i}}, 交换 a[{{i}}] ↔ a[{{j}}]",
+      "inPlace": "a[{{j}}]={{a}} ≤ {{pivot}} → i={{i}}, 已在正确位置",
+      "place": "基准 {{pivot}} → 放置在 [{{pos}}]  左侧 < {{pivot}}: [{{left}}]  右侧 ≥ {{pivot}}: [{{right}}]"
+    },
+    "heap": {
+      "heapify": "对 {{i}} 进行堆化",
+      "swap": "交换 {{x}} 和 {{y}}",
+      "moveMax": "将最大值 {{v}} 移到位置 {{i}}"
+    },
+    "counting": {
+      "init": "最大值 = {{max}}。创建大小为 {{size}} 的 count 数组，全部为 0。",
+      "initZero": "初始化 count 数组。",
+      "reading": "读取 orig[{{i}}] = {{val}}。即将递增 count[{{val}}]。",
+      "updated": "count[{{val}}] 现在是 {{count}}。",
+      "buildOutput": "计数完成。现在从 COUNT 构建 OUTPUT 数组。",
+      "duplicate": "count[{{v}}] = {{freq}}。将把值 {{v}} 以 {{freq}} 个放入 OUTPUT。",
+      "placedOut": "已将 {{v}} 放到 output[{{out}}]。"
+    },
+    "radix": {
+      "passOnes": "处理第 {{pos}} 位（个位）",
+      "passTens": "处理第 {{pos}} 位（十位）",
+      "passHundreds": "处理第 {{pos}} 位（百位）",
+      "extract": "从 {{v}} 中提取数字 {{digit}}",
+      "bucket": "将 {{v}} 放入桶 [{{digit}}]",
+      "collect": "将 {{v}} 收回数组"
+    }
+  },
+  "searching": {
+    "found": "✅ 在索引 {{i}} 处找到 {{target}}！",
+    "linear": {
+      "intro": "线性查找: 在 [{{list}}] 中查找 {{target}}",
+      "checkMatch": "检查 a[{{i}}] = {{a}} → 匹配！ ✅",
+      "checkMiss": "检查 a[{{i}}] = {{a}} ≠ {{target}}",
+      "notFound": "❌ 数组中未找到 {{target}}。"
+    },
+    "binary": {
+      "intro": "二分查找: 目标 = {{target}}。数组已排序: [{{list}}]",
+      "window": "lo={{lo}}  hi={{hi}}  mid={{mid}}  a[mid]={{am}}",
+      "found": "✅ a[{{mid}}] = {{am}} = 目标。在索引 {{mid}} 处找到！",
+      "goRight": "a[{{mid}}]={{am}} < {{target}} → 查找右半部分 [{{from}}..{{to}}]",
+      "goLeft": "a[{{mid}}]={{am}} > {{target}} → 查找左半部分 [{{from}}..{{to}}]",
+      "exhausted": "❌ lo({{lo}}) > hi({{hi}}): 查找区间已空。未找到 {{target}}。"
+    },
+    "jump": {
+      "intro": "跳跃查找: 目标={{target}}, n={{n}}, 步长=√{{n}}≈{{step}}。数组: [{{list}}]",
+      "jump": "跳跃: a[{{i}}]={{a}} ≤ {{target}} → 向前跳。已越过块 [{{from}}..{{to}}]。",
+      "scanBlock": "a[{{i}}]={{a}} > {{target}}（或已到末尾）。在块 [{{from}}..{{to}}] 内线性扫描。",
+      "scanMatch": "线性扫描: a[{{i}}] = {{a}} → 匹配！ ✅",
+      "scanMiss": "线性扫描: a[{{i}}] = {{a}} ≠ {{target}}",
+      "notFoundBlock": "❌ {{target}} 不在块 [{{from}}..{{to}}] 中。数组里也不存在。"
+    }
+  },
+  "ds": {
+    "ll": {
+      "insert": "在位置 {{idx}} 插入 {{v}}",
+      "delete": "删除位置 {{idx}} 的 {{v}}"
+    },
+    "sll": { "init": "初始化空的单向链表" },
+    "dll": { "init": "初始化空的双向链表" },
+    "cll": { "init": "初始化空的循环链表" },
+    "oll": {
+      "init": "初始化空的有序链表（已排序）",
+      "insert": "在有序位置 {{idx}} 插入 {{v}}"
+    },
+    "array": {
+      "init": "初始化空数组",
+      "insert": "在索引 {{idx}} 插入 {{v}}",
+      "delete": "删除索引 {{idx}} 的 {{v}}",
+      "set": "设置索引 {{idx}} = {{v}}"
+    },
+    "stack": {
+      "init": "初始化空栈（LIFO）",
+      "push": "将 {{v}} 入栈",
+      "pop": "从栈中弹出 {{v}}",
+      "peek": "查看栈顶: {{v}}"
+    },
+    "queue": {
+      "init": "初始化空队列（FIFO）",
+      "enqueue": "{{v}} 入队",
+      "dequeue": "{{v}} 出队"
+    }
+  },
+  "graphs": {
+    "bfs": {
+      "start": "从节点 {{start}} 开始 BFS",
+      "visit": "访问 {{node}}，队列: [{{queue}}]",
+      "discover": "从 {{node}} 发现 {{nb}}",
+      "done": "✅ BFS 完成: {{order}}"
+    },
+    "dfs": {
+      "visit": "访问 {{node}}，已访问: [{{visited}}]",
+      "done": "✅ DFS 完成: {{order}}"
+    },
+    "dijkstra": {
+      "init": "初始化距离: {{start}} = 0，其余全部 = ∞",
+      "select": "选择 {{node}}（dist = {{dist}}），标记为已访问",
+      "update": "更新 {{node}}: dist = {{du}} + {{w}} = {{dv}}",
+      "path": "✅ {{start}} 到 {{dest}} 的最短路径: {{path}}（代价: {{cost}}）"
+    },
+    "kruskal": {
+      "start": "开始 Kruskal 最小生成树 — 已按权重排序 {{count}} 条边",
+      "add": "添加边 {{from}}—{{to}}（权重: {{w}}）",
+      "skip": "跳过边 {{from}}—{{to}}（会形成环）",
+      "done": "✅ 最小生成树完成: {{list}}"
+    },
+    "prim": {
+      "start": "从节点 {{start}} 开始 Prim 最小生成树",
+      "add": "添加边 {{from}}—{{to}}（权重: {{w}}）",
+      "done": "✅ 最小生成树完成: {{list}}"
+    }
+  },
+  "tree": {
+    "pressPlay": "点击播放以插入数值。",
+    "insertBst_one": "插入 {{v}}: 普通 BST 保持插入顺序，高度 {{height}}，{{count}} 个节点。",
+    "insertBst_other": "插入 {{v}}: 普通 BST 保持插入顺序，高度 {{height}}，{{count}} 个节点。",
+    "insertAvl_one": "插入 {{v}}: AVL 会在需要时重新平衡，高度 {{height}}，{{count}} 个节点。",
+    "insertAvl_other": "插入 {{v}}: AVL 会在需要时重新平衡，高度 {{height}}，{{count}} 个节点。",
+    "insertDuplicate": "插入 {{v}}: 忽略重复 — 树保持不变（高度 {{height}}）。",
+    "heap": {
+      "building": "建堆: 已插入 {{v}}"
+    }
+  }
+}

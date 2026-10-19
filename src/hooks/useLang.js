@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const STORAGE_KEY = 'fcai_visualizer_lang';
 const VALID_LANGS = ['js', 'python', 'cpp', 'java', 'csharp'];
@@ -8,7 +8,7 @@ export function useLang(defaultLang = 'js') {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored && VALID_LANGS.includes(stored)) return stored;
-    } catch (_) { /* localStorage blocked in some envs */ }
+    } catch { /* localStorage blocked in some envs */ }
     return defaultLang;
   });
 
@@ -17,7 +17,7 @@ export function useLang(defaultLang = 'js') {
     setLangState(newLang);
     try {
       localStorage.setItem(STORAGE_KEY, newLang);
-    } catch (_) { /* ignore */ }
+    } catch { /* ignore */ }
   };
 
   return [lang, setLang];

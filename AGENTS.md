@@ -66,6 +66,7 @@ src/
                    visualizers, sortingGenerators.js
   infrastructure/  Adapters only: storage (localStorage), canvas renderers,
                    apikeys/ApiKeyStore.js
+  i18n/            Locale layer (en, ar, ja, zh): locales mirror data/dynamic UI
   services/        aiService.js — provider-agnostic AI fetch client with key
                    rotation, 429/401/402/403 handling, question caching
   pages/           React "playback controllers" (state: steps + stepIdx)
@@ -85,6 +86,10 @@ src/algorithms/.../scratch.js
 (`domain` / `application` / `algorithms` engines). Pages only orchestrate
 playback (generate steps → step forward/back → draw). Never put algorithm
 logic inside components.
+
+**i18n rule:** UI chrome uses `useT`; algorithms emit data-only
+`msgKey`/`msgParams` next to legacy `msg` and consume `stepText()` for display.
+See `docs/i18n.md`.
 
 ## The Step contract
 

@@ -23,10 +23,12 @@ import ApiKeys from './pages/ApiKeys';
 import Compare from './pages/Compare';
 import NotFound from './pages/NotFound';
 import { Analytics } from '@vercel/analytics/react';
+import { LocaleProvider } from './i18n/LocaleProvider';
 
 export default function App() {
   return (
     <BrowserRouter>
+      <LocaleProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -77,6 +79,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      </LocaleProvider>
       <Analytics />
     </BrowserRouter>
   );

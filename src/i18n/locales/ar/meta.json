@@ -1,0 +1,7 @@
+{
+  "name": "Arabic",
+  "nativeName": "العربية",
+  "dir": "rtl",
+  "defaultNumberingSystem": "latn",
+  "fontFamily": "'Noto Sans Arabic', 'Noto Kufi Arabic', 'Cairo', var(--font-body)"
+}

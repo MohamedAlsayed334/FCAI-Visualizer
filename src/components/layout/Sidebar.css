@@ -7,7 +7,9 @@
   height: 100%;
   flex-direction: column;
   overflow: hidden;
-  border-right: 1px solid var(--border);
+  /* Logical: the divider always faces the page content, whichever side
+     the sidebar lands on in RTL. */
+  border-inline-end: 1px solid var(--border);
   background: var(--surface);
   transition: width 280ms ease, min-width 280ms ease, transform var(--transition-speed);
 }
@@ -20,7 +22,7 @@
 .sidebar-toggle {
   position: absolute;
   top: 24px;
-  right: 12px;
+  inset-inline-end: 12px;
   z-index: 1;
   display: grid;
   width: 32px;
@@ -86,7 +88,7 @@
 .sidebar.collapsed .sidebar-footer > span:not(.sidebar-footer-mark) {
   display: none;
 }
-.sidebar.collapsed .sidebar-toggle { top: 10px; right: 4px; }
+.sidebar.collapsed .sidebar-toggle { top: 10px; inset-inline-end: 4px; }
 .sidebar.collapsed .sidebar-nav { padding-right: 6px; padding-left: 6px; }
 .sidebar.collapsed .sidebar-link,
 .sidebar.collapsed .sidebar-course-heading {
@@ -155,11 +157,12 @@
 }
 .sidebar-course-heading svg { color: var(--accent); }
 .sidebar-course-topics {
-  margin: 1px 0 0 19px;
-  padding-left: 9px;
-  border-left: 1px solid var(--border);
+  margin: 1px 0 0;
+  margin-inline-start: 19px;
+  padding-inline-start: 9px;
+  border-inline-start: 1px solid var(--border);
 }
-.sidebar-course-topics .sidebar-link { min-height: 33px; padding-left: 9px; font-size: 11px; }
+.sidebar-course-topics .sidebar-link { min-height: 33px; padding-inline-start: 9px; font-size: 11px; }
 .sidebar-course-topics .sidebar-link svg { width: 13px; height: 13px; }
 
 .sidebar-support-card {

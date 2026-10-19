@@ -4,7 +4,7 @@ const manager = new ApiKeyManager();
 
 const PROVIDER_CONFIG = {
   Groq: {
-    buildUrl: (key) => `https://api.groq.com/openai/v1/chat/completions`,
+    buildUrl: () => `https://api.groq.com/openai/v1/chat/completions`,
     buildHeaders: (key) => ({
       'Authorization': `Bearer ${key}`,
       'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const PROVIDER_CONFIG = {
     parseResponse: (data) => data.choices?.[0]?.message?.content || '',
   },
   OpenRouter: {
-    buildUrl: (key) => `https://openrouter.ai/api/v1/chat/completions`,
+    buildUrl: () => `https://openrouter.ai/api/v1/chat/completions`,
     buildHeaders: (key) => ({
       'Authorization': `Bearer ${key}`,
       'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ const PROVIDER_CONFIG = {
     parseResponse: (data) => data.choices?.[0]?.message?.content || '',
   },
   OpenAI: {
-    buildUrl: (key) => `https://api.openai.com/v1/chat/completions`,
+    buildUrl: () => `https://api.openai.com/v1/chat/completions`,
     buildHeaders: (key) => ({
       'Authorization': `Bearer ${key}`,
       'Content-Type': 'application/json',
@@ -130,10 +130,15 @@ const CACHE_STORAGE_KEY = 'fcai_visualizer_question_cache';
 const MAX_CACHE_PER_KEY = 20;
 const BATCH_SIZE = 3;
 
+// Prompt-friendly names for the locales the AI generates question text in.
+const LOCALE_PROMPT_NAMES = { en: 'English', ar: 'Arabic', ja: 'Japanese', zh: 'Chinese' };
+
 const questionCache = new Map();
 
-function getCacheKey(topic, subTopic, difficulty, questionMode, language) {
-  return `${topic}_${subTopic || topic}_${difficulty}_${questionMode}_${language}`;
+function getCacheKey(topic, subTopic, difficulty, questionMode, language, uiLocale = 'en') {
+  // `qv2` prefix invalidates pre-locale persisted caches and keeps
+  // different UI locales (en/ar) from serving each other's entries.
+  return `qv2_${uiLocale}_${topic}_${subTopic || topic}_${difficulty}_${questionMode}_${language}`;
 }
 
 function loadCacheFromStorage() {
@@ -159,16 +164,16 @@ function saveCacheToStorage() {
   }
 }
 
-function getCachedQuestion(topic, subTopic, difficulty, questionMode, language) {
+function getCachedQuestion(topic, subTopic, difficulty, questionMode, language, uiLocale = 'en') {
   if (questionCache.size === 0) loadCacheFromStorage();
-  const key = getCacheKey(topic, subTopic, difficulty, questionMode, language);
+  const key = getCacheKey(topic, subTopic, difficulty, questionMode, language, uiLocale);
   const questions = questionCache.get(key);
   if (questions && questions.length > 0) return questions.pop();
   return null;
 }
 
-function cacheQuestions(topic, subTopic, difficulty, questionMode, language, questions) {
-  const key = getCacheKey(topic, subTopic, difficulty, questionMode, language);
+function cacheQuestions(topic, subTopic, difficulty, questionMode, language, questions, uiLocale = 'en') {
+  const key = getCacheKey(topic, subTopic, difficulty, questionMode, language, uiLocale);
   const existing = questionCache.get(key) || [];
   const combined = [...existing, ...questions].slice(-MAX_CACHE_PER_KEY);
   questionCache.set(key, combined);
@@ -177,16 +182,21 @@ function cacheQuestions(topic, subTopic, difficulty, questionMode, language, que
 
 loadCacheFromStorage();
 
-export async function generateQuestion(topic, subTopic, difficulty, questionType = 'mcq', questionMode = 'general', language = 'javascript') {
-  const cached = getCachedQuestion(topic, subTopic, difficulty, questionMode, language);
+export async function generateQuestion(topic, subTopic, difficulty, questionType = 'mcq', questionMode = 'general', language = 'javascript', uiLocale = 'en') {
+  const cached = getCachedQuestion(topic, subTopic, difficulty, questionMode, language, uiLocale);
   if (cached) return cached;
 
   const useSingleQuestion = questionMode === 'code' || questionMode === 'complexity';
   const questionCount = useSingleQuestion ? 1 : BATCH_SIZE;
 
-  let modeDescription = '';
+  let modeDescription;
   const topicName = subTopic || topic;
   const langName = { js: 'JavaScript', python: 'Python', cpp: 'C++', java: 'Java', csharp: 'C#' }[language] || 'JavaScript';
+
+  // Output-language directive driven by the app's UI locale (en/ar).
+  const localeDirective = uiLocale === 'en'
+    ? 'Write all question text in English.'
+    : `Write all question text (questions, options, explanations) in ${LOCALE_PROMPT_NAMES[uiLocale] || 'English'}. Keep code snippets, Big-O notation, and standard algorithm names in their original Latin notation.`;
 
   if (questionMode === 'code') {
     modeDescription = `Include a code snippet in ${langName} in the question. The question should ask about what the code does, identify bugs, or predict output.`;
@@ -200,6 +210,7 @@ export async function generateQuestion(topic, subTopic, difficulty, questionType
 You are helping students learn on FCAI-Visualizer, an interactive visual platform for tracing algorithms and data structures.
 Generate ${questionCount} unique ${difficulty} difficulty multiple choice question${questionCount > 1 ? 's' : ''} about ${topicName}.
 Each question should test understanding, not just memorization.
+${localeDirective}
 
 ${modeDescription}
 
@@ -265,7 +276,7 @@ Make them different from standard textbook examples. Focus on ${topic} algorithm
               const questionToReturn = parsed[0];
               const remainingQuestions = parsed.slice(1);
               if (remainingQuestions.length > 0) {
-                cacheQuestions(topic, subTopic, difficulty, questionMode, language, remainingQuestions);
+                cacheQuestions(topic, subTopic, difficulty, questionMode, language, remainingQuestions, uiLocale);
               }
               return questionToReturn;
             }

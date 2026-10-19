@@ -1,0 +1,133 @@
+{
+  "page": {
+    "eyebrow": "アルゴリズム比較ラボ",
+    "title": "1つの入力。2つのアプローチ。",
+    "subtitle": "既存のアルゴリズム可視化を並べて、記録されたステップを1つずつ比較します。"
+  },
+  "groups": {
+    "sorting": "ソート",
+    "searching": "探索",
+    "graph-traversal": "グラフ走査",
+    "graph-mst": "最小全域木",
+    "data-structures": "スタック vs キュー",
+    "trees": "BST vs AVL木"
+  },
+  "setup": {
+    "forLabel": "比較するアルゴリズム",
+    "algorithmSide": "アルゴリズム {{side}}",
+    "graphLabel": "共有の重み付きグラフ",
+    "operationsLabel": "共有の操作列",
+    "arrayLabel": "共有の入力",
+    "treeLabel": "共有の挿入順序",
+    "targetLabel": "探索ターゲット",
+    "startNode": "開始ノード",
+    "addEdgesFirst": "先に辺を追加してください",
+    "prepare": "比較を準備",
+    "tryInput": "入力例:",
+    "graphHelp": "無向辺は A-B、重み付き辺は A-B:4 のように書きます。辺はカンマで区切ります。走査の比較では訪問順を、MST の比較では選ばれた辺と重みの合計を比べます。",
+    "operationsHelp": "insert 10 や delete をカンマで区切って書きます。両方の構造に同じ列が渡されます。スタックは最新の値を取り出し（LIFO）、キューは最も古い値を取り出します（FIFO）。空の構造への削除は無視され、トレースには現れません。",
+    "arrayHelp": "0〜99 の整数を1〜32個。各アルゴリズムは同じ配列のコピーをそれぞれ受け取ります。",
+    "treeHelp": "0〜99 の整数を1〜10個。書かれた順序で挿入されます。重複は無視されますが、重複した挿入もステップとして現れるため、両側のトレースの対応が保たれます。",
+    "targetHelp": "二分探索とジャンプ探索には昇順が必要です。準備では共有コピーを1つソートして両側に渡します（線形探索を含む）。ソートは前処理であり、探索トレースには数えられません。重複がある場合、アルゴリズムによって見つかる一致インデックスが異なることがあります。"
+  },
+  "presets": {
+    "random": "ランダム",
+    "sorted": "ソート済み",
+    "reversed": "逆順",
+    "duplicates": "重複あり",
+    "zigzag": "ジグザグ",
+    "interleaved": "交互",
+    "removeAll": "すべて削除",
+    "lifoFifo": "LIFO vs FIFO",
+    "weighted": "重み付き",
+    "cycle": "サイクル",
+    "grid": "グリッド"
+  },
+  "panel": {
+    "badge": {
+      "finished": "完了",
+      "ready": "準備完了",
+      "inProgress": "進行中"
+    },
+    "recordedSteps": "記録されたステップ",
+    "resultLabel": "結果: ",
+    "narrationStart": "同じ入力から開始します。再生または次へを押してください。",
+    "previewPlay": "再生を押すと値を順に挿入します。",
+    "viewCode": "既存の実装を見る（JavaScript）",
+    "aria": {
+      "panel": "アルゴリズム {{side}}: {{name}}",
+      "canvas": "{{name}}の可視化: {{message}}",
+      "progress": "{{name}}の進捗",
+      "original": "元の入力"
+    },
+    "metrics": {
+      "time": "時間",
+      "space": "空間",
+      "insert": "挿入",
+      "delete": "削除",
+      "search": "探索",
+      "avgTime": "平均時間",
+      "worstTime": "最悪時間",
+      "extraSpace": "追加空間"
+    }
+  },
+  "result": {
+    "searchFound": "{{value}} はインデックス {{index}} で見つかりました（0始まり）。",
+    "searchNotFound": "{{value}} は見つかりませんでした。",
+    "mstEdges": "MST の辺: {{edges}}",
+    "visitOrder": "訪問順: {{order}}",
+    "remainingValues": "残りの値: [{{values}}]",
+    "treeSummary": "最終的な高さ: {{height}} · {{count}} {{nodeWord}} · 通りがけ順: {{order}}",
+    "treeNodes": {
+      "one": "ノード",
+      "other": "ノード"
+    },
+    "finalOutput": "最終的な可視化は上に表示されます。"
+  },
+  "playback": {
+    "aria": "共有再生コントロール",
+    "back": "戻る",
+    "replay": "再生し直す",
+    "next": "次へ",
+    "speed": "速度",
+    "stepsPerSecond": "{{value}} ステップ/秒",
+    "timeline": "タイムライン",
+    "disclaimer": "1チックごとに各側1ステップずつ、記録されたステップを進めます。完了したパネルは結果を保持します。ステップ数は教材としてのトレースを表すものであり、実行時間や計算量の等価性を表すものではありません。"
+  },
+  "status": {
+    "searchingFor": "{{target}} を探索中",
+    "sortedArray": "共有ソート済み配列（インデックスは0始まり）: [{{values}}]",
+    "graph": "共有グラフ",
+    "edges": "辺: {{edges}}",
+    "operations": "共有操作列",
+    "insertionOrder": "共有挿入順序"
+  },
+  "empty": {
+    "title": "同じ問題に対する2つのアルゴリズムの解き方を探ってみましょう",
+    "body": "アルゴリズムと共有入力を選んで、比較を準備します。プリセットを変えて、動作がどう変わるか見てみましょう。"
+  },
+  "errors": {
+    "fallback": "この比較を準備できませんでした。入力を確認してください。",
+    "sameAlgo": "比較するには2つの異なるアルゴリズムを選んでください。",
+    "noSteps": "{{name}} はステップを1つも生成しませんでした。",
+    "graphEmpty": "少なくとも1つの辺を追加してください。例: A-B:4",
+    "graphItem": "\"{{item}}\" を読み取れませんでした。重みなしの辺は A-B、重み付きの辺は A-B:4 と書きます。",
+    "selfLoop": "辺 {{edge}} は自己ループです。異なる2つのノード名を使ってください。",
+    "weightRange": "辺の重みは0より大きく999以下にしてください。",
+    "duplicateEdge": "辺 {{edge}} が複数回指定されています。",
+    "tooManyNodes": "両方の可視化を見やすく保つため、グラフのノードは12個までにしてください。",
+    "tooManyEdges": "両方の可視化を見やすく保つため、辺は24本までにしてください。",
+    "opEmpty": "少なくとも1つの操作を追加してください。例: \"insert 10, delete\"",
+    "opItem": "\"{{item}}\" を読み取れませんでした。\"insert 10\" または \"delete\" を使ってください。",
+    "opValue": "操作 \"{{item}}\" には整数値が必要です。",
+    "opRange": "操作の値は -999〜999 の範囲で指定してください。",
+    "opNoValue": "操作 \"{{item}}\" には値を含めないでください。",
+    "tooManyOps": "操作は24個までにしてください。",
+    "needsInsert": "少なくとも1つの insert 操作を追加してください。",
+    "treeRange": "0〜99 の整数をカンマ区切りで1〜10個入力してください。挿入順序が意味を持ちます。",
+    "treeValues": "両方の木が同じキーを共有できるよう、0〜99 の値を使ってください。",
+    "arrayRange": "0〜99 の整数をカンマ区切りで1〜32個入力してください。空の項目は使えません。",
+    "arrayValues": "両方の可視化がこの入力を共有できるよう、0〜99 の値を使ってください。",
+    "target": "0〜99 の整数の探索ターゲットを入力してください。配列に存在する必要はありません。"
+  }
+}

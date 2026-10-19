@@ -1,0 +1,101 @@
+{
+  "back": "All courses",
+  "card": {
+    "status": "Interactive",
+    "openTopic": "Open topic",
+    "exploreCourse": "Explore course",
+    "learningTopics": {
+      "one": "{{count}} learning topic",
+      "other": "{{count}} learning topics"
+    }
+  },
+  "overview": {
+    "metaTopics": {
+      "one": "{{count}} topic",
+      "other": "{{count}} topics"
+    },
+    "interactiveLessons": "Interactive lessons",
+    "contentEyebrow": "COURSE CONTENT",
+    "contentTitle": "Choose a topic to explore",
+    "contentSubtitle": "Learn the idea, then see it in action."
+  },
+  "course": {
+    "data-structure": {
+      "eyebrow": "Core course",
+      "title": "Data Structure",
+      "description": "Build a strong foundation in the structures and algorithms that power modern software. Explore each concept through an interactive visualizer."
+    },
+    "advanced-data-structure": {
+      "eyebrow": "Advanced course",
+      "title": "Advanced Data Structure",
+      "description": "Study tree structures that organize hierarchical data and keep operations efficient as collections grow."
+    }
+  },
+  "topic": {
+    "arrays": {
+      "title": "Arrays",
+      "description": "Understand indexed storage, access, updates, and common array operations.",
+      "tags": ["Indexing", "Insertion", "Deletion"]
+    },
+    "stacks": {
+      "title": "Stacks",
+      "description": "Explore last-in, first-out behavior with push, pop, and peek operations.",
+      "tags": ["LIFO", "Push", "Pop"]
+    },
+    "queues": {
+      "title": "Queues",
+      "description": "See how first-in, first-out structures manage data and scheduling.",
+      "tags": ["FIFO", "Enqueue", "Dequeue"]
+    },
+    "linked-lists": {
+      "title": "Linked Lists",
+      "description": "Follow node connections in singly, doubly, circular, and ordered lists.",
+      "tags": ["Nodes", "Pointers", "Variants"]
+    },
+    "sorting": {
+      "title": "Sorting Algorithms",
+      "description": "Compare how sorting strategies order data, one operation at a time.",
+      "tags": ["8 algorithms", "Step controls", "Code"]
+    },
+    "searching": {
+      "title": "Searching Algorithms",
+      "description": "Trace linear, binary, and jump search to find values efficiently.",
+      "tags": ["3 algorithms", "Sorted data", "Complexity"]
+    },
+    "graphs": {
+      "title": "Graphs",
+      "description": "Model connected data and explore traversals and shortest paths.",
+      "tags": ["BFS", "DFS", "Dijkstra"]
+    },
+    "trees": {
+      "title": "Binary Search Trees",
+      "description": "Insert, find, and remove values while exploring tree traversals.",
+      "tags": ["BST", "Traversals", "Search"]
+    },
+    "avl-tree": {
+      "title": "AVL Tree",
+      "description": "See how self-balancing rotations preserve logarithmic tree height.",
+      "tags": ["Self-balancing", "Rotations", "Height"]
+    },
+    "red-black-tree": {
+      "title": "Red-Black Tree",
+      "description": "Explore node coloring, insertion fix-ups, and balanced search paths.",
+      "tags": ["Color rules", "Rotations", "Balancing"]
+    }
+  },
+  "tool": {
+    "practice": {
+      "title": "Practice Mode",
+      "description": "Turn what you have learned into confidence with quick questions.",
+      "action": "Start practicing"
+    },
+    "compare": {
+      "title": "Compare Algorithms",
+      "description": "See two algorithms side by side and compare how they behave.",
+      "action": "Open comparison"
+    },
+    "apiKeys": {
+      "title": "AI & API Settings"
+    }
+  }
+}

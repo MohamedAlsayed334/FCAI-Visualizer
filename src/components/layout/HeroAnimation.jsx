@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const HeroAnimation = () => {
   const svgRef = useRef(null);
-  const [isReducedMotion, setIsReducedMotion] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isReducedMotion, setIsReducedMotion] = useState(
+    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  );
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setIsReducedMotion(mediaQuery.matches);
     const handleMotionChange = (e) => setIsReducedMotion(e.matches);
     // Safari compat
     if (mediaQuery.addEventListener) {
@@ -17,7 +18,6 @@ const HeroAnimation = () => {
     }
 
     const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
     window.addEventListener('resize', handleResize);
 
     return () => {

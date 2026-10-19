@@ -1,0 +1,95 @@
+{
+  "brand": "FCAI-Visualizer",
+  "campus": "FCAI-CU",
+  "header": {
+    "eyebrow": "FCAI-CU · 学習プラットフォーム",
+    "toggleNav": "ナビゲーションを切り替え",
+    "startLearning": "学習を始める",
+    "switchTheme": "{{mode}}テーマに切り替え"
+  },
+  "theme": {
+    "light": "ライト",
+    "dark": "ダーク",
+    "modeLabel": "{{name}}モード"
+  },
+  "settings": {
+    "language": "言語",
+    "digits": "数字のスタイル",
+    "digitsToLatn": "西洋数字に切り替える",
+    "digitsToArab": "アラビア・インド数字に切り替える"
+  },
+  "routes": {
+    "home": "学習ダッシュボード",
+    "data-structure": "データ構造",
+    "advanced-data-structure": "応用データ構造",
+    "course-trees": "木構造",
+    "course-avl-tree": "AVL木",
+    "course-red-black-tree": "赤黒木",
+    "sorting": "ソートアルゴリズム",
+    "searching": "探索アルゴリズム",
+    "data-structures": "データ構造",
+    "trees": "木構造ビジュアライザー",
+    "graphs": "グラフアルゴリズム",
+    "practice": "練習モード",
+    "compare": "アルゴリズム比較",
+    "api-keys": "AI設定"
+  },
+  "nav": {
+    "mainNavigation": "メインナビゲーション",
+    "home": "ホーム",
+    "workspace": "ワークスペース",
+    "courses": "コース",
+    "learningTools": "学習ツール",
+    "expandSidebar": "サイドバーを広げる",
+    "collapseSidebar": "サイドバーを折りたたむ",
+    "homeLink": "FCAI-Visualizer ホーム",
+    "brandTagline": "視覚で学ぶ",
+    "closeOverlay": "ナビゲーションを閉じる"
+  },
+  "sidebar": {
+    "supportTitle": "能動的に学ぶ",
+    "supportBody": "アルゴリズムを見て、自分の手で試してみましょう。",
+    "supportLink": "練習を探す",
+    "faculty": "コンピュータ＆AI学部",
+    "university": "カイロ大学"
+  },
+  "actions": {
+    "random": "ランダム",
+    "apply": "適用",
+    "reset": "リセット",
+    "start": "開始",
+    "pause": "一時停止",
+    "play": "再生",
+    "size": "サイズ",
+    "speed": "速度",
+    "customInputHint": "カンマ区切りの整数を入力して「適用」を押してください",
+    "customInputPlaceholder": "例:  5, 3, 8, 1, 9",
+    "applyCustom": "カスタム入力を適用",
+    "close": "閉じる",
+    "clear": "クリア",
+    "generate": "生成",
+    "stepBack": "1ステップ戻る",
+    "stepForward": "1ステップ進む"
+  },
+  "panel": {
+    "description": "説明",
+    "complexity": {
+      "title": "時間計算量と空間計算量",
+      "best": "最良時間:",
+      "average": "平均時間:",
+      "worst": "最悪時間:",
+      "space": "空間計算量:"
+    }
+  },
+  "codePanel": {
+    "title": "実装",
+    "ariaLabel": "アルゴリズムの実装",
+    "viewIn": "{{lang}}で表示"
+  },
+  "notFound": {
+    "eyebrow": "404 · ページが見つかりません",
+    "title": "このページは地図の外にあります。",
+    "body": "リンクは変わったかもしれませんが、あなたの学習パスはまだここにあります。",
+    "backHome": "FCAI-CU へ戻る"
+  }
+}

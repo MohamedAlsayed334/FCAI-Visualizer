@@ -1,0 +1,30 @@
+/* ── Language switcher (Header) ─────────────────────────────────────────── */
+.lang-switcher {
+  gap: 6px;
+  padding: 0 13px;
+  cursor: pointer;
+}
+.lang-switcher-select {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+  cursor: pointer;
+  max-width: 140px;
+  text-overflow: ellipsis;
+}
+.lang-switcher-select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.lang-digits-toggle {
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 720px) {
+  .lang-switcher { padding: 0 8px; }
+}

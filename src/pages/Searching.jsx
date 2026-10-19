@@ -1,8 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getAlgorithm, getAlgorithmsByCategory } from '../application/AlgorithmRegistry';
 import { SearchingVisualizer } from '../algorithms/searching/searchingVisualizer';
 import { useLang } from '../hooks/useLang';
+import { useT } from '../hooks/useT';
+import { useLocale } from '../hooks/useLocale';
+import { stepText } from '../i18n/stepText';
+import { hasTranslation } from '../i18n/exists';
+import { formatNumber } from '../i18n/format';
 
 import ControlPanel   from '../components/sorting/ControlPanel';
 import CodePanel      from '../components/sorting/CodePanel';
@@ -54,14 +59,8 @@ export default function Searching() {
 
   // Language persistence
   const [lang, setLang] = useLang('js');
-
-  // ── URL sync ─────────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (urlAlgo && searchAlgorithms[urlAlgo] && urlAlgo !== algo) {
-      setAlgo(urlAlgo);
-      resetPlayback();
-    }
-  }, [urlAlgo]);
+  const t = useT();
+  const { locale } = useLocale();
 
   // ── Canvas init ───────────────────────────────────────────────────────────
   useEffect(() => {
@@ -92,6 +91,7 @@ export default function Searching() {
     resetPlayback();
   };
 
+  /* eslint-disable react-hooks/set-state-in-effect -- playback engine pushes derived state into React by design */
   // When algo changes, re-sort or unsort the current array
   useEffect(() => {
     if (array.length === 0) return;
@@ -117,6 +117,7 @@ export default function Searching() {
     SearchingVisualizer.setState({ arr: array, steps: newSteps, algo, speed, target: isNaN(t) ? array[0] : t });
     SearchingVisualizer.drawStep(-1);
   }, [array, algo, target, speed]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // ── Controls ──────────────────────────────────────────────────────────────
   const resetPlayback = () => {
@@ -125,6 +126,16 @@ export default function Searching() {
     setStepIdx(-1);
     SearchingVisualizer.drawStep(-1);
   };
+
+  /* eslint-disable react-hooks/set-state-in-effect -- URL-driven playback state sync */
+  // ── Deep-link sync (after the helpers above are declared) ─────────────
+  useEffect(() => {
+    if (urlAlgo && searchAlgorithms[urlAlgo] && urlAlgo !== algo) {
+      setAlgo(urlAlgo);
+      resetPlayback();
+    }
+  }, [urlAlgo]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const stepForward = () => {
     if (stepIdx < steps.length - 1) {
@@ -143,6 +154,7 @@ export default function Searching() {
   };
 
   // ── Play loop ─────────────────────────────────────────────────────────────
+  /* eslint-disable react-hooks/set-state-in-effect -- player loop ends itself when the trace is exhausted */
   useEffect(() => {
     if (isPlaying) {
       if (stepIdx < steps.length - 1) {
@@ -155,6 +167,7 @@ export default function Searching() {
     }
     return () => SearchingVisualizer.stopAnimation();
   }, [isPlaying, stepIdx]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // ── Derived state ─────────────────────────────────────────────────────────
   const activeStep      = stepIdx >= 0 && steps[stepIdx] ? steps[stepIdx] : null;
@@ -174,7 +187,7 @@ export default function Searching() {
   // ── Target-value control (injected into ControlPanel extraControls) ──────
   const targetControl = (
     <div className="search-target-group">
-      <span className="search-target-label">Target:</span>
+      <span className="search-target-label">{t('searching:target')}</span>
       <input
         id="search-target"
         type="number"
@@ -186,21 +199,21 @@ export default function Searching() {
         max="99"
       />
       {resultFound === true && (
-        <span className="search-result-badge found">✅ idx {resultIdx}</span>
+        <span className="search-result-badge found">✅ {formatNumber(resultIdx, locale)}</span>
       )}
       {resultFound === false && (
-        <span className="search-result-badge not-found">❌ Not found</span>
+        <span className="search-result-badge not-found">{t('searching:result.notFound')}</span>
       )}
     </div>
   );
 
   // ── Colour legend entries ─────────────────────────────────────────────────
   const LEGEND = [
-    { color: '#2a2a42', label: 'Unseen'  },
-    { color: '#44445a', label: 'Scanned' },
-    { color: '#f7c59f', label: 'Current' },
-    { color: '#43d9ad', label: 'Found'   },
-    { color: '#ff6584', label: 'Not found' },
+    { color: '#2a2a42', labelKey: 'searching:legend.unseen' },
+    { color: '#44445a', labelKey: 'searching:legend.scanned' },
+    { color: '#f7c59f', labelKey: 'searching:legend.current' },
+    { color: '#43d9ad', labelKey: 'searching:legend.found' },
+    { color: '#ff6584', labelKey: 'searching:legend.notFound' },
   ];
   const POINTER_LEGEND =
     algo === 'binary-search'
@@ -222,10 +235,13 @@ export default function Searching() {
 
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <div className="searching-header">
-        <h2>{Smetadata?.name ?? 'Searching'}</h2>
+        <h2>{t(`algorithms:${algo}.name`, { defaultValue: Smetadata?.name || t('searching:title') })}</h2>
         {activeStep && (
-          <div className="step-msg">{activeStep.msg}</div>
+          <div className="step-msg">{stepText(activeStep)}</div>
         )}
+        <div aria-live="polite" style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
+          {activeStep ? stepText(activeStep) : ''}
+        </div>
       </div>
 
       {/* ── Control Panel ──────────────────────────────────────────────── */}
@@ -259,15 +275,15 @@ export default function Searching() {
         {/* Canvas + legend */}
         <div className="searching-viz-container">
           <div className="searching-canvas-wrapper">
-            <canvas ref={canvasRef} />
+            <canvas ref={canvasRef} role="img" aria-label={t('searching:canvasAria')} />
           </div>
 
           {/* Colour legend */}
           <div className="pointer-legend">
-            {LEGEND.map(({ color, label }) => (
-              <div key={label} className="pointer-legend-item">
+            {LEGEND.map(({ color, labelKey }) => (
+              <div key={color} className="pointer-legend-item">
                 <div className="legend-dot" style={{ background: color }} />
-                <span>{label}</span>
+                <span>{t(labelKey)}</span>
               </div>
             ))}
             {POINTER_LEGEND.map(({ color, label }) => (
@@ -281,12 +297,17 @@ export default function Searching() {
 
         {/* Side panel */}
         <div className="searching-side-panel">
-          <ComplexityPanel complexity={Smetadata?.complexity} />
+          <ComplexityPanel complexity={Smetadata?.complexity} algoId={algo} />
 
           <div className="panel-card">
-            <h3>Description</h3>
+            <h3>{t('panel.description')}</h3>
             <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.6' }}>
-              {Smetadata?.explanation?.body?.replace(/<[^>]*>/g, '').substring(0, 200) || `${Smetadata?.name || algo} search`}
+              {((hasTranslation(`algorithms:${algo}.explanation.intro`)
+                ? t(`algorithms:${algo}.explanation.intro`)
+                : '')
+              )
+                || (Smetadata?.explanation?.body?.replace(/<[^>]*>/g, '').substring(0, 200) || '')
+                || t('searching:descriptionFallback', { name: t(`algorithms:${algo}.name`, { defaultValue: algo }) })}
             </p>
           </div>
 

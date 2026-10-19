@@ -1,0 +1,20 @@
+{
+  "title": "查找",
+  "canvasAria": "查找可视化画布",
+  "descriptionFallback": "{{name}}查找",
+  "target": "目标:",
+  "result": {
+    "foundAt": "✅ idx {{index}}",
+    "notFound": "❌ 未找到"
+  },
+  "legend": {
+    "unseen": "未查看",
+    "scanned": "已扫描",
+    "current": "当前",
+    "found": "已找到",
+    "notFound": "未找到"
+  },
+  "canvas": {
+    "emptyState": "先生成一个数组"
+  }
+}

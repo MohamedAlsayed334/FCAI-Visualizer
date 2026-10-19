@@ -1,8 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getAlgorithm, getAlgorithmsByCategory } from '../application/AlgorithmRegistry';
 import { SortingVisualizer } from '../algorithms/sorting/sortingVisualizer';
 import { useLang } from '../hooks/useLang';
+import { useT } from '../hooks/useT';
+import { stepText } from '../i18n/stepText';
+import { hasTranslation } from '../i18n/exists';
 
 import ControlPanel from '../components/sorting/ControlPanel';
 import CodePanel from '../components/sorting/CodePanel';
@@ -38,15 +41,7 @@ export default function Sorting() {
 
   // ── Language persistence ──────────────────────────────────────────────
   const [lang, setLang] = useLang('js');
-
-  // ── URL sync ──────────────────────────────────────────────────────────
-  useEffect(() => {
-    if (urlAlgo && sortingAlgorithms[urlAlgo] && urlAlgo !== algo) {
-      setAlgo(urlAlgo);
-      generateArray(arraySize, urlAlgo);
-      reset();
-    }
-  }, [urlAlgo]);
+  const t = useT();
 
   // ── Canvas init ───────────────────────────────────────────────────────
   useEffect(() => {
@@ -67,6 +62,7 @@ export default function Sorting() {
     setArray(nums);
   };
 
+  /* eslint-disable react-hooks/set-state-in-effect -- playback engine pushes derived state into React by design */
   useEffect(() => { generateArray(arraySize, algo); }, [arraySize]);
 
   // ── Step generation ───────────────────────────────────────────────────
@@ -80,6 +76,7 @@ export default function Sorting() {
       SortingVisualizer.drawStep(-1);
     }
   }, [array, algo, speed]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   useEffect(() => { SortingVisualizer.setState({ speed }); }, [speed]);
 
@@ -91,6 +88,17 @@ export default function Sorting() {
     setStepIdx(-1);
     SortingVisualizer.drawStep(-1);
   };
+
+  /* eslint-disable react-hooks/set-state-in-effect -- URL-driven playback state sync */
+  // ── Deep-link sync (after the helpers above are declared) ─────────────
+  useEffect(() => {
+    if (urlAlgo && sortingAlgorithms[urlAlgo] && urlAlgo !== algo) {
+      setAlgo(urlAlgo);
+      generateArray(arraySize, urlAlgo);
+      reset();
+    }
+  }, [urlAlgo]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const stepForward = () => {
     if (stepIdx < steps.length - 1) {
@@ -109,6 +117,7 @@ export default function Sorting() {
   };
 
   // ── Play loop ─────────────────────────────────────────────────────────
+  /* eslint-disable react-hooks/set-state-in-effect -- player loop ends itself when the trace is exhausted */
   useEffect(() => {
     if (isPlaying) {
       if (stepIdx < steps.length - 1) {
@@ -121,6 +130,7 @@ export default function Sorting() {
     }
     return () => SortingVisualizer.stopAnimation();
   }, [isPlaying, stepIdx]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // ── Derived ───────────────────────────────────────────────────────────
   const activeStep       = stepIdx >= 0 && steps[stepIdx] ? steps[stepIdx] : null;
@@ -129,10 +139,16 @@ export default function Sorting() {
     : -1;
   const currentAlgoData  = sortingAlgorithms[algo];
   const metadata = currentAlgoData;
+  const algorithmName = t(`algorithms:${algo}.name`, { defaultValue: metadata?.name || algo });
   const complexity = metadata?.complexity;
-  const description = metadata?.explanation?.body
-    ? metadata.explanation.body.replace(/<[^>]*>/g, '').substring(0, 200)
-    : `${metadata?.name || algo} visualization`;
+  const description = ((hasTranslation(`algorithms:${algo}.explanation.intro`)
+    ? t(`algorithms:${algo}.explanation.intro`)
+    : '')
+  )
+    || (metadata?.explanation?.body
+      ? metadata.explanation.body.replace(/<[^>]*>/g, '').substring(0, 200)
+      : '')
+    || t('sorting:descriptionFallback', { name: algorithmName });
   const codeByLang = metadata?.codeSnippets
     ? Object.fromEntries(Object.entries(metadata.codeSnippets).map(([lang, lines]) => [lang, lines.join('\n')]))
     : null;
@@ -140,12 +156,12 @@ export default function Sorting() {
   return (
     <div className="sorting-page">
       <div className="sorting-header">
-        <h2>{metadata?.name}</h2>
+        <h2>{algorithmName}</h2>
         {activeStep && (
-          <div className="step-msg">{activeStep.msg}</div>
+          <div className="step-msg">{stepText(activeStep)}</div>
         )}
         <div aria-live="polite" style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }}>
-          {activeStep ? activeStep.msg : ''}
+          {activeStep ? stepText(activeStep) : ''}
         </div>
       </div>
 
@@ -171,15 +187,15 @@ export default function Sorting() {
       <div className="sorting-main">
         <div className="sorting-viz-container">
           <div className="sorting-canvas-wrapper">
-            <canvas ref={canvasRef} role="img" aria-label="Sorting Visualization Canvas" />
+            <canvas ref={canvasRef} role="img" aria-label={t('sorting:canvasAria')} />
           </div>
         </div>
 
         <div className="sorting-side-panel">
-          <ComplexityPanel complexity={complexity} />
+          <ComplexityPanel complexity={complexity} algoId={algo} />
 
           <div className="panel-card">
-            <h3>Description</h3>
+            <h3>{t('panel.description')}</h3>
             <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: '1.5' }}>
               {description}
             </p>

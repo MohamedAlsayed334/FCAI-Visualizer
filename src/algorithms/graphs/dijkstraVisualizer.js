@@ -73,8 +73,10 @@ export function initDijkstraVisualizer(container) {
         <button class="tree-speed-btn" data-speed="2">Fast</button>
       </div>
     </section>
-    <button class="tree-btn tree-btn-danger-dim sm" id="dj-btn-reset" style="margin:8px 18px">Reset Graph</button>
-    <button class="tree-btn tree-btn-danger sm" id="dj-btn-clear" style="margin:8px 18px">Clear Graph</button>
+    <section class="tree-section">
+      <button class="tree-btn tree-btn-danger-dim sm" id="dj-btn-reset">Reset Graph</button>
+      <button class="tree-btn tree-btn-danger sm" id="dj-btn-clear">Clear Graph</button>
+    </section>
     <div class="tree-status-bar">
       <div class="tree-status-title">STATUS</div>
       <div class="tree-stat-line1" id="dj-stat1">Graph Ready</div>

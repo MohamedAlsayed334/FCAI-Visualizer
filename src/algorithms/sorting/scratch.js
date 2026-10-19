@@ -1,4 +1,7 @@
-
+/* eslint-disable */
+// ── Scratch/experiment file: unimported drafts of sorting-visualizer animations. ──
+// Intentionally excluded from linting; kept for reference. Safe to delete when no
+// longer useful — nothing in the app imports this file nor ships it in the bundle.
 
 // ── COMPARE animation: pulse up + glow ──
 function _animateCompare(stepIdx, callback) {

@@ -37,7 +37,7 @@
 .tree-tip kbd{font-family:var(--font-mono);font-size:10px;background:color-mix(in srgb,var(--text-muted) 20%,transparent);border:1px solid var(--border);border-radius:3px;padding:0 4px}
 
 /* ── Buttons ─────────────────────────────────────────────────────────── */
-.tree-btn{width:100%;padding:12px 16px;border:1.5px solid transparent;border-radius:var(--radius);font-family:var(--font-body);font-size:16px;font-weight:700;cursor:pointer;transition:background .15s,border-color .15s,transform .08s;letter-spacing:.02em}
+.tree-btn{width:100%;box-sizing:border-box;padding:12px 16px;border:1.5px solid transparent;border-radius:var(--radius);font-family:var(--font-body);font-size:16px;font-weight:700;cursor:pointer;transition:background .15s,border-color .15s,transform .08s;letter-spacing:.02em}
 .tree-btn:active{transform:scale(.97)}
 .tree-btn.sm{padding:9px 12px;font-size:14px}
 

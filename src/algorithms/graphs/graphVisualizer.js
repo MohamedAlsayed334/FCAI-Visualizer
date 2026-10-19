@@ -87,8 +87,10 @@ export function initGraphVisualizer(container) {
         <button class="tree-speed-btn" data-speed="2">Fast</button>
       </div>
     </section>
-    <button class="tree-btn tree-btn-danger-dim sm" id="gv-btn-reset" style="margin:8px 18px">Reset Graph</button>
-    <button class="tree-btn tree-btn-danger sm" id="gv-btn-clear" style="margin:8px 18px">Clear Graph</button>
+    <section class="tree-section">
+      <button class="tree-btn tree-btn-danger-dim sm" id="gv-btn-reset">Reset Graph</button>
+      <button class="tree-btn tree-btn-danger sm" id="gv-btn-clear">Clear Graph</button>
+    </section>
     <div class="tree-status-bar">
       <div class="tree-status-title">STATUS</div>
       <div class="tree-stat-line1" id="gv-stat1">Graph Ready</div>

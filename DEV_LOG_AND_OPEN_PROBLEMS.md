@@ -1,7 +1,7 @@
 # AlgoVs — Dev Log & Open Problems
 
 > **Single source of truth** for what was built and reviewed, what is still broken, and the order to fix it in.
-> Last updated: **2026-10-19** · Lint baseline: **62 problems (54 errors, 8 warnings)** · Build: **green** (617.8 kB, 1 chunk warning)
+> Last updated: **2026-10-19** · Lint baseline: **62 problems (54 errors, 8 warnings)** · Build: **green** (620.8 kB, 1 chunk warning)
 > Scope notes: **Practice Mode components are excluded by product decision** (only their unused-var lint entries remain, tracked under OP-10).
 
 ---
@@ -65,6 +65,16 @@ The Compare lab — side-by-side runs of two algorithms on one shared input, fiv
 - Resolution: file-level banner `/* eslint-disable */` with a explanatory header (file kept intact; deleting it is also safe anytime). **Lint: 585 → 62.**
 - Side-discovery: `api/chat.js` (`'process' is not defined` ×2) was always failing lint but hidden in earlier per-file truncation — tracked as OP-09.
 
+### 2026-10-19 — OP-08 fixed: real Java + C# snippets everywhere + data-driven language tabs
+**Corrected root cause (worse than first logged):** `CodePanel.jsx` rendered all five language tabs unconditionally while `codeSnippets` only had `js`/`python`/`cpp`; picking Java/C# hit the `codeByLang[lang] ?? codeByLang.js` fallback → students were shown **JavaScript labeled as Java/C#** (misinformation, not an "empty panel").
+**What was done:**
+- Folded the stranded `codeMap` (actually Java) and `javaCodeMap` (actually C#) exports into `codeSnippets[id].java` / `.csharp` for all 16 algorithms (8 sorting, 3 searching, 5 graphs). These maps were `export`ed, so tree-shaking could never drop them — pure dead bundle weight until now.
+- Completed the half-built entries so every language is self-contained and mirrors the js structure (for `codeLine` highlight alignment): added the missing `merge()`/`partition()`/`heapify()`/`countByDigit()` helper bodies, rewrote jump-search to the same block-scan variant as js/py/cpp, made C# binary-search overflow-safe (`lo + (hi-lo)/2`, matching Java's `>>> 1`), added the `minKey()` helper both prim versions referenced but never defined.
+- Deleted `codeMap`, `javaCodeMap`, and the zero-consumer `algorithms` aggregator (−12.6 kB source). Pages build tabs from `metadata.codeSnippets`, so 5 real tabs appear automatically on the Sorting/Searching pages.
+- `CodePanel.jsx` is now data-driven ("tabs follow data"): renders only languages that have snippets for the current algorithm and resolves the persisted `useLang` selection to a valid tab (`effectiveLang`) instead of silently falling back. `.shared-code-heading` gained `flex-wrap: wrap` as the future overflow safety valve (the strip wraps to a second row only when the heading + tab bar genuinely don't fit — nothing clips, no scrollbar needed).
+- **Boundary:** tree/DS pages don't render `CodePanel` at all (their visualizers draw code internally) and have no `codeSnippets` entries — adding languages there is separate content work, not part of this bug.
+- **Verified:** structural check — 16 ids × 5 non-empty line arrays, dead exports gone; lint unchanged at 62; build green 620.8 kB (net +3 kB despite ~400 new snippet lines — the dead-map removal paid for them). Manual check: `/sorting/bubble` + `/searching/binary-search` show JS/Python/C++/Java/C# tabs with real code, highlight still syncs to steps; Compare unaffected (renders `js` only).
+
 ---
 
 ## 3. Lint trajectory
@@ -75,7 +85,8 @@ The Compare lab — side-by-side runs of two algorithms on one shared input, fiv
 | After colA fix (uncommitted) | 592 | 13 colA no-undef gone |
 | `c8389cf` graphs cleanup | 589 | Graphs.jsx dead state removed |
 | Before standardization | 585 | minor diffs |
-| `scratch.js` banner (**current**) | **62 (54 err, 8 warn)** | every count maps to an OP below |
+| `scratch.js` banner | 62 (54 err, 8 warn) | every count maps to an OP below |
+| OP-08 session (**current**) | **62 (54 err, 8 warn)** | Java/C# snippets folded in, tabs data-driven, dead maps deleted — 0 new lint problems |
 
 Current 62 by file → owning OP:
 - `api/chat.js` ×2 → **OP-09**
@@ -139,11 +150,9 @@ Effort: XS < 30 min · S < 2 h · M < half day.
 - *Fix plan:* validate in `ControlPanel.handleApply` — integers in `-99…999`? For this project, align with the shared contract used elsewhere: **0–99** for sorting/searching pages (a one-line regex + range check, matching the Compare page’s validation), show the existing error styling; optionally clamp negatives before calling generators if pedagogically desired (then document it in the panel).
 - *Verify:* apply `1, 2, 999999` → error border + no freeze; apply `-5, 10` → either rejected or documented behavior, never silent data loss.
 
-**OP-08 · Java/C# tabs render for languages with no snippets** — Effort S
-- *Files:* `src/components/shared/CodePanel.jsx` (tabs list includes `java`, `csharp` — lines ~7–8) + `src/data/algorithmData.js` `codeSnippets` (only `js`, `python`, `cpp` are populated).
-- *Symptom:* picking Java/C# shows an empty panel; the JS fallback hides the gap.
-- *Fix plan:* filter the tab list by languages present for that algorithm (`Object.keys(snippet)`), or hide disabled tabs; keep `useLang` selection when available. Longer term: add the missing snippet arrays (lines in steps’ `codeLines` are already keyed by language — `java: 1, csharp: 1` entries exist in tree steps).
-- *Verify:* every algorithm page shows only tabs that render code; tree compare snippets still highlight.
+**OP-08 · Java/C# tabs render for languages with no snippets** — ✅ RESOLVED (2026-10-19, see dev log + §5)
+- *Real root cause:* not "empty panel" — the `?? codeByLang.js` fallback showed **JavaScript mislabeled as Java/C#**.
+- *Fix shipped:* all 16 snippet entries now carry real `java` + `csharp` arrays (helpers completed, structures mirrored); stranded `codeMap` / `javaCodeMap` / `algorithms` exports deleted; `CodePanel` renders data-driven tabs with persisted-lang resolution + `flex-wrap` safety valve. Follow-on content work (not this bug): java/csharp for tree/DS algorithms if their pages ever gain the shared code panel.
 
 ### P2 — hygiene / dead code (single sweep + tiny fixes)
 
@@ -192,6 +201,7 @@ Effort: XS < 30 min · S < 2 h · M < half day.
 | BST/AVL recorded algorithms | Input/delete paths, rotations, reattachment, cascade traced |
 | Compare data wiring | ids, complexity keys, `foundIdx`, `mstEdges`, validation all match |
 | `scratch.js` lint | banner added; file unimported/unbundled — safe to delete anytime |
+| OP-08 Java/C# tabs | 16/16 snippet entries × 5 languages validated; dead exports confirmed gone; lint 62 unchanged; build green 620.8 kB |
 | Tests claim | none wired up; verification = lint + dev-server exercise (AGENTS.md) |
 
 ---
@@ -203,7 +213,7 @@ Effort: XS < 30 min · S < 2 h · M < half day.
 3. **OP-02 → OP-03** (AI key flow correctness)
 4. **OP-06 → OP-07** (sorting input correctness)
 5. **OP-01** (the M-effort React effect rework — last big one)
-6. **OP-08, OP-11, OP-12**, then P3 polish (OP-13…15)
+6. **OP-11, OP-12**, then P3 polish (OP-13…15) — *OP-08 completed 2026-10-19*
 
 Rationale: items 1–2 green the lint gate quickly and remove the noise floor so OP-01’s rework happens with a clean signal.
 

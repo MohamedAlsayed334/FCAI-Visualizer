@@ -183,7 +183,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .page__header { margin-bottom: 26px; }
 .page__header h1 { margin: 0; font: 800 clamp(25px, 3vw, 36px)/1.15 var(--font-head); letter-spacing: -.035em; }
 .page__subtitle { max-width: 720px; margin: 10px 0 0; color: var(--text-muted); font-size: 14px; line-height: 1.7; }
-.shared-code-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+.shared-code-heading { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
 .shared-code-heading h3 { display: inline-flex; align-items: center; gap: 7px; margin: 0; color: var(--text); font: 750 14px var(--font-head); }
 .shared-code-panel pre { max-height: 340px; overflow: auto; border-radius: 10px; background: var(--surface2); }
 .shared-code-panel pre code { display: block; min-width: max-content; padding: 8px 0; color: var(--text); font: 11px/1.75 var(--font-mono); }

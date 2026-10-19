@@ -98,6 +98,33 @@ export class TreeBase {
     }
     return path;
   }
+
+  // Plain-object copy of the current tree, safe to keep as a playback step.
+  _snapshotTree(node = this.root) {
+    if (!node) return null;
+    return {
+      value: this._nodeValue(node),
+      color: node.color ?? null,
+      left: this._snapshotTree(node.left),
+      right: this._snapshotTree(node.right),
+    };
+  }
+
+  snapshot() {
+    return this._snapshotTree(this.root);
+  }
+
+  _emit(recorder, event) {
+    if (typeof recorder !== 'function') return;
+    recorder({
+      operation: event.operation,
+      explanation: event.explanation,
+      involved: event.involved || [],
+      roles: event.roles || {},
+      property: event.property || null,
+      snapshot: this._snapshotTree(),
+    });
+  }
   getBalanceFactor(value) {
     const node = this.getNodeByData(value);
     if (!node) return 0;

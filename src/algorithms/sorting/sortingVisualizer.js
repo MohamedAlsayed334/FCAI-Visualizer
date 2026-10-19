@@ -1,3 +1,4 @@
+export function createSortingVisualizer() {
 let canvas, ctx;
 let state = { speed: 5, steps: [], array: [], algo: 'bubble' };
 let _anim = { active: false, offsets: {} };
@@ -358,9 +359,6 @@ function _animateStep(stepIdx, callback) {
 }
 
 function drawStep(idx) {
-  const isSortingMode = ['bubble','selection','insertion','merge','quick','heap','counting','radix',
-    'linear-search','binary-search','jump-search'].includes(state.algo);
-
   const panel = canvas.parentElement;
   const panelW = panel ? panel.clientWidth : 600;
   const panelH = panel ? panel.clientHeight : 300;
@@ -1554,7 +1552,7 @@ function drawMultiArray(step) {
   ctx.fillText(phaseLabel, W - 10, 14);
 }
 
-export const SortingVisualizer = {
+const visualizer = {
   init: (canvasEl) => { canvas = canvasEl; ctx = canvas.getContext('2d'); },
   setState: (newState) => { state = { ...state, ...newState }; },
   setMode: (mode) => { sortViewMode = mode; },
@@ -1564,7 +1562,7 @@ export const SortingVisualizer = {
     if (step && step.mergeTree) { _animateMergeTreeStep(idx, idx > 0 ? state.steps[idx-1] : null, callback); }
     else { _animateStep(idx, callback); }
   },
-  stopAnimation: () => { _animReset(); },
+  stopAnimation: () => { _animReset(); _mtAnimReset(); },
 };
 const _mtAnim = { active: false, rafId: null, startTime: 0, duration: 400, prevStep: null, currStep: null, phase: null, onComplete: null, t: 0 };
 function _mtAnimReset() { if (_mtAnim.rafId) cancelAnimationFrame(_mtAnim.rafId); _mtAnim.active = false; _mtAnim.rafId = null; }
@@ -1665,4 +1663,10 @@ function _animateMergeTreeStep(stepIdx, prevStep, callback) {
 
   _mtAnim.rafId = requestAnimationFrame(frame);
 }
+
+return visualizer;
+}
+
+// Preserve the existing single-page API; comparison owns independent instances.
+export const SortingVisualizer = createSortingVisualizer();
 

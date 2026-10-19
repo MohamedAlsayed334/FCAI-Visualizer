@@ -3,9 +3,10 @@
 //  Matches Tree Visualizer patterns exactly
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { THEMES, SPEED_TABLE } from '../trees/AVLTree.js';
+import { THEMES, colA } from '../trees/AVLTree.js';
 import { codeSnippets } from '../../data/algorithmData.js';
 
+const SPEED_MULTIPLIERS = [0.6, 1.2, 2.5];
 const NODE_R = 22;
 const NODE_COLORS = ['#5aa0ff', '#37be73', '#ff913c', '#b450f0', '#f54b82', '#2dc3c8'];
 
@@ -86,8 +87,10 @@ export function initGraphVisualizer(container) {
         <button class="tree-speed-btn" data-speed="2">Fast</button>
       </div>
     </section>
-    <button class="tree-btn tree-btn-danger-dim sm" id="gv-btn-reset" style="margin:8px 18px">Reset Graph</button>
-    <button class="tree-btn tree-btn-danger sm" id="gv-btn-clear" style="margin:8px 18px">Clear Graph</button>
+    <section class="tree-section">
+      <button class="tree-btn tree-btn-danger-dim sm" id="gv-btn-reset">Reset Graph</button>
+      <button class="tree-btn tree-btn-danger sm" id="gv-btn-clear">Clear Graph</button>
+    </section>
     <div class="tree-status-bar">
       <div class="tree-status-title">STATUS</div>
       <div class="tree-stat-line1" id="gv-stat1">Graph Ready</div>
@@ -447,7 +450,7 @@ export function initGraphVisualizer(container) {
     panel.querySelector('#gv-queue-display').textContent = `Queue: [${startId}]`;
     panel.querySelector('#gv-path-display').textContent = `Visited: []`;
 
-    await sleep(1200 / SPEED_TABLE[speedIdx]);
+    await sleep(1200 / SPEED_MULTIPLIERS[speedIdx]);
     if (destroyed) { bfsActive = false; return; }
 
     if (traceEnabled) renderCodeLines(3, 'Loop while queue is not empty', 10);
@@ -468,7 +471,7 @@ export function initGraphVisualizer(container) {
       if (traceEnabled) renderCodeLines(5, `Visit node ${current}`, 40);
       showPopup(`Visiting node ${current}`, T.accent2, 1.5);
 
-      await sleep(800 / SPEED_TABLE[speedIdx]);
+      await sleep(800 / SPEED_MULTIPLIERS[speedIdx]);
       if (destroyed) { bfsActive = false; return; }
 
       graph.nodes[current].state = 'visited';
@@ -498,11 +501,11 @@ export function initGraphVisualizer(container) {
           graph.nodes[nid].pulseTimer = 1.2;
 
           panel.querySelector('#gv-queue-display').textContent = `Queue: [${graph.bfsQueue.join(', ')}]`;
-          await sleep(400 / SPEED_TABLE[speedIdx]);
+          await sleep(400 / SPEED_MULTIPLIERS[speedIdx]);
         }
       }
 
-      await sleep(300 / SPEED_TABLE[speedIdx]);
+      await sleep(300 / SPEED_MULTIPLIERS[speedIdx]);
     }
 
     bfsActive = false;

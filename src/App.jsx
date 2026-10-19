@@ -38,6 +38,7 @@ export default function App() {
           <Route path="courses/data-structure/sorting" element={<CourseSorting />} />
           <Route path="courses/data-structure/searching" element={<CourseSearching />} />
           <Route path="courses/data-structure/graphs" element={<CourseGraphs />} />
+          <Route path="courses/data-structure/graphs/:algo" element={<CourseGraphs />} />
           <Route path="courses/advanced-data-structure" element={<AdvancedHome />} />
           <Route path="courses/advanced-data-structure/trees" element={<TreesCourse />} />
           <Route path="courses/advanced-data-structure/avl-tree" element={<AVLTree />} />

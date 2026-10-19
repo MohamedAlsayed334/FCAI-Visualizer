@@ -9,8 +9,16 @@ const LANG_LABELS = {
 };
 
 export default function CodePanel({ codeByLang, codeSnippet, activeLine, lang = 'js', setLang }) {
+  // Tabs follow data: only offer languages this algorithm actually has snippets for.
+  const availableLangs = codeByLang
+    ? Object.keys(LANG_LABELS).filter((key) => (codeByLang[key] ?? '').length > 0)
+    : [];
+  // Keep a valid selection even when the persisted lang has no snippets here.
+  const effectiveLang = availableLangs.includes(lang)
+    ? lang
+    : (availableLangs.includes('js') ? 'js' : availableLangs[0] ?? 'js');
   const resolvedSnippet = codeByLang
-    ? (codeByLang[lang] ?? codeByLang.js ?? '')
+    ? (codeByLang[effectiveLang] ?? '')
     : (codeSnippet ?? '');
 
   if (!resolvedSnippet) return null;
@@ -21,17 +29,17 @@ export default function CodePanel({ codeByLang, codeSnippet, activeLine, lang = 
         <h3><Code2 size={17} /> Implementation</h3>
         {codeByLang && setLang && (
           <div className="lang-tab-bar" role="tablist" aria-label="Programming language">
-            {Object.entries(LANG_LABELS).map(([key, label]) => (
+            {availableLangs.map((key) => (
               <button
                 key={key}
                 type="button"
                 role="tab"
-                aria-selected={lang === key}
-                className={`lang-tab${lang === key ? ' active' : ''}`}
+                aria-selected={effectiveLang === key}
+                className={`lang-tab${effectiveLang === key ? ' active' : ''}`}
                 onClick={() => setLang(key)}
-                title={`View in ${label}`}
+                title={`View in ${LANG_LABELS[key]}`}
               >
-                {label}
+                {LANG_LABELS[key]}
               </button>
             ))}
           </div>

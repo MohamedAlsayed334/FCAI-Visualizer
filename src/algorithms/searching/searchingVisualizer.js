@@ -121,6 +121,7 @@ class _SearchingVisualizer {
   }
 
   _drawBars(ctx, W, H, step, drawArr) {
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
     const n = drawArr.length;
     const PADDING_TOP    = 24;
     const PADDING_BOTTOM = 44;  // extra room for pointer labels
@@ -180,7 +181,7 @@ class _SearchingVisualizer {
 
       // Value label (only when bars are wide enough)
       if (innerW >= 16) {
-        ctx.fillStyle = COLORS.barText;
+        ctx.fillStyle = isLight ? '#25344a' : COLORS.barText;
         ctx.font = FONTS.value;
         ctx.textAlign = 'center';
         ctx.fillText(val, x + innerW / 2, y - 3);
@@ -242,4 +243,8 @@ class _SearchingVisualizer {
   }
 }
 
-export const SearchingVisualizer = new _SearchingVisualizer();
+export function createSearchingVisualizer() {
+  return new _SearchingVisualizer();
+}
+
+export const SearchingVisualizer = createSearchingVisualizer();

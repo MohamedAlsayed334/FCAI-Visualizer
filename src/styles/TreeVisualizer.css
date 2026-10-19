@@ -3,6 +3,12 @@
    ═══════════════════════════════════════════════════════════════════════ */
 .tree-page{display:flex;height:100%;overflow:hidden}
 
+/* ── Graph Algorithm Navigation Bar ──────────────────────────────────── */
+.graph-algo-nav{display:flex;align-items:center;gap:8px;padding:10px 18px;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.graph-algo-tab{padding:7px 16px;border-radius:var(--radius);border:1px solid var(--border);background:transparent;color:var(--text-muted);font-family:var(--font-body);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s ease}
+.graph-algo-tab:hover{color:var(--text);border-color:var(--accent)}
+.graph-algo-tab.active{background:color-mix(in srgb,var(--accent) 15%,transparent);border-color:var(--accent);color:var(--accent)}
+
 /* ── Side Panel ─────────────────────────────────────────────────────── */
 .tree-panel{width:300px;min-width:300px;height:100%;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;flex-shrink:0;background-image:linear-gradient(to bottom,rgba(108,99,255,.25) 0px,transparent 5px);transition:background .25s,border-color .25s}
 .tree-panel::-webkit-scrollbar{width:4px}

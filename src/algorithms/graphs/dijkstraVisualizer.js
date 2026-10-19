@@ -3,9 +3,10 @@
 //  Ported and adapted for FCAI-Visualizer React
 // ══════════════════════════════════════════════════════════════════════════════
 
-import { THEMES, SPEED_TABLE } from '../trees/AVLTree.js';
+import { THEMES, colA } from '../trees/AVLTree.js';
 import { codeSnippets } from '../../data/algorithmData.js';
 
+const SPEED_MULTIPLIERS = [0.6, 1.2, 2.5];
 const NODE_R = 22;
 const NODE_COLORS = ['#5aa0ff', '#37be73', '#ff913c', '#b450f0', '#f54b82', '#2dc3c8'];
 
@@ -421,7 +422,7 @@ export function initDijkstraVisualizer(container) {
       renderCodeLines(4, 'Set source distance to 0', 10);
     }
 
-    await sleep(1000 / SPEED_TABLE[speedIdx]);
+    await sleep(1000 / SPEED_MULTIPLIERS[speedIdx]);
 
     while (graph.visited.size < n && !destroyed) {
       if (traceEnabled) renderCodeLines(6, 'Loop over unvisited nodes', 20);
@@ -446,7 +447,7 @@ export function initDijkstraVisualizer(container) {
       setStatus(`Processing node ${u}`, `Current min dist: ${graph.dist[u]}`);
       updateDistUI();
 
-      await sleep(1000 / SPEED_TABLE[speedIdx]);
+      await sleep(1000 / SPEED_MULTIPLIERS[speedIdx]);
       if (destroyed) return;
 
       // Relax edges
@@ -469,12 +470,12 @@ export function initDijkstraVisualizer(container) {
             graph.prev[nb.id] = u;
             showPopup(`Updating Node ${nb.id} dist: ${newDist}`, '#48d782', 1);
             updateDistUI();
-            await sleep(600 / SPEED_TABLE[speedIdx]);
+            await sleep(600 / SPEED_MULTIPLIERS[speedIdx]);
           }
         }
       }
       
-      await sleep(400 / SPEED_TABLE[speedIdx]);
+      await sleep(400 / SPEED_MULTIPLIERS[speedIdx]);
     }
 
     graph.running = false;
@@ -554,7 +555,9 @@ export function initDijkstraVisualizer(container) {
         graph.pendingEdgeStart = null;
         graph.nodes.forEach(n => { if (n.state === 'queued') n.state = 'default'; });
       }
-      lastClickTime = Date.now();
+      const now = Date.now();
+      if (now - lastClickTime < 320) resetCamera();
+      lastClickTime = now;
     }
   });
 

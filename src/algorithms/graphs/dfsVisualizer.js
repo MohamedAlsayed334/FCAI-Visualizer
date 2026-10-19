@@ -3,9 +3,10 @@
 //  Matches BFS Graph Visualizer patterns exactly
 // ══════════════════════════════════════════════════════════════════════════════
 
-import { THEMES, SPEED_TABLE } from '../trees/AVLTree.js';
+import { THEMES, colA } from '../trees/AVLTree.js';
 import { codeSnippets } from '../../data/algorithmData.js';
 
+const SPEED_MULTIPLIERS = [0.6, 1.2, 2.5];
 const NODE_R = 22;
 const NODE_COLORS = ['#5aa0ff', '#37be73', '#ff913c', '#b450f0', '#f54b82', '#2dc3c8'];
 
@@ -172,7 +173,7 @@ export function initDFSVisualizer(container) {
 
   const cam = { x: 0, y: 0, zoom: 1, offsetX: 0, offsetY: 0 };
   let camReady = false;
-  let isDragging = false, isPanning = false, dragStartX = 0, dragStartY = 0, lastClickTime = 0;
+  let isPanning = false, dragStartX = 0, dragStartY = 0, lastClickTime = 0;
   let draggedNode = null, draggedNodeOffset = { x: 0, y: 0 };
 
   let popupTimer = 0, popupMaxT = 0;
@@ -490,7 +491,7 @@ export function initDFSVisualizer(container) {
     panel.querySelector('#dfs-stack-display').textContent = `Stack: [${startId}]`;
     panel.querySelector('#dfs-path-display').textContent = `Visited: []`;
 
-    await sleep(1200 / SPEED_TABLE[speedIdx]);
+    await sleep(1200 / SPEED_MULTIPLIERS[speedIdx]);
     if (destroyed) { dfsActive = false; return; }
 
     while (graph.dfsStack.length > 0 && !destroyed) {
@@ -532,7 +533,7 @@ export function initDFSVisualizer(container) {
         if (traceEnabled) renderCodeLines(4, `Check neighbor ${next}`, 60);
 
         showPopup(`Exploring ${next} via ${edgeType} edge`, getEdgeColor(edgeType), 1.5);
-        await sleep(900 / SPEED_TABLE[speedIdx]);
+        await sleep(900 / SPEED_MULTIPLIERS[speedIdx]);
       } else {
         // Backtrack
         const popped = graph.dfsStack.pop();
@@ -550,7 +551,7 @@ export function initDFSVisualizer(container) {
         if (traceEnabled) renderCodeLines(5, `Backtrack from ${popped}`, 80);
 
         showPopup(`Finished node ${popped} (time: ${graph.finishTime[popped]})`, T.accent2, 1);
-        await sleep(700 / SPEED_TABLE[speedIdx]);
+        await sleep(700 / SPEED_MULTIPLIERS[speedIdx]);
       }
       if (destroyed) { dfsActive = false; return; }
     }
@@ -732,8 +733,6 @@ export function initDFSVisualizer(container) {
       const wx = (mx - cam.offsetX) / cam.zoom + cam.x;
       const wy = (my - cam.offsetY) / cam.zoom + cam.y;
       if (graph.dragMode === 'edges') {
-        const dx = wx - draggedNode.x;
-        const dy = wy - draggedNode.y;
         draggedNode.x = wx;
         draggedNode.y = wy;
         draggedNode.curX = wx;

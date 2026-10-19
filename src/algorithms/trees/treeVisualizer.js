@@ -4,7 +4,7 @@
 //  Attaches imperatively to a DOM container — zero React dependencies
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { THEMES, SPEED_TABLE, drawTree, AVLTree } from './AVLTree.js';
+import { THEMES, SPEED_TABLE, AVLTree } from './AVLTree.js';
 import { RedBlackTree } from './RedBlackTree.js';
 import { BST } from './BST.js';
 
@@ -23,6 +23,40 @@ export function initTreeVisualizer(container, type = 'avl') {
   const readyMsg = isBST ? 'BST Ready' : isAVL ? 'AVL Tree Ready' : 'Red‑Black Tree Ready';
 
 
+
+  const propsTitle = isRBT
+    ? 'RED-BLACK TREE PROPERTIES'
+    : isAVL
+      ? 'AVL TREE PROPERTIES'
+      : 'BINARY SEARCH TREE PROPERTIES';
+
+  const propsStatus = isRBT
+    ? 'The properties will be checked after an operation.'
+    : isAVL
+      ? 'The balance factor will be checked after an operation.'
+      : 'The ordering property will be checked after an operation.';
+
+  const propsItems = isRBT
+    ? `
+        <li data-property="1">Every node is red or black.</li>
+        <li data-property="2">The root is black.</li>
+        <li data-property="3">Every NIL leaf is black (NIL leaves are implicit).</li>
+        <li data-property="4">A red node cannot have a red child.</li>
+        <li data-property="5">Every path to descendant NIL leaves has equal black height.</li>
+      `
+    : isAVL
+      ? `
+        <li data-property="1">Balance factor of every node is in {-1, 0, +1}.</li>
+        <li data-property="2">Left subtree is balanced (|bf| &le; 1).</li>
+        <li data-property="3">Right subtree is balanced (|bf| &le; 1).</li>
+        <li data-property="4">Binary search tree ordering is preserved.</li>
+      `
+      : `
+        <li data-property="1">Keys in left subtree are strictly less than node.</li>
+        <li data-property="2">Keys in right subtree are strictly greater than node.</li>
+        <li data-property="3">Both left and right subtrees are valid BSTs.</li>
+        <li data-property="4">All keys in the tree are strictly unique.</li>
+      `;
 
   // ── Build DOM ──────────────────────────────────────────────────────────
   container.innerHTML = '';
@@ -53,7 +87,7 @@ export function initTreeVisualizer(container, type = 'avl') {
       <div class="tree-section-label">SEARCH</div>
       <div class="tree-btn-row-2">
         <button class="tree-btn tree-btn-orange sm" id="tv-btn-pred">Predecessor</button>
-        <button class="tree-btn tree-btn-orange sm" id="tv-btn-succ">Successor</button>
+        <button class="tree-btn tree-btn-succ sm" id="tv-btn-succ">Successor</button>
       </div>
     </section>
     <hr class="tree-divider"/>
@@ -82,13 +116,12 @@ export function initTreeVisualizer(container, type = 'avl') {
         <button class="tree-speed-btn" data-speed="2">Fast</button>
       </div>
     </section>
-    ${isRBT ? `
     <hr class="tree-divider"/>
     <section class="tree-section rbt-learning-panel" aria-live="polite">
       <div class="tree-section-label">ALGORITHM STEPS</div>
       <div class="rbt-step-count" id="tv-rbt-step-count">No operation yet</div>
       <h3 class="rbt-step-title" id="tv-rbt-step-title">Ready to explore</h3>
-      <p class="rbt-step-explanation" id="tv-rbt-step-explanation">Insert or delete a value to see the real Red-Black Tree algorithm, one step at a time.</p>
+      <p class="rbt-step-explanation" id="tv-rbt-step-explanation">Insert or delete a value to see the real ${titleName} algorithm, one step at a time.</p>
       <div class="rbt-step-involved" id="tv-rbt-step-involved"></div>
       <div class="rbt-lock-message" id="tv-rbt-lock-message" hidden>Finish or replay the current history before starting another operation.</div>
       <div class="rbt-playback-controls">
@@ -98,17 +131,12 @@ export function initTreeVisualizer(container, type = 'avl') {
         <button class="tree-btn tree-btn-ghost sm" id="tv-rbt-next" type="button" disabled aria-label="Next algorithm step">Next</button>
         <button class="tree-btn tree-btn-ghost sm" id="tv-rbt-restart" type="button" disabled>Restart</button>
       </div>
-      <div class="rbt-properties-title">RED-BLACK TREE PROPERTIES</div>
-      <div class="rbt-property-status" id="tv-rbt-property-status">The properties will be checked after an operation.</div>
+      <div class="rbt-properties-title">${propsTitle}</div>
+      <div class="rbt-property-status" id="tv-rbt-property-status">${propsStatus}</div>
       <ol class="rbt-properties-list">
-        <li data-property="1">Every node is red or black.</li>
-        <li data-property="2">The root is black.</li>
-        <li data-property="3">Every NIL leaf is black (NIL leaves are implicit).</li>
-        <li data-property="4">A red node cannot have a red child.</li>
-        <li data-property="5">Every path to descendant NIL leaves has equal black height.</li>
+        ${propsItems}
       </ol>
     </section>
-    ` : ''}
     <hr class="tree-divider"/>
     <section class="tree-section tree-preset-section">
       <div class="tree-section-label">PRESET SCENARIOS</div>
@@ -245,7 +273,6 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
 
   function updateRbtControls() {
-    if (!isRBT) return;
     const hasHistory = rbtHistory.length > 0;
     const atEnd = rbtHistoryIndex >= rbtHistory.length - 1;
     panel.querySelector('#tv-rbt-previous').disabled = !hasHistory || rbtHistoryIndex <= 0;
@@ -257,7 +284,6 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
 
   function updateRbtLesson() {
-    if (!isRBT) return;
     const event = rbtHistory[rbtHistoryIndex];
     const count = panel.querySelector('#tv-rbt-step-count');
     const title = panel.querySelector('#tv-rbt-step-title');
@@ -267,9 +293,9 @@ export function initTreeVisualizer(container, type = 'avl') {
     if (!event) {
       count.textContent = 'No operation yet';
       title.textContent = 'Ready to explore';
-      explanation.textContent = 'Insert or delete a value to see the real Red-Black Tree algorithm, one step at a time.';
+      explanation.textContent = `Insert or delete a value to see the real ${titleName} algorithm, one step at a time.`;
       involved.textContent = '';
-      panel.querySelector('#tv-rbt-property-status').textContent = 'The properties will be checked after an operation.';
+      panel.querySelector('#tv-rbt-property-status').textContent = propsStatus;
       properties.forEach((item) => item.classList.remove('is-current', 'is-satisfied'));
       updateRbtControls();
       return;
@@ -282,11 +308,23 @@ export function initTreeVisualizer(container, type = 'avl') {
       .map(([role, value]) => `${role}: ${value}`);
     involved.textContent = roles.length ? `Nodes involved — ${roles.join(' · ')}` : '';
     const propertyStatus = panel.querySelector('#tv-rbt-property-status');
-    propertyStatus.textContent = event.property === 'all'
-      ? 'All five properties are satisfied.'
-      : typeof event.property === 'number'
-        ? `Property ${event.property} is being repaired.`
-        : 'No Red-Black property violation is flagged at this step.';
+    if (isRBT) {
+      propertyStatus.textContent = event.property === 'all'
+        ? 'All five properties are satisfied.'
+        : typeof event.property === 'number'
+          ? `Property ${event.property} is being repaired.`
+          : 'No Red-Black property violation is flagged at this step.';
+    } else if (isAVL) {
+      propertyStatus.textContent = event.property === 'all'
+        ? 'All balance factors are satisfied.'
+        : typeof event.property === 'number'
+          ? `Imbalance detected (rule ${event.property}).`
+          : 'Checking balance factors...';
+    } else {
+      propertyStatus.textContent = event.property === 'all'
+        ? 'Binary Search Tree ordering is satisfied.'
+        : 'Maintaining binary search tree ordering...';
+    }
     properties.forEach((item) => {
       const property = Number(item.dataset.property);
       item.classList.toggle('is-current', event.property === property);
@@ -296,7 +334,6 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
 
   function setRbtBusy(busy) {
-    if (!isRBT) return;
     rbtBusy = busy;
     panel.querySelector('#tv-rbt-lock-message').hidden = !busy;
     panel.querySelector('#tv-val-input').disabled = busy;
@@ -324,7 +361,7 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
 
   function advanceRbtStep() {
-    if (!isRBT || rbtHistoryIndex >= rbtHistory.length - 1) return;
+    if (rbtHistoryIndex >= rbtHistory.length - 1) return;
     rbtHistoryIndex++;
     rbtDirection = 1;
     rbtProgress = 0;
@@ -333,7 +370,6 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
 
   function tickRbtPlayback(dt) {
-    if (!isRBT) return;
     const duration = [1.45, 0.8, 0.34][speedIdx];
     if (rbtProgress < 1 && (rbtPlaying || rbtTransitioning)) {
       rbtProgress = Math.min(1, rbtProgress + dt / duration);
@@ -358,7 +394,7 @@ export function initTreeVisualizer(container, type = 'avl') {
 
   function updateLiveStats() {
     let nc = tree.getNodeCount(), ht = tree.getTreeHeight();
-    if (isRBT && rbtHistoryIndex >= 0 && rbtHistory[rbtHistoryIndex]) {
+    if (rbtHistoryIndex >= 0 && rbtHistory[rbtHistoryIndex]) {
       const measure = (node) => {
         if (!node) return { count: 0, height: -1 };
         const left = measure(node.left);
@@ -420,400 +456,135 @@ export function initTreeVisualizer(container, type = 'avl') {
   }
 
   function doInsert() {
-    const val = getVal(); tree.searchPath = [];
-    if (isRBT) {
-      startRbtOperation('insert', val);
-      return;
-    }
-    const T = getT();
-    const rotMsg = tree.insertNode(val);
-    let m = `Inserted: ${val}`; if (rotMsg) m += `  (${rotMsg})`;
-    const statusDetail = tree.isAVL ? (rotMsg || 'No rotation needed') : 'Standard BST insert';
-    showPopup(m, rotMsg ? T.accent2 : T.success);
-    setStatus(`Inserted ${val}`, statusDetail);
-    setTraversal('', '');
+    const val = getVal();
+    tree.searchPath = [];
+    startRbtOperation('insert', val);
   }
+
   function doDelete() {
-    const val = getVal(); tree.searchPath = [];
-    if (isRBT) {
-      startRbtOperation('delete', val);
-      return;
-    }
-    const T = getT();
-    const rotMsg = tree.deleteNode(val);
-    let m = `Deleted: ${val}`; if (rotMsg) m += `  (${rotMsg})`;
-    const statusDetail = tree.isAVL ? (rotMsg || 'No rotation needed') : 'Standard BST delete';
-    showPopup(m, T.danger);
-    setStatus(`Deleted ${val}`, statusDetail);
-    setTraversal('', '');
+    const val = getVal();
+    tree.searchPath = [];
+    startRbtOperation('delete', val);
   }
+
   function doClear() {
-    if (isRBT && rbtBusy) return;
-    tree.clearTree(); tree.searchPath = [];
-    if (isRBT) {
-      rbtHistory = [];
-      rbtHistoryIndex = -1;
-      rbtPlaying = false;
-      rbtTransitioning = false;
-      rbtDirection = 1;
-      rbtProgress = 1;
-      updateRbtLesson();
-    }
+    if (rbtBusy) return;
+    tree.clearTree();
+    tree.searchPath = [];
+    rbtHistory = [];
+    rbtHistoryIndex = -1;
+    rbtPlaying = false;
+    rbtTransitioning = false;
+    rbtDirection = 1;
+    rbtProgress = 1;
+    setRbtBusy(false);
+    updateRbtLesson();
+    updateRbtControls();
     const T = getT();
-    setTraversal('', ''); setStatus('Tree cleared', 'Start fresh!');
+    setTraversal('', '');
+    setStatus('Tree cleared', 'Start fresh!');
     showPopup('Tree cleared!', T.danger, 2);
   }
+
   function doPred() {
     const T = getT();
-    const val = getVal(), pv = tree.getPredecessor(val);
+    const val = getVal();
+    const pv = tree.getPredecessor(val);
+    tree.searchPath = pv !== null ? [val, pv] : [val];
     const m = pv !== null ? `Pred(${val}) = ${pv}` : `No predecessor for ${val}`;
-    showPopup(m, T.accent2); setStatus(m, 'Path shown in yellow');
+    showPopup(m, T.accent2);
+    setStatus(m, 'Node highlighted');
   }
+
   function doSucc() {
     const T = getT();
-    const val = getVal(), sv = tree.getSuccessor(val);
+    const val = getVal();
+    const sv = tree.getSuccessor(val);
+    tree.searchPath = sv !== null ? [val, sv] : [val];
     const m = sv !== null ? `Succ(${val}) = ${sv}` : `No successor for ${val}`;
-    showPopup(m, T.accent2); setStatus(m, 'Path shown in yellow');
+    showPopup(m, T.accent2);
+    setStatus(m, 'Node highlighted');
   }
-function doGenerate() {
+
+  function doGenerate() {
+    if (rbtBusy) return;
     const T = getT();
     let count = parseInt(randInput.value, 10);
     if (isNaN(count) || count < 1) count = 1;
     if (count > 99) count = 99;
-    tree.clearTree(); tree.searchPath = [];
-    const used = new Set(); let ins = 0, att = 0;
+    tree.clearTree();
+    tree.searchPath = [];
+    const used = new Set();
+    let ins = 0, att = 0;
     const generated = [];
     while (ins < count && att < count * 30) {
       const v = Math.floor(Math.random() * 199) - 99;
       if (!used.has(v)) {
         used.add(v);
-        if (isRBT) generated.push(v);
-        else tree.insertNode(v);
-        ins++; att++;
+        generated.push(v);
+        ins++;
       }
+      att++;
     }
-    if (isRBT) {
-      const history = [];
-      generated.forEach((value) => tree.insert(value, (event) => history.push(event)));
-      rbtHistory = history;
-      rbtHistoryIndex = history.length ? 0 : -1;
-      rbtProgress = 1;
-      rbtPlayElapsed = 0;
-      rbtDirection = 1;
-      rbtTransitioning = false;
-      rbtPlaying = history.length > 1;
-      setRbtBusy(history.length > 1);
-      updateRbtLesson();
-    }
+    const history = [];
+    generated.forEach((value) => tree.insert(value, (event) => history.push(event)));
+    rbtHistory = history;
+    rbtHistoryIndex = history.length ? 0 : -1;
+    rbtProgress = 1;
+    rbtPlayElapsed = 0;
+    rbtDirection = 1;
+    rbtTransitioning = false;
+    rbtPlaying = history.length > 1;
+    setRbtBusy(history.length > 1);
+    updateRbtLesson();
     showPopup(`Generated ${ins} random nodes!`, T.success);
     setStatus(`Random tree: ${ins} nodes`, 'Add / delete nodes freely!');
     setTraversal('', '');
   }
 
-  let presetInProgress = false;
-  async function runPreset(presetFn) {
-    if (presetInProgress) return;
-    presetInProgress = true;
+  function runPresetOperation(buildValues, opAction, opValue) {
+    if (rbtBusy) return;
     tree.clearTree();
     tree.searchPath = [];
     setTraversal('', '');
-    const T = getT();
-    try {
-      await presetFn(T);
-    } catch (e) {
-      console.error('Preset error:', e);
-    }
-    presetInProgress = false;
+    buildValues.forEach((v) => tree.insert(v));
+    startRbtOperation(opAction, opValue);
   }
 
-  function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-  async function doPresetLL(T) {
-    tree.buildFromArray([30, 20, 40, 10]);
-    showPopup('Building tree: [30, 20, 40, 10]', T.success, 2);
-    setStatus('Preset: LL Imbalance', 'Tree built. Inserting 5...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = tree.getInsertionPath(5);
-    showPopup('Inserting 5... Path: 30 → 20 → 10', T.accent, 2.5);
-    await sleep(1800);
-    tree.insertNode(5);
-    await sleep(800);
-    const bf = tree.getBalanceFactor(30);
-    tree.highlightNode(30, '#ff4b4b', 3);
-    tree.searchPath = [];
-    showPopup(`⚠️ Node 30 has Balance Factor = ${bf}`, '#ff4b4b', 3);
-    setStatus('Balance Factor = ' + bf, 'Left-Left Imbalance detected!');
-    await sleep(2800);
-    tree.clearHighlight();
-    tree.highlightNode(30, '#ffc832', 2.5);
-    tree.highlightNode(20, '#ffc832', 2.5);
-    showPopup('Performing RIGHT ROTATION on node 30', '#ffc832', 2.5);
-    setStatus('Right Rotation', 'Node 30 rotates with child 20');
-    await sleep(2500);
-    tree.setSlowMode(false);
-    showPopup('✓ LL Imbalance corrected!', T.success, 2.5);
-    setStatus('Insertion complete', 'Tree is now balanced');
+  function doPresetLL() {
+    runPresetOperation([30, 20, 40, 10], 'insert', 5);
   }
 
-  async function doPresetRR(T) {
-    tree.buildFromArray([30, 20, 40, 50]);
-    showPopup('Building tree: [30, 20, 40, 50]', T.success, 2);
-    setStatus('Preset: RR Imbalance', 'Tree built. Inserting 60...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = tree.getInsertionPath(60);
-    showPopup('Inserting 60... Path: 30 → 40 → 50', T.accent, 2.5);
-    await sleep(1800);
-    tree.insertNode(60);
-    await sleep(800);
-    const bf = tree.getBalanceFactor(30);
-    tree.highlightNode(30, '#ff4b4b', 3);
-    tree.searchPath = [];
-    showPopup(`⚠️ Node 30 has Balance Factor = ${bf}`, '#ff4b4b', 3);
-    setStatus('Balance Factor = ' + bf, 'Right-Right Imbalance detected!');
-    await sleep(2800);
-    tree.clearHighlight();
-    tree.highlightNode(30, '#ffc832', 2.5);
-    tree.highlightNode(40, '#ffc832', 2.5);
-    showPopup('Performing LEFT ROTATION on node 30', '#ffc832', 2.5);
-    setStatus('Left Rotation', 'Node 30 rotates with child 40');
-    await sleep(2500);
-    tree.setSlowMode(false);
-    showPopup('✓ RR Imbalance corrected!', T.success, 2.5);
-    setStatus('Insertion complete', 'Tree is now balanced');
+  function doPresetRR() {
+    runPresetOperation([30, 20, 40, 50], 'insert', 60);
   }
 
-  async function doPresetLR(T) {
-    tree.buildFromArray([30, 20, 40, 10]);
-    showPopup('Building tree: [30, 20, 40, 10]', T.success, 2);
-    setStatus('Preset: LR Imbalance', 'Tree built. Inserting 25...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = tree.getInsertionPath(25);
-    showPopup('Inserting 25... Path: 30 → 20 → 10', T.accent, 2.5);
-    await sleep(1800);
-    tree.insertNode(25);
-    await sleep(800);
-    const bf = tree.getBalanceFactor(20);
-    tree.highlightNode(20, '#ff4b4b', 3);
-    tree.searchPath = [];
-    showPopup(`⚠️ Node 20 has Balance Factor = ${bf}`, '#ff4b4b', 3);
-    setStatus('Balance Factor = ' + bf, 'Left-Right Imbalance detected!');
-    await sleep(2800);
-    tree.clearHighlight();
-    tree.highlightNode(20, '#ffc832', 2);
-    tree.highlightNode(10, '#ffc832', 2);
-    showPopup('Step 1: LEFT ROTATION on node 20', '#ffc832', 2);
-    setStatus('LR: Step 1', 'Left rotation on 20');
-    await sleep(2200);
-    tree.highlightNode(30, '#ffc832', 2);
-    tree.highlightNode(20, '#ffc832', 2);
-    showPopup('Step 2: RIGHT ROTATION on node 30', '#ffc832', 2);
-    setStatus('LR: Step 2', 'Right rotation on 30');
-    await sleep(2200);
-    tree.setSlowMode(false);
-    showPopup('✓ LR Imbalance corrected!', T.success, 2.5);
-    setStatus('Insertion complete', 'Tree is now balanced');
+  function doPresetLR() {
+    runPresetOperation([30, 20, 40, 10], 'insert', 25);
   }
 
-  async function doPresetRL(T) {
-    tree.buildFromArray([30, 20, 40, 50]);
-    showPopup('Building tree: [30, 20, 40, 50]', T.success, 2);
-    setStatus('Preset: RL Imbalance', 'Tree built. Inserting 35...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = tree.getInsertionPath(35);
-    showPopup('Inserting 35... Path: 30 → 40 → 50', T.accent, 2.5);
-    await sleep(1800);
-    tree.insertNode(35);
-    await sleep(800);
-    const bf = tree.getBalanceFactor(40);
-    tree.highlightNode(40, '#ff4b4b', 3);
-    tree.searchPath = [];
-    showPopup(`⚠️ Node 40 has Balance Factor = ${bf}`, '#ff4b4b', 3);
-    setStatus('Balance Factor = ' + bf, 'Right-Left Imbalance detected!');
-    await sleep(2800);
-    tree.clearHighlight();
-    tree.highlightNode(40, '#ffc832', 2);
-    tree.highlightNode(50, '#ffc832', 2);
-    showPopup('Step 1: RIGHT ROTATION on node 40', '#ffc832', 2);
-    setStatus('RL: Step 1', 'Right rotation on 40');
-    await sleep(2200);
-    tree.highlightNode(30, '#ffc832', 2);
-    tree.highlightNode(40, '#ffc832', 2);
-    showPopup('Step 2: LEFT ROTATION on node 30', '#ffc832', 2);
-    setStatus('RL: Step 2', 'Left rotation on 30');
-    await sleep(2200);
-    tree.setSlowMode(false);
-    showPopup('✓ RL Imbalance corrected!', T.success, 2.5);
-    setStatus('Insertion complete', 'Tree is now balanced');
+  function doPresetRL() {
+    runPresetOperation([30, 20, 40, 50], 'insert', 35);
   }
 
-  async function doPresetDelLeaf(T) {
-    tree.buildFromArray([30, 20, 40, 10, 25]);
-    showPopup('Building tree: [30, 20, 40, 10, 25]', T.success, 2);
-    setStatus('Preset: Delete Leaf', 'Tree built. Deleting leaf node 10...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = [30, 20, 10];
-    tree.highlightNode(10, '#ff913c', 2.5);
-    showPopup('Finding node 10... Path: 30 → 20 → 10', T.accent, 2.5);
-    setStatus('Searching', 'Node 10 is a leaf (no children)');
-    await sleep(2000);
-    tree.clearHighlight();
-    tree.highlightNode(10, '#ff4b4b', 2);
-    showPopup('Deleting leaf node 10...', '#ff4b4b', 2);
-    setStatus('Deleting', 'Simply remove from parent');
-    await sleep(1800);
-    tree.deleteNode(10);
-    tree.searchPath = [];
-    await sleep(800);
-    tree.setSlowMode(false);
-    showPopup('✓ Leaf node deleted!', T.success, 2.5);
-    setStatus('Deletion complete', 'No rebalancing needed');
+  function doPresetDelLeaf() {
+    runPresetOperation([30, 20, 40, 10, 25], 'delete', 10);
   }
 
-  async function doPresetDel1Child(T) {
-    tree.buildFromArray([30, 20, 40, 10, 25, 50, 5]);
-    showPopup('Building tree: [30, 20, 40, 10, 25, 50, 5]', T.success, 2);
-    setStatus('Preset: Delete Node with 1 Child', 'Tree built. Deleting node 20...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = [30, 20];
-    tree.highlightNode(20, '#ff913c', 2.5);
-    showPopup('Finding node 20... Path: 30 → 20', T.accent, 2.5);
-    setStatus('Searching', 'Node 20 has ONE child (25)');
-    await sleep(2000);
-    tree.clearHighlight();
-    tree.highlightNode(20, '#ff4b4b', 1.5);
-    tree.highlightNode(25, '#5aa0ff', 2);
-    showPopup('Node 20 has 1 child (25). Promoting child...', '#ff4b4b', 2.5);
-    setStatus('Promotion', 'Replace 20 with its child 25');
-    await sleep(2000);
-    tree.deleteNode(20);
-    tree.searchPath = [];
-    await sleep(800);
-    tree.setSlowMode(false);
-    showPopup('✓ Node deleted! (1 child promoted)', T.success, 2.5);
-    setStatus('Deletion complete', 'No rebalancing needed');
+  function doPresetDel1Child() {
+    runPresetOperation([30, 20, 40, 10, 25, 50, 5], 'delete', 20);
   }
 
-  async function doPresetDel2Children(T) {
-    tree.buildFromArray([30, 20, 40, 10, 25, 35, 50]);
-    showPopup('Building tree: [30, 20, 40, 10, 25, 35, 50]', T.success, 2);
-    setStatus('Preset: Delete Node with 2 Children', 'Tree built. Deleting node 30...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = [30];
-    tree.highlightNode(30, '#ff913c', 2.5);
-    showPopup('Finding node 30 (target)...', T.accent, 2);
-    setStatus('Searching', 'Node 30 has TWO children');
-    await sleep(1800);
-    tree.clearHighlight();
-    tree.highlightNode(30, '#ff4b4b', 1.5);
-    tree.highlightNode(40, '#5aa0ff', 2);
-    showPopup('Finding IN-ORDER SUCCESSOR (min of right subtree)', '#5aa0ff', 2.5);
-    setStatus('Finding Successor', 'Successor is smallest value in right subtree');
-    await sleep(2200);
-    tree.highlightNode(35, '#ffc832', 2);
-    showPopup('Successor found: 35 (min in right subtree)', '#ffc832', 2.5);
-    setStatus('Successor = 35', 'Replace 30 with 35');
-    await sleep(2000);
-    tree.clearHighlight();
-    tree.highlightNode(30, '#ff4b4b', 1.5);
-    showPopup('Replacing 30 with 35, then deleting 35 from right', '#ff4b4b', 3);
-    setStatus('Replace & Delete', 'Copy successor value, delete successor node');
-    await sleep(2800);
-    tree.deleteNode(30);
-    tree.searchPath = [];
-    await sleep(800);
-    tree.setSlowMode(false);
-    showPopup('✓ Node deleted! (2 children - successor method)', T.success, 2.5);
-    setStatus('Deletion complete', 'No rebalancing needed');
+  function doPresetDel2Children() {
+    runPresetOperation([30, 20, 40, 10, 25, 35, 50], 'delete', 30);
   }
 
-  async function doPresetDelRoot(T) {
-    tree.buildFromArray([50, 30, 70, 20, 40, 60, 80]);
-    showPopup('Building tree: [50, 30, 70, 20, 40, 60, 80]', T.success, 2);
-    setStatus('Preset: Delete Root', 'Tree built. Deleting ROOT node 50...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = [50];
-    tree.highlightNode(50, '#ff4b4b', 2.5);
-    showPopup('Target is ROOT node 50!', '#ff4b4b', 2);
-    setStatus('Deleting Root', 'Root has 2 children');
-    await sleep(2000);
-    tree.clearHighlight();
-    tree.highlightNode(50, '#ff913c', 1.5);
-    tree.highlightNode(70, '#5aa0ff', 2);
-    showPopup('Finding in-order successor (min of right subtree)', T.accent, 2.5);
-    setStatus('Successor', 'Find successor from right subtree');
-    await sleep(2200);
-    tree.highlightNode(60, '#ffc832', 2);
-    showPopup('Successor = 60', '#ffc832', 2);
-    await sleep(1800);
-    tree.clearHighlight();
-    tree.highlightNode(50, '#ff4b4b', 1.5);
-    showPopup('Replace root (50) with successor (60)', '#ff4b4b', 2.5);
-    setStatus('Replace', 'Root value replaced with 60');
-    await sleep(2200);
-    tree.deleteNode(50);
-    tree.searchPath = [];
-    await sleep(800);
-    tree.setSlowMode(false);
-    showPopup('✓ Root node deleted! New root is 60', T.success, 2.5);
-    setStatus('Deletion complete', 'Tree height reduced');
+  function doPresetDelRoot() {
+    runPresetOperation([50, 30, 70, 20, 40, 60, 80], 'delete', 50);
   }
 
-  async function doPresetCascade(T) {
-    tree.buildFromArray([50, 30, 70, 20, 40, 60, 80, 10]);
-    showPopup('Building tree: [50, 30, 70, 20, 40, 60, 80, 10]', T.success, 2);
-    setStatus('Advanced: Cascading', 'Inserting 5 to trigger cascade...');
-    await sleep(1400);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.searchPath = tree.getInsertionPath(5);
-    showPopup('Inserting 5... Path: 50 → 30 → 20 → 10', T.accent, 2.5);
-    await sleep(1800);
-    tree.insertNode(5);
-    await sleep(600);
-    tree.clearHighlight();
-    const bf20 = tree.getBalanceFactor(20);
-    tree.highlightNode(20, '#ff4b4b', 2);
-    showPopup(`Node 20: BF = ${bf20} (Left-Left)`, '#ff4b4b', 2.5);
-    setStatus('First imbalance', 'Node 20 needs right rotation');
-    await sleep(2200);
-    tree.setSlowMode(true);
-    tree.clearHighlight();
-    tree.highlightNode(20, '#ffc832', 1.5);
-    tree.highlightNode(10, '#ffc832', 1.5);
-    showPopup('Rotating 20 with 10...', '#ffc832', 2);
-    setStatus('Rotation 1', 'Right rotation at 20');
-    await sleep(2000);
-    const bf50 = tree.getBalanceFactor(50);
-    tree.clearHighlight();
-    tree.highlightNode(50, '#ff4b4b', 2.5);
-    showPopup(`Node 50: BF = ${bf50} (cascading!)`, '#ff4b4b', 2.5);
-    setStatus('Cascading up', 'Imbalance propagates to parent!');
-    await sleep(2500);
-    tree.clearHighlight();
-    tree.highlightNode(50, '#ffc832', 1.5);
-    tree.highlightNode(30, '#ffc832', 1.5);
-    showPopup('Rotating 50 with 30...', '#ffc832', 2);
-    setStatus('Rotation 2', 'Right rotation at 50');
-    await sleep(2000);
-    tree.setSlowMode(false);
-    showPopup('✓ Cascading rotations complete!', T.success, 2.5);
-    setStatus('Complete', 'Tree fully balanced after cascade');
+  function doPresetCascade() {
+    runPresetOperation([50, 25, 75, 10, 30, 60, 85, 5, 15, 28, 35, 80, 90, 88, 95], 'delete', 10);
   }
 
   // ── Event binding ──────────────────────────────────────────────────────
@@ -825,15 +596,15 @@ function doGenerate() {
   panel.querySelector('#tv-btn-succ').addEventListener('click', doSucc);
   panel.querySelector('#tv-btn-gen').addEventListener('click', doGenerate);
 
-  panel.querySelector('#tv-btn-preset-ll').addEventListener('click', () => runPreset(doPresetLL));
-  panel.querySelector('#tv-btn-preset-rr').addEventListener('click', () => runPreset(doPresetRR));
-  panel.querySelector('#tv-btn-preset-lr').addEventListener('click', () => runPreset(doPresetLR));
-  panel.querySelector('#tv-btn-preset-rl').addEventListener('click', () => runPreset(doPresetRL));
-  panel.querySelector('#tv-btn-preset-del-leaf').addEventListener('click', () => runPreset(doPresetDelLeaf));
-  panel.querySelector('#tv-btn-preset-del-1child').addEventListener('click', () => runPreset(doPresetDel1Child));
-  panel.querySelector('#tv-btn-preset-del-2child').addEventListener('click', () => runPreset(doPresetDel2Children));
-  panel.querySelector('#tv-btn-preset-del-root').addEventListener('click', () => runPreset(doPresetDelRoot));
-  panel.querySelector('#tv-btn-preset-cascade').addEventListener('click', () => runPreset(doPresetCascade));
+  panel.querySelector('#tv-btn-preset-ll').addEventListener('click', doPresetLL);
+  panel.querySelector('#tv-btn-preset-rr').addEventListener('click', doPresetRR);
+  panel.querySelector('#tv-btn-preset-lr').addEventListener('click', doPresetLR);
+  panel.querySelector('#tv-btn-preset-rl').addEventListener('click', doPresetRL);
+  panel.querySelector('#tv-btn-preset-del-leaf').addEventListener('click', doPresetDelLeaf);
+  panel.querySelector('#tv-btn-preset-del-1child').addEventListener('click', doPresetDel1Child);
+  panel.querySelector('#tv-btn-preset-del-2child').addEventListener('click', doPresetDel2Children);
+  panel.querySelector('#tv-btn-preset-del-root').addEventListener('click', doPresetDelRoot);
+  panel.querySelector('#tv-btn-preset-cascade').addEventListener('click', doPresetCascade);
 
 
   panel.querySelectorAll('.tv-trav-btn').forEach(btn => {
@@ -857,56 +628,54 @@ function doGenerate() {
     });
   });
 
-  if (isRBT) {
-    panel.querySelector('#tv-rbt-previous').addEventListener('click', () => {
-      rbtPlaying = false;
-      rbtTransitioning = true;
-      rbtDirection = -1;
-      if (rbtHistoryIndex > 0) {
-        rbtHistoryIndex--;
-        rbtProgress = 0;
-        rbtPlayElapsed = 0;
-        setRbtBusy(true);
-        updateRbtLesson();
-      } else rbtTransitioning = false;
-    });
-    panel.querySelector('#tv-rbt-next').addEventListener('click', () => {
-      rbtPlaying = false;
-      advanceRbtStep();
-      rbtTransitioning = rbtHistoryIndex >= 0 && rbtProgress < 1;
-      setRbtBusy(rbtTransitioning || rbtHistoryIndex < rbtHistory.length - 1);
-      updateRbtLesson();
-    });
-    panel.querySelector('#tv-rbt-play').addEventListener('click', () => {
-      if (rbtHistory.length < 2) return;
-      if (rbtHistoryIndex >= rbtHistory.length - 1) {
-        rbtHistoryIndex = 0;
-        rbtProgress = 1;
-        rbtPlayElapsed = 0;
-        updateRbtLesson();
-      }
-      rbtDirection = 1;
-      rbtTransitioning = false;
+  panel.querySelector('#tv-rbt-previous').addEventListener('click', () => {
+    rbtPlaying = false;
+    rbtTransitioning = true;
+    rbtDirection = -1;
+    if (rbtHistoryIndex > 0) {
+      rbtHistoryIndex--;
+      rbtProgress = 0;
+      rbtPlayElapsed = 0;
       setRbtBusy(true);
-      rbtPlaying = true;
-      updateRbtControls();
-    });
-    panel.querySelector('#tv-rbt-pause').addEventListener('click', () => {
-      rbtPlaying = false;
-      rbtTransitioning = false;
-      updateRbtControls();
-    });
-    panel.querySelector('#tv-rbt-restart').addEventListener('click', () => {
-      rbtPlaying = false;
-      rbtTransitioning = false;
-      rbtDirection = 1;
+      updateRbtLesson();
+    } else rbtTransitioning = false;
+  });
+  panel.querySelector('#tv-rbt-next').addEventListener('click', () => {
+    rbtPlaying = false;
+    advanceRbtStep();
+    rbtTransitioning = rbtHistoryIndex >= 0 && rbtProgress < 1;
+    setRbtBusy(rbtTransitioning || rbtHistoryIndex < rbtHistory.length - 1);
+    updateRbtLesson();
+  });
+  panel.querySelector('#tv-rbt-play').addEventListener('click', () => {
+    if (rbtHistory.length < 2) return;
+    if (rbtHistoryIndex >= rbtHistory.length - 1) {
       rbtHistoryIndex = 0;
       rbtProgress = 1;
       rbtPlayElapsed = 0;
-      setRbtBusy(rbtHistory.length > 1);
       updateRbtLesson();
-    });
-  }
+    }
+    rbtDirection = 1;
+    rbtTransitioning = false;
+    setRbtBusy(true);
+    rbtPlaying = true;
+    updateRbtControls();
+  });
+  panel.querySelector('#tv-rbt-pause').addEventListener('click', () => {
+    rbtPlaying = false;
+    rbtTransitioning = false;
+    updateRbtControls();
+  });
+  panel.querySelector('#tv-rbt-restart').addEventListener('click', () => {
+    rbtPlaying = false;
+    rbtTransitioning = false;
+    rbtDirection = 1;
+    rbtHistoryIndex = 0;
+    rbtProgress = 1;
+    rbtPlayElapsed = 0;
+    setRbtBusy(rbtHistory.length > 1);
+    updateRbtLesson();
+  });
 
   // ── Canvas interactions ────────────────────────────────────────────────
   canvas.addEventListener('wheel', (e) => {
@@ -1058,6 +827,7 @@ function doGenerate() {
         roleByValue.set(value, role);
       }
     });
+    const searchPathSet = new Set(tree.searchPath || []);
     const values = new Set([...before.nodes.keys(), ...after.nodes.keys()]);
     values.forEach((value) => {
       const oldNode = before.nodes.get(value);
@@ -1065,19 +835,29 @@ function doGenerate() {
       const position = point(value);
       const alpha = oldNode && newNode ? 1 : oldNode ? 1 - eased : eased;
       if (alpha <= 0) return;
-      const oldFill = oldNode ? (oldNode.color === 'red' ? '#d94f59' : '#202532') : null;
-      const newFill = newNode ? (newNode.color === 'red' ? '#d94f59' : '#202532') : null;
+      const getNodeFill = (node) => {
+        if (!node) return null;
+        if (node.color === 'red') return '#d94f59';
+        if (node.color === 'black') return '#202532';
+        return theme.nodeFill || '#1769aa';
+      };
+      const oldFill = getNodeFill(oldNode);
+      const newFill = getNodeFill(newNode);
       const fill = oldFill && newFill ? mixHex(oldFill, newFill, eased) : newFill || oldFill;
       const role = roleByValue.get(value);
+      const isSearchHit = !role && searchPathSet.has(value);
       ctx.globalAlpha = alpha;
       ctx.fillStyle = fill;
-      ctx.strokeStyle = role ? roleColors[role] : theme.nodeStroke;
-      ctx.lineWidth = role ? 4 : 2;
+      ctx.strokeStyle = role ? roleColors[role] : isSearchHit ? (theme.accent2 || '#ecc365') : theme.nodeStroke;
+      ctx.lineWidth = role || isSearchHit ? 4 : 2;
       ctx.beginPath();
       ctx.arc(position.x, position.y, nodeRadius, 0, Math.PI * 2);
       ctx.fill();
       ctx.stroke();
-      ctx.fillStyle = '#ffffff';
+
+      const isColoredNode = (newNode && (newNode.color === 'red' || newNode.color === 'black')) ||
+                            (oldNode && (oldNode.color === 'red' || oldNode.color === 'black'));
+      ctx.fillStyle = isColoredNode ? '#ffffff' : (theme.nodeText || '#ffffff');
       ctx.font = '700 12px Inter, sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -1101,17 +881,13 @@ function doGenerate() {
     ctx.translate(cam.offsetX, cam.offsetY);
     ctx.scale(cam.zoom, cam.zoom);
     ctx.translate(-cam.x, -cam.y);
-    if (isRBT) {
-      const event = rbtHistory[rbtHistoryIndex];
-      const snapshot = event ? event.snapshot : tree._snapshotTree();
-      const transitionFromIndex = rbtHistoryIndex - rbtDirection;
-      const previous = rbtProgress < 1 && transitionFromIndex >= 0 && transitionFromIndex < rbtHistory.length
-        ? rbtHistory[transitionFromIndex].snapshot
-        : snapshot;
-      drawRbtSnapshot(snapshot, previous, rbtProgress, event, T, W, H);
-    } else {
-      drawTree(ctx, tree.root, 0, tree.searchPath, T);
-    }
+    const event = rbtHistory[rbtHistoryIndex];
+    const snapshot = event ? event.snapshot : tree._snapshotTree();
+    const transitionFromIndex = rbtHistoryIndex - rbtDirection;
+    const previous = rbtProgress < 1 && transitionFromIndex >= 0 && transitionFromIndex < rbtHistory.length
+      ? rbtHistory[transitionFromIndex].snapshot
+      : snapshot;
+    drawRbtSnapshot(snapshot, previous, rbtProgress, event, T, W, H);
     ctx.restore();
   }
 

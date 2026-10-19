@@ -1,0 +1,25 @@
+{
+  "hero": {
+    "kicker": "FCAI-CU · Learn by seeing",
+    "titleLine1": "Make algorithms",
+    "titleLine2": "make sense.",
+    "subtitle": "Explore data structures and algorithms through clear, interactive visualizations built for computer science students.",
+    "cta": "Explore the courses",
+    "proof1": "Interactive visualizations",
+    "proof2": "Step-by-step learning",
+    "label": "VISUALIZE · EXPLORE · LEARN"
+  },
+  "courses": {
+    "eyebrow": "YOUR LEARNING PATH",
+    "title": "Choose a course",
+    "subtitle": "Start with the fundamentals, then move into advanced structures."
+  },
+  "tools": {
+    "eyebrow": "KEEP GOING",
+    "title": "Learn by doing",
+    "settingsLink": "AI learning settings"
+  },
+  "footer": {
+    "faculty": "Faculty of Computers & Artificial Intelligence · Cairo University"
+  }
+}

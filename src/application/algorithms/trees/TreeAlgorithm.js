@@ -43,6 +43,13 @@ export function buildInsertSteps(engine, values, describe) {
     const tree = engine.snapshot();
     const height = snapshotHeight(tree);
     const nodeCount = snapshotCount(tree);
+    const insertMeta = duplicate
+      ? {
+          msg: `Insert ${value}: duplicate ignored — the tree is unchanged (height ${height}).`,
+          msgKey: 'steps:tree.insertDuplicate',
+          msgParams: { v: value, height },
+        }
+      : describe(value, height, nodeCount);
     return {
       arr: values.slice(0, index + 1),
       tree,
@@ -50,9 +57,9 @@ export function buildInsertSteps(engine, values, describe) {
       height,
       nodeCount,
       inOrder: engine.getInOrder(),
-      msg: duplicate
-        ? `Insert ${value}: duplicate ignored — the tree is unchanged (height ${height}).`
-        : describe(value, height, nodeCount),
+      msg: insertMeta.msg,
+      msgKey: insertMeta.msgKey,
+      msgParams: insertMeta.msgParams,
       codeLine: 1,
       codeLines: { js: 1, python: 1, cpp: 1, java: 1, csharp: 1 },
     };

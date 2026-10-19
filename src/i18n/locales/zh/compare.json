@@ -1,0 +1,133 @@
+{
+  "page": {
+    "eyebrow": "算法对比实验室",
+    "title": "一个输入。两种方法。",
+    "subtitle": "并排比较现有的算法可视化，一次一个记录的步骤。"
+  },
+  "groups": {
+    "sorting": "排序",
+    "searching": "查找",
+    "graph-traversal": "图遍历",
+    "graph-mst": "最小生成树",
+    "data-structures": "栈 vs 队列",
+    "trees": "BST vs AVL 树"
+  },
+  "setup": {
+    "forLabel": "比较以下类别的算法",
+    "algorithmSide": "算法 {{side}}",
+    "graphLabel": "共享的带权图",
+    "operationsLabel": "共享的操作序列",
+    "arrayLabel": "共享的输入",
+    "treeLabel": "共享的插入顺序",
+    "targetLabel": "查找目标",
+    "startNode": "起始节点",
+    "addEdgesFirst": "请先添加边",
+    "prepare": "准备对比",
+    "tryInput": "试试输入:",
+    "graphHelp": "无向边写成 A-B，带权边写成 A-B:4。用逗号分隔多条边。遍历比较访问顺序；最小生成树比较所选边和总权重。",
+    "operationsHelp": "用 insert 10 和 delete 这样的写法，以逗号分隔。两个结构接收相同的序列。栈移除最新的值（LIFO）；队列移除最旧的值（FIFO）。在空结构上的删除会被忽略，不出现在其轨迹中。",
+    "arrayHelp": "1–32 个整数，取值 0–99。每个算法会收到同一个数组的独立副本。",
+    "treeHelp": "1–10 个整数，取值 0–99。按书写顺序插入；重复值被忽略 — 但重复插入仍会显示为一步，以保持两侧轨迹对齐。",
+    "targetHelp": "二分查找和跳跃查找要求升序。准备时会对共享副本排序，两侧使用（包括线性查找）。排序属于预处理，不计入查找轨迹。存在重复值时，不同算法可能找到不同的匹配索引。"
+  },
+  "presets": {
+    "random": "随机",
+    "sorted": "已排序",
+    "reversed": "逆序",
+    "duplicates": "含重复",
+    "zigzag": "锯齿形",
+    "interleaved": "交错",
+    "removeAll": "全部移除",
+    "lifoFifo": "LIFO vs FIFO",
+    "weighted": "带权",
+    "cycle": "环",
+    "grid": "网格"
+  },
+  "panel": {
+    "badge": {
+      "finished": "已完成",
+      "ready": "就绪",
+      "inProgress": "进行中"
+    },
+    "recordedSteps": "记录的步骤",
+    "resultLabel": "结果: ",
+    "narrationStart": "相同的初始输入。点击播放或下一步开始。",
+    "previewPlay": "点击播放将按顺序插入数值。",
+    "viewCode": "查看现有实现（JavaScript）",
+    "aria": {
+      "panel": "算法 {{side}}: {{name}}",
+      "canvas": "{{name}}可视化: {{message}}",
+      "progress": "{{name}}进度",
+      "original": "原始输入"
+    },
+    "metrics": {
+      "time": "时间",
+      "space": "空间",
+      "insert": "插入",
+      "delete": "删除",
+      "search": "查找",
+      "avgTime": "平均时间",
+      "worstTime": "最差时间",
+      "extraSpace": "额外空间"
+    }
+  },
+  "result": {
+    "searchFound": "在索引 {{index}} 找到 {{value}}（从 0 开始）。",
+    "searchNotFound": "未找到 {{value}}。",
+    "mstEdges": "最小生成树的边: {{edges}}",
+    "visitOrder": "访问顺序: {{order}}",
+    "remainingValues": "剩余值: [{{values}}]",
+    "treeSummary": "最终高度: {{height}} · {{count}} {{nodeWord}} · 中序遍历: {{order}}",
+    "treeNodes": {
+      "one": "个节点",
+      "other": "个节点"
+    },
+    "finalOutput": "最终可视化见上方。"
+  },
+  "playback": {
+    "aria": "共享播放控制",
+    "back": "后退",
+    "replay": "重新播放",
+    "next": "下一步",
+    "speed": "速度",
+    "stepsPerSecond": "{{value}} 步/秒",
+    "timeline": "时间线",
+    "disclaimer": "每个时钟周期每侧前进一个记录的步骤。已完成的面板保持其结果。步骤数描述的是教学轨迹，不代表执行时间或相等的计算量。"
+  },
+  "status": {
+    "searchingFor": "正在查找 {{target}}",
+    "sortedArray": "共享的已排序数组（索引从 0 开始）: [{{values}}]",
+    "graph": "共享图",
+    "edges": "边: {{edges}}",
+    "operations": "共享操作序列",
+    "insertionOrder": "共享插入顺序"
+  },
+  "empty": {
+    "title": "探索两个算法如何解决同一个问题",
+    "body": "选择算法和共享输入，然后准备对比。尝试不同的预设，观察行为如何变化。"
+  },
+  "errors": {
+    "fallback": "无法准备此次对比。请检查输入。",
+    "sameAlgo": "请选择两个不同的算法进行对比。",
+    "noSteps": "{{name}} 未生成任何步骤。",
+    "graphEmpty": "至少添加一条边，例如 A-B:4。",
+    "graphItem": "无法读取\"{{item}}\"。无权边用 A-B，带权边用 A-B:4。",
+    "selfLoop": "边 {{edge}} 是自环。请使用两个不同的节点名。",
+    "weightRange": "边权必须大于 0 且不超过 999。",
+    "duplicateEdge": "边 {{edge}} 被列出了多次。",
+    "tooManyNodes": "图中节点不要超过 12 个，以便两个可视化都保持可读。",
+    "tooManyEdges": "边不要超过 24 条，以便两个可视化都保持可读。",
+    "opEmpty": "至少添加一个操作，例如\"insert 10, delete\"。",
+    "opItem": "无法读取\"{{item}}\"。请使用\"insert 10\"或\"delete\"。",
+    "opValue": "操作\"{{item}}\"需要一个整数值。",
+    "opRange": "操作值必须在 -999 到 999 之间。",
+    "opNoValue": "操作\"{{item}}\"不应包含值。",
+    "tooManyOps": "操作不要超过 24 个。",
+    "needsInsert": "至少添加一个 insert 操作。",
+    "treeRange": "输入 1–10 个逗号分隔的整数，取值 0 到 99。插入顺序很重要。",
+    "treeValues": "使用 0 到 99 的值，使两棵树共享相同的键。",
+    "arrayRange": "输入 1–32 个逗号分隔的整数，取值 0 到 99。不允许空项。",
+    "arrayValues": "使用 0 到 99 的值，使两个可视化共享此输入。",
+    "target": "输入 0 到 99 的整数查找目标。它不必存在于数组中。"
+  }
+}

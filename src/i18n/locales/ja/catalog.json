@@ -1,0 +1,101 @@
+{
+  "back": "すべてのコース",
+  "card": {
+    "status": "インタラクティブ",
+    "openTopic": "トピックを開く",
+    "exploreCourse": "コースを見る",
+    "learningTopics": {
+      "one": "学習トピック {{count}} 件",
+      "other": "学習トピック {{count}} 件"
+    }
+  },
+  "overview": {
+    "metaTopics": {
+      "one": "トピック {{count}} 件",
+      "other": "トピック {{count}} 件"
+    },
+    "interactiveLessons": "インタラクティブなレッスン",
+    "contentEyebrow": "コース内容",
+    "contentTitle": "学ぶトピックを選びましょう",
+    "contentSubtitle": "概念を理解して、実際に動くところを見ましょう。"
+  },
+  "course": {
+    "data-structure": {
+      "eyebrow": "基礎コース",
+      "title": "データ構造",
+      "description": "現代のソフトウェアを支える構造とアルゴリズムの確かな基礎を築きましょう。各概念をインタラクティブなビジュアライザーで探求できます。"
+    },
+    "advanced-data-structure": {
+      "eyebrow": "応用コース",
+      "title": "応用データ構造",
+      "description": "階層データを整理し、データが増えても操作の効率を保つ木構造を学びます。"
+    }
+  },
+  "topic": {
+    "arrays": {
+      "title": "配列",
+      "description": "インデックスによる格納・アクセス・更新と、よく使われる配列操作を理解しましょう。",
+      "tags": ["インデックス", "挿入", "削除"]
+    },
+    "stacks": {
+      "title": "スタック",
+      "description": "push・pop・peek の操作で、後入れ先出し（LIFO）の動作を確かめましょう。",
+      "tags": ["LIFO", "Push", "Pop"]
+    },
+    "queues": {
+      "title": "キュー",
+      "description": "先入れ先出し（FIFO）の構造がデータとスケジューリングをどう扱うかを見てみましょう。",
+      "tags": ["FIFO", "Enqueue", "Dequeue"]
+    },
+    "linked-lists": {
+      "title": "連結リスト",
+      "description": "片方向・双方向・循環・順序付きリストのノードのつながりをたどりましょう。",
+      "tags": ["ノード", "ポインタ", "亜種"]
+    },
+    "sorting": {
+      "title": "ソートアルゴリズム",
+      "description": "各ソート戦略がデータをどう並べ替えるか、1 操作ずつ比較しましょう。",
+      "tags": ["アルゴリズム 8 種", "ステップ操作", "コード"]
+    },
+    "searching": {
+      "title": "探索アルゴリズム",
+      "description": "線形探索・二分探索・ジャンプ探索を追いかけて、効率よく値を見つけましょう。",
+      "tags": ["アルゴリズム 3 種", "ソート済みデータ", "計算量"]
+    },
+    "graphs": {
+      "title": "グラフ",
+      "description": "つながったデータをモデル化し、走査や最短経路を探求しましょう。",
+      "tags": ["BFS", "DFS", "Dijkstra"]
+    },
+    "trees": {
+      "title": "二分探索木",
+      "description": "木の走査を見ながら、値の挿入・検索・削除を試しましょう。",
+      "tags": ["BST", "走査", "探索"]
+    },
+    "avl-tree": {
+      "title": "AVL木",
+      "description": "自己平衡化の回転が木の高さを対数オーダーに保つ様子を見てみましょう。",
+      "tags": ["自己平衡", "回転", "高さ"]
+    },
+    "red-black-tree": {
+      "title": "赤黒木",
+      "description": "ノードの色分け・挿入時の修正・平衡な探索経路を探求しましょう。",
+      "tags": ["色の規則", "回転", "平衡化"]
+    }
+  },
+  "tool": {
+    "practice": {
+      "title": "練習モード",
+      "description": "短いクイズで学んだことを自信に変えましょう。",
+      "action": "練習を始める"
+    },
+    "compare": {
+      "title": "アルゴリズム比較",
+      "description": "2つのアルゴリズムを並べて、動作の違いを見てみましょう。",
+      "action": "比較を開く"
+    },
+    "apiKeys": {
+      "title": "AI・API設定"
+    }
+  }
+}

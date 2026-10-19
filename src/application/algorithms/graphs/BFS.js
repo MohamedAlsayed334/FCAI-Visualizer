@@ -20,6 +20,7 @@ export class BFS extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, visited: [...visited], queue: [...queue], current: start },
       msg: `Start BFS from node ${start}`,
+      msgKey: 'steps:graphs.bfs.start', msgParams: { start },
       codeLine: 1,
       codeLines: { js: 1, python: 1, cpp: 1, java: 1, csharp: 1 },
     });
@@ -30,6 +31,7 @@ export class BFS extends GraphAlgorithm {
       steps.push({
         graph: { nodes, edges, visited: [...visited], queue: [...queue], current: node, order: [...order] },
         msg: `Visit ${node}, queue: [${queue.join(', ')}]`,
+        msgKey: 'steps:graphs.bfs.visit', msgParams: { node, queue: queue.join(', ') },
         codeLine: 2,
         codeLines: { js: 2, python: 2, cpp: 2, java: 2, csharp: 2 },
       });
@@ -40,6 +42,7 @@ export class BFS extends GraphAlgorithm {
           steps.push({
             graph: { nodes, edges, visited: [...visited], queue: [...queue], current: nb, order: [...order] },
             msg: `Discovered ${nb} from ${node}`,
+            msgKey: 'steps:graphs.bfs.discover', msgParams: { nb, node },
             codeLine: 3,
             codeLines: { js: 3, python: 3, cpp: 3, java: 3, csharp: 3 },
           });
@@ -50,6 +53,7 @@ export class BFS extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, visited: [...visited], queue: [], order: [...order] },
       msg: `✅ BFS complete: ${order.join(' → ')}`,
+      msgKey: 'steps:graphs.bfs.done', msgParams: { order: order.join(' → ') },
       codeLine: -1,
     });
     return steps;

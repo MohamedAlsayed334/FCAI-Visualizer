@@ -8,7 +8,10 @@ export class AVLTree extends TreeAlgorithm {
 
   generateSteps(input) {
     const engine = new AVLEngine();
-    return buildInsertSteps(engine, [...input], (value, height, nodeCount) =>
-      `Insert ${value}: AVL rebalances when needed, height ${height} with ${nodeCount} node${nodeCount === 1 ? '' : 's'}.`);
+    return buildInsertSteps(engine, [...input], (value, height, nodeCount) => ({
+      msg: `Insert ${value}: AVL rebalances when needed, height ${height} with ${nodeCount} node${nodeCount === 1 ? '' : 's'}.`,
+      msgKey: 'steps:tree.insertAvl',
+      msgParams: { v: value, height, count: nodeCount },
+    }));
   }
 }

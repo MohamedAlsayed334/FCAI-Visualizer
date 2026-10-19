@@ -1,0 +1,25 @@
+// ── Scoped type-checking for the i18n layer ──────────────────────────────────
+// The repo is plain JS (no TypeScript); this config deliberately scopes
+// `checkJs` to the newest, pure-logic parts of the app so `npm run typecheck`
+// stays meaningful without flooding on legacy playback code. Extend `include`
+// as areas get hardened.
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+    "strict": false
+  },
+  "include": [
+    "src/i18n/**/*.js",
+    "src/i18n/**/*.jsx",
+    "src/hooks/**/*.js"
+  ]
+}

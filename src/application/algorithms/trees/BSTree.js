@@ -8,7 +8,10 @@ export class BSTree extends TreeAlgorithm {
 
   generateSteps(input) {
     const engine = new BST();
-    return buildInsertSteps(engine, [...input], (value, height, nodeCount) =>
-      `Insert ${value}: plain BST keeps the insertion order, height ${height} with ${nodeCount} node${nodeCount === 1 ? '' : 's'}.`);
+    return buildInsertSteps(engine, [...input], (value, height, nodeCount) => ({
+      msg: `Insert ${value}: plain BST keeps the insertion order, height ${height} with ${nodeCount} node${nodeCount === 1 ? '' : 's'}.`,
+      msgKey: 'steps:tree.insertBst',
+      msgParams: { v: value, height, count: nodeCount },
+    }));
   }
 }

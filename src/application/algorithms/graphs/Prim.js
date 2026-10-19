@@ -19,7 +19,7 @@ export class Prim extends GraphAlgorithm {
 
     steps.push({
       graph: { nodes, edges, visited: [...visited], mstEdges: [], current: null, mstNodes: [] },
-      msg: `Start Prim's MST from node ${start}`, codeLine: 0, codeLines: {},
+      msg: `Start Prim's MST from node ${start}`, msgKey: 'steps:graphs.prim.start', msgParams: { start }, codeLine: 0, codeLines: {},
     });
 
     visited.add(start);
@@ -47,6 +47,7 @@ export class Prim extends GraphAlgorithm {
       steps.push({
         graph: { nodes, edges, visited: [...visited], mstEdges: [...mstEdges], current: minEdge.to, mstNodes: [...visited] },
         msg: `Add edge ${minEdge.from}—${minEdge.to} (weight: ${minEdge.weight})`,
+        msgKey: 'steps:graphs.prim.add', msgParams: { from: minEdge.from, to: minEdge.to, w: minEdge.weight },
         codeLine: 1, codeLines: {},
       });
     }
@@ -54,6 +55,7 @@ export class Prim extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, visited: [...visited], mstEdges: [...mstEdges], mstNodes: [...visited] },
       msg: `✅ MST complete: ${mstEdges.map(e => `${e.from}—${e.to}`).join(', ')}`,
+      msgKey: 'steps:graphs.prim.done', msgParams: { list: mstEdges.map(e => `${e.from}—${e.to}`).join(', ') },
       codeLine: -1,
     });
 

@@ -1,0 +1,20 @@
+{
+  "title": "Searching",
+  "canvasAria": "Searching visualization canvas",
+  "descriptionFallback": "{{name}} search",
+  "target": "Target:",
+  "result": {
+    "foundAt": "✅ idx {{index}}",
+    "notFound": "❌ Not found"
+  },
+  "legend": {
+    "unseen": "Unseen",
+    "scanned": "Scanned",
+    "current": "Current",
+    "found": "Found",
+    "notFound": "Not found"
+  },
+  "canvas": {
+    "emptyState": "Generate an array to begin"
+  }
+}

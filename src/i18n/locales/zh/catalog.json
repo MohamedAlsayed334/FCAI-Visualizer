@@ -1,0 +1,101 @@
+{
+  "back": "所有课程",
+  "card": {
+    "status": "交互式",
+    "openTopic": "打开主题",
+    "exploreCourse": "查看课程",
+    "learningTopics": {
+      "one": "学习主题 {{count}} 个",
+      "other": "学习主题 {{count}} 个"
+    }
+  },
+  "overview": {
+    "metaTopics": {
+      "one": "主题 {{count}} 个",
+      "other": "主题 {{count}} 个"
+    },
+    "interactiveLessons": "交互式课时",
+    "contentEyebrow": "课程内容",
+    "contentTitle": "选择要学习的主题",
+    "contentSubtitle": "先理解概念，再看它如何运行。"
+  },
+  "course": {
+    "data-structure": {
+      "eyebrow": "核心课程",
+      "title": "数据结构",
+      "description": "为支撑现代软件的结构与算法打下扎实基础。通过交互式可视化器探索每个概念。"
+    },
+    "advanced-data-structure": {
+      "eyebrow": "高级课程",
+      "title": "高级数据结构",
+      "description": "研究组织层次化数据的树结构，让数据规模增长时操作依然高效。"
+    }
+  },
+  "topic": {
+    "arrays": {
+      "title": "数组",
+      "description": "理解按索引存储、访问、更新及常见数组操作。",
+      "tags": ["索引", "插入", "删除"]
+    },
+    "stacks": {
+      "title": "栈",
+      "description": "通过 push、pop 和 peek 操作探究后进先出（LIFO）行为。",
+      "tags": ["LIFO", "Push", "Pop"]
+    },
+    "queues": {
+      "title": "队列",
+      "description": "了解先进先出（FIFO）结构如何管理数据与调度。",
+      "tags": ["FIFO", "Enqueue", "Dequeue"]
+    },
+    "linked-lists": {
+      "title": "链表",
+      "description": "追踪单向、双向、循环和有序链表中的节点连接。",
+      "tags": ["节点", "指针", "变体"]
+    },
+    "sorting": {
+      "title": "排序算法",
+      "description": "逐步比较各排序策略如何整理数据。",
+      "tags": ["8 种算法", "步骤控制", "代码"]
+    },
+    "searching": {
+      "title": "查找算法",
+      "description": "追踪线性、二分和跳跃查找，高效定位目标值。",
+      "tags": ["3 种算法", "有序数据", "复杂度"]
+    },
+    "graphs": {
+      "title": "图",
+      "description": "对连通数据进行建模，探索遍历与最短路径。",
+      "tags": ["BFS", "DFS", "Dijkstra"]
+    },
+    "trees": {
+      "title": "二叉搜索树",
+      "description": "在探索树遍历的同时插入、查找和删除值。",
+      "tags": ["BST", "遍历", "查找"]
+    },
+    "avl-tree": {
+      "title": "AVL 树",
+      "description": "观察自平衡旋转如何保持对数级的树高。",
+      "tags": ["自平衡", "旋转", "高度"]
+    },
+    "red-black-tree": {
+      "title": "红黑树",
+      "description": "探索节点着色、插入修复与平衡的查找路径。",
+      "tags": ["颜色规则", "旋转", "平衡"]
+    }
+  },
+  "tool": {
+    "practice": {
+      "title": "练习模式",
+      "description": "用小题目把所学变成信心。",
+      "action": "开始练习"
+    },
+    "compare": {
+      "title": "算法对比",
+      "description": "并排查看两个算法，比较它们的行为。",
+      "action": "打开对比"
+    },
+    "apiKeys": {
+      "title": "AI 与 API 设置"
+    }
+  }
+}

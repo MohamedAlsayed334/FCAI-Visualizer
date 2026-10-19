@@ -1,0 +1,100 @@
+{
+  "title": "練習モード",
+  "subtitle": "アルゴリズムの知識を試そう",
+  "modes": {
+    "quiz": { "title": "AIクイズ", "description": "選択式の問題" },
+    "trace": { "title": "トレース", "description": "ステップごとの練習" }
+  },
+  "session": {
+    "quiz": "クイズ",
+    "trace": "トレース"
+  },
+  "comingSoon": "近日公開",
+  "selectTopic": "トピックを選択",
+  "backToMenu": "メニューに戻る",
+  "questionsAttempted": {
+    "zero": "回答なし",
+    "one": "{{count}}問",
+    "other": "{{count}}問"
+  },
+  "topics": {
+    "sorting": "ソート",
+    "searching": "探索",
+    "trees": "木構造",
+    "graphs": "グラフ"
+  },
+  "score": {
+    "title": "あなたの進捗",
+    "questions": "問題数",
+    "correct": "正解",
+    "accuracy": "正答率",
+    "bestStreak": "最高連続正解",
+    "reset": "🗑️ クリア",
+    "confirm": "クリックで確認"
+  },
+  "quiz": {
+    "title": "{{topic}}クイズ",
+    "settings": {
+      "questions": "問題数:",
+      "unlimited": "無制限",
+      "mode": "モード:",
+      "lang": "言語:"
+    },
+    "modes": {
+      "general": "📚 一般",
+      "code": "💻 コード",
+      "complexity": "📊 計算量"
+    },
+    "descriptions": {
+      "general": "{{topic}}の一般的な選択式問題",
+      "code": "{{topic}}に関するコード片を解析",
+      "complexity": "{{topic}}の時間・空間計算量の問題"
+    },
+    "actions": {
+      "start": "▶ クイズを開始",
+      "retryAI": "🔄 再試行（AI）",
+      "useBuiltIn": "📚 内蔵問題を使う",
+      "tryAgain": "↺ 再試行",
+      "submit": "回答を送信",
+      "next": "次の問題 →"
+    },
+    "loading": {
+      "ai": "🤖 AI問題を生成中...",
+      "builtIn": "📚 内蔵問題を読み込み中...",
+      "generic": "問題を読み込み中..."
+    },
+    "errors": {
+      "heading": "⚠️ AI問題を生成できません",
+      "rateLimit": "AIサービスがレート制限中です。しばらくしてから再試行してください。",
+      "auth": "AIサービスの認証に失敗しました。",
+      "server": "AIサービスが一時的に利用できません。",
+      "network": "ネットワークエラー。AIサービスに接続できませんでした。",
+      "parse": "AIが不正な形式のレスポンスを返しました。",
+      "generic": "AIエラー: {{message}}"
+    },
+    "progress": {
+      "question": "問題 {{count}}"
+    },
+    "results": {
+      "title": "🎉 クイズ完了！",
+      "points": "ポイント",
+      "score": "スコア",
+      "answered_one": "{{count}}問に回答しました",
+      "answered_other": "{{count}}問に回答しました"
+    },
+    "badges": {
+      "builtIn": "📚 内蔵",
+      "complexity": "📊 計算量"
+    },
+    "levels": {
+      "easy": "やさしい",
+      "medium": "ふつう",
+      "hard": "むずかしい"
+    },
+    "feedback": {
+      "correct": "✓ 正解！",
+      "incorrect": "✗ 不正解",
+      "wrongAnswer": "不正解！ 正しい答え: {{answer}}"
+    }
+  }
+}

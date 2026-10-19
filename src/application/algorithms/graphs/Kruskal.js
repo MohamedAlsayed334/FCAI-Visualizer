@@ -37,6 +37,7 @@ export class Kruskal extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, visited: [], mstEdges: [], current: null, mstNodes: [] },
       msg: `Start Kruskal's MST — sorted ${weightedEdges.length} edges by weight`,
+      msgKey: 'steps:graphs.kruskal.start', msgParams: { count: weightedEdges.length },
       codeLine: 0, codeLines: {},
     });
 
@@ -47,12 +48,14 @@ export class Kruskal extends GraphAlgorithm {
         steps.push({
           graph: { nodes, edges, visited: [...new Set(mstEdges.flatMap(e => [e.from, e.to]))], mstEdges: [...mstEdges], current: e.to, mstNodes: [...new Set(mstEdges.flatMap(e => [e.from, e.to]))] },
           msg: `Add edge ${e.from}—${e.to} (weight: ${e.weight})`,
+          msgKey: 'steps:graphs.kruskal.add', msgParams: { from: e.from, to: e.to, w: e.weight },
           codeLine: 1, codeLines: {},
         });
       } else {
         steps.push({
           graph: { nodes, edges, visited: [...new Set(mstEdges.flatMap(e => [e.from, e.to]))], mstEdges: [...mstEdges], current: null, mstNodes: [...new Set(mstEdges.flatMap(e => [e.from, e.to]))] },
           msg: `Skip edge ${e.from}—${e.to} (would create cycle)`,
+          msgKey: 'steps:graphs.kruskal.skip', msgParams: { from: e.from, to: e.to },
           codeLine: 2, codeLines: {},
         });
       }
@@ -61,6 +64,7 @@ export class Kruskal extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, visited: [...new Set(mstEdges.flatMap(e => [e.from, e.to]))], mstEdges: [...mstEdges], mstNodes: [...new Set(mstEdges.flatMap(e => [e.from, e.to]))] },
       msg: `✅ MST complete: ${mstEdges.map(e => `${e.from}—${e.to}`).join(', ')}`,
+      msgKey: 'steps:graphs.kruskal.done', msgParams: { list: mstEdges.map(e => `${e.from}—${e.to}`).join(', ') },
       codeLine: -1,
     });
 

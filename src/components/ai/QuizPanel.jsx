@@ -1,5 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useLang } from '../../hooks/useLang';
+import { useT } from '../../hooks/useT';
+import { useLocale } from '../../hooks/useLocale';
 import { complexity, algoNames, codeSnippets } from '../../data/algorithmData';
 import { GenerateQuestionUseCase } from '../../application/quiz/GenerateQuestionUseCase';
 
@@ -303,7 +305,7 @@ function getRandomQuestion(topic, questionType = 'general', lang = 'js') {
   if (questionType === 'complexity') {
     const comp = complexity[randomAlgo];
     if (comp) {
-      const complexityQuestions = generateComplexityQuestions(randomAlgo, comp, topic);
+      const complexityQuestions = generateComplexityQuestions(randomAlgo, comp);
       if (complexityQuestions.length > 0) {
         const random = complexityQuestions[Math.floor(Math.random() * complexityQuestions.length)];
         return {
@@ -373,7 +375,7 @@ function getRandomQuestion(topic, questionType = 'general', lang = 'js') {
   };
 }
 
-function generateComplexityQuestions(algoKey, comp, topic) {
+function generateComplexityQuestions(algoKey, comp) {
   const questions = [];
   
   if (comp.best) {
@@ -453,11 +455,12 @@ function generateCodeQuestions(algoKey, topic, lang = 'js') {
   if (code && code.length > 0) {
     const codeText = code.join('\n');
     const algoName = algoNames[algoKey] || algoKey;
-    
+    const algoChoice = generateAlgoOptions(algoKey);
+
     questions.push({
       q: `What sorting algorithm does this ${langName} code implement?\n\`\`\`\n${codeText.slice(0, 400)}\n\`\`\``,
-      options: generateAlgoOptions(algoKey),
-      answer: 'A',
+      options: algoChoice.options,
+      answer: algoChoice.answer,
       exp: `This is the implementation of ${algoName}`,
       level: 'easy'
     });
@@ -556,7 +559,7 @@ function generateAlgoOptions(correctAlgo) {
   const sortingAlgos = ['Bubble Sort', 'Selection Sort', 'Insertion Sort', 'Merge Sort', 'Quick Sort', 'Heap Sort'];
   const searchingAlgos = ['Linear Search', 'Binary Search', 'Jump Search'];
   const graphAlgos = ['BFS', 'DFS', 'Dijkstra', 'Prim', 'Kruskal'];
-  
+
   let options;
   if (['bubble', 'selection', 'insertion', 'merge', 'quick', 'heap'].includes(correctAlgo)) {
     options = sortingAlgos;
@@ -568,13 +571,20 @@ function generateAlgoOptions(correctAlgo) {
 
   const correctIdx = options.findIndex(o => o.toLowerCase().replace(' ', '-') === correctAlgo);
   const shuffled = [...options].sort(() => Math.random() - 0.5);
-  const correctLabel = shuffled.indexOf(options[correctIdx]);
-  
-  const letterMap = ['A', 'B', 'C', 'D'];
-  return shuffled.map((opt, i) => `${letterMap[i]}) ${opt}`);
+  // Track which shuffled position holds the correct option so the answer
+  // letter stays valid after the shuffle (sorting lists have up to 6 items).
+  const correctPos = shuffled.indexOf(options[correctIdx]);
+
+  const letterMap = ['A', 'B', 'C', 'D', 'E', 'F'];
+  return {
+    options: shuffled.map((opt, i) => `${letterMap[i]}) ${opt}`),
+    answer: letterMap[correctPos] ?? 'A',
+  };
 }
 
 export default function QuizPanel({ topic, onComplete, subTopic = null }) {
+  const t = useT('practice');
+  const { locale } = useLocale();
   const [started, setStarted] = useState(false);
   const [questionLimit, setQuestionLimit] = useState(10);
   const [questionMode, setQuestionMode] = useState('general');
@@ -592,7 +602,6 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
 
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [error, setError] = useState(null);
-  const [errorType, setErrorType] = useState(null);
 
   const handleStart = async () => {
     console.log('Starting quiz - resetting state');
@@ -608,7 +617,6 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
 
   const handleRetry = async () => {
     setError(null);
-    setErrorType(null);
     setIsTransitioning(true);
     await loadQuestion(true);
     setIsTransitioning(false);
@@ -616,7 +624,6 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
 
   const handleUseBuiltIn = () => {
     setError(null);
-    setErrorType(null);
     setLoading(false);
   };
 
@@ -631,7 +638,6 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
     setFeedback(null);
     setSource('loading');
     setError(null);
-    setErrorType(null);
     setLoadingMode(null);
 
     const actualType = getActualQuestionType();
@@ -640,39 +646,38 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
     const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
     const hasValidKey = apiKey && apiKey.startsWith('sk-or-v1-') && !apiKey.includes('xxxxxxxx');
 
-    let questionData = null;
-    let questionSource = 'built-in';
+    let questionData;
+    let questionSource;
 
     if (hasValidKey || retryWithAI) {
       setLoadingMode('ai');
       try {
-        const result = await questionUseCase.execute(topic, actualSubTopic, 'medium', 'mcq', actualType, lang);
+        const result = await questionUseCase.execute(topic, actualSubTopic, 'medium', 'mcq', actualType, lang, locale);
         questionData = { question: result.question, options: result.options, correctAnswer: result.correctAnswer, explanation: result.explanation, type: result.type, difficulty: result.difficulty, topic: result.topic, subTopic: result.subTopic, questionMode: result.questionMode };
         questionSource = 'ai';
       } catch (err) {
         console.log('AI failed:', err.message);
         const errorMsg = err.message || 'Unknown error';
         
-        let errorMessage = 'Unable to generate AI question.';
+        let errorMessage;
         if (errorMsg.includes('429') || errorMsg.includes('rate limit')) {
-          errorMessage = 'AI service is rate limited. Please try again.';
+          errorMessage = { kind: 'rateLimit' };
         } else if (errorMsg.includes('401') || errorMsg.includes('unauthorized') || errorMsg.includes('API key')) {
-          errorMessage = 'AI service authentication failed.';
+          errorMessage = { kind: 'auth' };
         } else if (errorMsg.includes('500') || errorMsg.includes('server error')) {
-          errorMessage = 'AI service is temporarily unavailable.';
+          errorMessage = { kind: 'server' };
         } else if (errorMsg.includes('timeout') || errorMsg.includes('Fetch') || errorMsg.includes('network') || errorMsg.includes('Failed to fetch')) {
-          errorMessage = 'Network error. Could not connect to AI service.';
+          errorMessage = { kind: 'network' };
         } else if (errorMsg.includes('Parsing')) {
-          errorMessage = 'AI returned invalid response format.';
+          errorMessage = { kind: 'parse' };
         } else {
-          errorMessage = `AI error: ${errorMsg.substring(0, 80)}`;
+          errorMessage = { kind: 'generic', detail: errorMsg.substring(0, 80) };
         }
         
         questionData = getRandomQuestion(topic, actualType, lang);
         questionSource = 'built-in';
         
         setError(errorMessage);
-        setErrorType('ai_failed');
         setLoadingMode('error');
         setQuestion(questionData);
         setSource(questionSource);
@@ -693,7 +698,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
     setSource(questionSource);
     setLoading(false);
     setLoadingMode(null);
-  }, [topic, subTopic, questionMode, lang]);
+  }, [topic, subTopic, questionMode, lang, locale]);
 
   const handleSubmit = () => {
     console.log('Submit clicked - submitted:', submitted, 'selectedAnswer:', selectedAnswer);
@@ -701,10 +706,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
     setSubmitted(true);
     const isCorrect = selectedAnswer === question.correctAnswer;
     if (isCorrect) setScore((s) => s + 10);
-    setFeedback({
-      isCorrect,
-      feedback: isCorrect ? 'Correct!' : `Wrong! Answer: ${question.correctAnswer}`,
-    });
+    setFeedback({ isCorrect });
     console.log('Feedback set:', isCorrect);
   };
 
@@ -764,13 +766,13 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             {topic === 'searching' && '⌕'} 
             {topic === 'trees' && '⬡'} 
             {topic === 'graphs' && '◇'}
-            {' '}{topic.charAt(0).toUpperCase() + topic.slice(1)} Quiz
+            {' '}{t('quiz.title', { topic: t(`topics.${topic}`, { defaultValue: topic }) })}
           </span>
         </div>
         
         <div style={{ marginBottom: '1rem', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Questions:</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{t('quiz.settings.questions')}</span>
             <select 
               value={questionLimit}
               onChange={(e) => setQuestionLimit(Number(e.target.value))}
@@ -779,26 +781,26 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={20}>20</option>
-              <option value={999}>Unlimited</option>
+              <option value={999}>{t('quiz.settings.unlimited')}</option>
             </select>
           </div>
           
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Mode:</span>
+            <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{t('quiz.settings.mode')}</span>
             <select
               value={questionMode}
               onChange={(e) => setQuestionMode(e.target.value)}
               style={{ padding: '0.4rem 0.75rem', borderRadius: '6px', border: '1px solid var(--border)', background: 'var(--surface)', color: 'var(--text)' }}
             >
-              <option value="general">📚 General</option>
-              <option value="code">💻 Code</option>
-              <option value="complexity">📊 Complexity</option>
+              <option value="general">{t('quiz.modes.general')}</option>
+              <option value="code">{t('quiz.modes.code')}</option>
+              <option value="complexity">{t('quiz.modes.complexity')}</option>
             </select>
           </div>
 
           {questionMode === 'code' && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Lang:</span>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>{t('quiz.settings.lang')}</span>
               <select
                 value={lang}
                 onChange={(e) => setLang(e.target.value)}
@@ -813,12 +815,10 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
         </div>
         
         <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>
-          {questionMode === 'general' ? `General ${topic} multiple choice questions` :
-           questionMode === 'code' ? `Analyze code snippets related to ${topic}` :
-           `Time/Space complexity questions for ${topic}`}
+          {t(`quiz.descriptions.${questionMode}`, { topic: t(`topics.${topic}`, { defaultValue: topic }) })}
         </p>
         <button className="btn btn-primary" onClick={handleStart} disabled={isTransitioning} style={{ fontSize: '1.1rem', padding: '0.75rem 2rem' }}>
-          ▶ Start Quiz
+          {t('quiz.actions.start')}
         </button>
       </div>
     );
@@ -837,18 +837,18 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
               marginBottom: '1.5rem'
             }}>
               <div style={{ color: 'var(--error)', marginBottom: '0.5rem', fontSize: '1.2rem', fontWeight: '600' }}>
-                ⚠️ Unable to generate AI question
+                ⚠️ {t('quiz.errors.heading')}
               </div>
               <p style={{ color: 'var(--text-muted)', marginBottom: '0' }}>
-                {error}
+                {t(`quiz.errors.${error.kind}`, { message: error.detail })}
               </p>
             </div>
             <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
               <button className="btn btn-primary" onClick={handleRetry} disabled={isTransitioning}>
-                🔄 Try Again (AI)
+                {t('quiz.actions.retryAI')}
               </button>
               <button className="btn btn-secondary" onClick={handleUseBuiltIn} disabled={isTransitioning}>
-                📚 Use Built-in Questions
+                {t('quiz.actions.useBuiltIn')}
               </button>
             </div>
           </>
@@ -857,11 +857,11 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             <div className="loading-spinner"></div>
             <p style={{ marginTop: '1rem', color: 'var(--text-muted)' }}>
               {loadingMode === 'ai' ? (
-                <>🤖 Generating AI question...</>
+                <>{t('quiz.loading.ai')}</>
               ) : loadingMode === 'built-in' ? (
-                <>📚 Loading built-in question...</>
+                <>{t('quiz.loading.builtIn')}</>
               ) : (
-                <>Loading question...</>
+                <>{t('quiz.loading.generic')}</>
               )}
             </p>
           </>
@@ -871,17 +871,16 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
   }
 
   if (completed) {
-    const accuracy = questionNumber > 0 ? Math.round((score / (questionNumber * 10)) * 100) : 0;
     return (
       <div className="quiz-container" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
-        <h2 style={{ marginBottom: '1.5rem' }}>🎉 Quiz Complete!</h2>
+        <h2 style={{ marginBottom: '1.5rem' }}>{t('quiz.results.title')}</h2>
         <div style={{ fontSize: '3rem', fontWeight: '700', marginBottom: '0.5rem' }}>{score}</div>
-        <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>Points</p>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>{t('quiz.results.points')}</p>
         <p style={{ marginBottom: '2rem' }}>
-          You answered {questionNumber} questions
+          {t('quiz.results.answered', { count: questionNumber })}
         </p>
         <button className="btn btn-primary" onClick={() => { setCompleted(false); setStarted(false); setQuestionNumber(1); setScore(0); }} style={{ fontSize: '1rem' }}>
-          ↺ Try Again
+          {t('quiz.actions.tryAgain')}
         </button>
       </div>
     );
@@ -891,7 +890,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
     return (
       <div className="quiz-container">
         <button className="btn btn-primary" onClick={loadQuestion}>
-          Start Quiz
+          {t('quiz.actions.start')}
         </button>
       </div>
     );
@@ -901,12 +900,12 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
     <div className="quiz-container">
       <div className="quiz-header">
         <div className="quiz-progress">
-          <span>Question {questionNumber}</span>
+          <span>{t('quiz.progress.question', { count: questionNumber })}</span>
         </div>
         <div className="quiz-stats">
           <div className="quiz-stat">
             <div className="quiz-stat-value">{score}</div>
-            <div className="quiz-stat-label">Score</div>
+            <div className="quiz-stat-label">{t('quiz.results.score')}</div>
           </div>
         </div>
       </div>
@@ -928,7 +927,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             borderRadius: '4px',
             fontSize: '0.7rem',
             fontWeight: '600'
-          }}>📚 Built-in</span>}
+          }}>📚 {t('quiz.badges.builtIn')}</span>}
           {question.algorithm && <span style={{
             background: topicColor.bg,
             color: topicColor.text,
@@ -936,7 +935,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             borderRadius: '4px',
             fontSize: '0.7rem',
             fontWeight: '600'
-          }}>{algoNames[question.algorithm] || question.algorithm}</span>}
+          }}>{t(`algorithms:${question.algorithm}.name`, { defaultValue: algoNames[question.algorithm] || question.algorithm })}</span>}
           {question.questionType === 'code' && <span style={{
             background: '#3b82f6',
             color: '#fff',
@@ -958,7 +957,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             borderRadius: '4px',
             fontSize: '0.7rem',
             fontWeight: '700'
-          }}>📊 Complexity</span>}
+          }}>📊 {t('quiz.badges.complexity')}</span>}
           {question.level && <span style={{
             background: 'var(--surface2)',
             color: 'var(--text)',
@@ -966,7 +965,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             borderRadius: '4px',
             fontSize: '0.65rem',
             textTransform: 'capitalize'
-          }}>{question.level}</span>}
+          }}>{t(`quiz.levels.${question.level}`, { defaultValue: question.level })}</span>}
         </span>
         
         {question.questionType === 'code' && (question.question.includes('```') || question.question.includes('`')) ? (
@@ -993,10 +992,10 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
       {feedback && (
         <div className={`quiz-feedback ${feedback.isCorrect ? 'correct' : 'incorrect'}`}>
           <div className="quiz-feedback-title">
-            {feedback.isCorrect ? '✓ Correct!' : '✗ Incorrect'}
+            {feedback.isCorrect ? t('quiz.feedback.correct') : t('quiz.feedback.incorrect')}
           </div>
           <div className="quiz-feedback-text">
-            {question.explanation || feedback.feedback}
+            {question.explanation || (feedback.isCorrect ? '' : t('quiz.feedback.wrongAnswer', { answer: question.correctAnswer }))}
           </div>
         </div>
       )}
@@ -1008,7 +1007,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             onClick={handleSubmit}
             disabled={!selectedAnswer || isTransitioning}
           >
-            Submit Answer
+            {t('quiz.actions.submit')}
           </button>
         ) : (
           <button
@@ -1016,7 +1015,7 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
             onClick={handleNext}
             disabled={isTransitioning}
           >
-            Next Question →
+            {t('quiz.actions.next')}
           </button>
         )}
       </div>

@@ -32,6 +32,7 @@ export function genLinearSearchSteps(arr, target) {
     current: [], scanned: [...scanned],
     found: null, foundIdx: -1,
     msg: `Linear Search: looking for ${target} in [${a.join(', ')}]`,
+    msgKey: 'steps:searching.linear.intro', msgParams: { target, list: a.join(', ') },
     codeLine: 0,
     codeLines: { js: 0, python: 0, cpp: 0, java: 0, csharp: 0 },
   });
@@ -43,6 +44,8 @@ export function genLinearSearchSteps(arr, target) {
       current: [i], scanned: [...scanned],
       found: null, foundIdx: -1,
       msg: `Check a[${i}] = ${a[i]}  ${a[i] === target ? '→ Match! ✅' : `≠ ${target}`}`,
+      msgKey: a[i] === target ? 'steps:searching.linear.checkMatch' : 'steps:searching.linear.checkMiss',
+      msgParams: { i, a: a[i], target },
       codeLine: 2,
       codeLines: { js: 2, python: 2, cpp: 2, java: 1, csharp: 1 },
     });
@@ -53,6 +56,7 @@ export function genLinearSearchSteps(arr, target) {
         current: [i], scanned: [...scanned],
         found: true, foundIdx: i,
         msg: `✅ Found ${target} at index ${i}!`,
+        msgKey: 'steps:searching.found', msgParams: { target, i },
         codeLine: 3,
         codeLines: { js: 3, python: 3, cpp: 3, java: 2, csharp: 2 },
       });
@@ -67,6 +71,7 @@ export function genLinearSearchSteps(arr, target) {
     current: [], scanned: [...scanned],
     found: false, foundIdx: -1,
     msg: `❌ ${target} not found in array.`,
+    msgKey: 'steps:searching.linear.notFound', msgParams: { target },
     codeLine: 6,
     codeLines: { js: 6, python: 5, cpp: 5, java: 3, csharp: 3 },
   });
@@ -90,6 +95,7 @@ export function genBinarySearchSteps(arr, target) {
     lo: 0, hi: n - 1, mid: -1,
     found: null, foundIdx: -1,
     msg: `Binary Search: target = ${target}. Array is sorted: [${a.join(', ')}]`,
+    msgKey: 'steps:searching.binary.intro', msgParams: { target, list: a.join(', ') },
     codeLine: 0,
     codeLines: { js: 0, python: 0, cpp: 0, java: 0, csharp: 0 },
   });
@@ -106,6 +112,7 @@ export function genBinarySearchSteps(arr, target) {
       lo, hi, mid,
       found: null, foundIdx: -1,
       msg: `lo=${lo}  hi=${hi}  mid=${mid}  a[mid]=${a[mid]}`,
+      msgKey: 'steps:searching.binary.window', msgParams: { lo, hi, mid, am: a[mid] },
       codeLine: 2,
       codeLines: { js: 2, python: 2, cpp: 2, java: 2, csharp: 2 },
     });
@@ -117,6 +124,7 @@ export function genBinarySearchSteps(arr, target) {
         lo, hi, mid,
         found: true, foundIdx: mid,
         msg: `✅ a[${mid}] = ${a[mid]} = target. Found at index ${mid}!`,
+        msgKey: 'steps:searching.binary.found', msgParams: { mid, am: a[mid] },
         codeLine: 3,
         codeLines: { js: 3, python: 3, cpp: 3, java: 3, csharp: 3 },
       });
@@ -132,6 +140,7 @@ export function genBinarySearchSteps(arr, target) {
         lo: mid + 1, hi, mid,
         found: null, foundIdx: -1,
         msg: `a[${mid}]=${a[mid]} < ${target} → search RIGHT half [${mid + 1}..${hi}]`,
+        msgKey: 'steps:searching.binary.goRight', msgParams: { mid, am: a[mid], target, from: mid + 1, to: hi },
         codeLine: 5,
         codeLines: { js: 5, python: 5, cpp: 5, java: 5, csharp: 5 },
       });
@@ -145,6 +154,7 @@ export function genBinarySearchSteps(arr, target) {
         lo, hi: mid - 1, mid,
         found: null, foundIdx: -1,
         msg: `a[${mid}]=${a[mid]} > ${target} → search LEFT half [${lo}..${mid - 1}]`,
+        msgKey: 'steps:searching.binary.goLeft', msgParams: { mid, am: a[mid], target, from: lo, to: mid - 1 },
         codeLine: 6,
         codeLines: { js: 6, python: 6, cpp: 6, java: 6, csharp: 6 },
       });
@@ -158,6 +168,7 @@ export function genBinarySearchSteps(arr, target) {
     lo, hi, mid: -1,
     found: false, foundIdx: -1,
     msg: `❌ lo(${lo}) > hi(${hi}): search space exhausted. ${target} not found.`,
+    msgKey: 'steps:searching.binary.exhausted', msgParams: { lo, hi, target },
     codeLine: 8,
     codeLines: { js: 8, python: 7, cpp: 7, java: 7, csharp: 7 },
   });
@@ -183,6 +194,7 @@ export function genJumpSearchSteps(arr, target) {
     phase: 'jump',
     found: null, foundIdx: -1,
     msg: `Jump Search: target=${target}, n=${n}, step=√${n}≈${step}. Array: [${a.join(', ')}]`,
+    msgKey: 'steps:searching.jump.intro', msgParams: { target, n, step, list: a.join(', ') },
     codeLine: 0,
     codeLines: { js: 0, python: 0, cpp: 0, java: 0, csharp: 0 },
   });
@@ -199,6 +211,7 @@ export function genJumpSearchSteps(arr, target) {
       phase: 'jump',
       found: null, foundIdx: -1,
       msg: `Jump: a[${curr}]=${a[curr]} ≤ ${target} → jump forward. Block [${prev}..${curr}] cleared.`,
+      msgKey: 'steps:searching.jump.jump', msgParams: { i: curr, a: a[curr], target, from: prev, to: curr },
       codeLine: 4,
       codeLines: { js: 4, python: 4, cpp: 3, java: 4, csharp: 4 },
     });
@@ -216,6 +229,7 @@ export function genJumpSearchSteps(arr, target) {
     phase: 'linear',
     found: null, foundIdx: -1,
     msg: `a[${Math.min(curr, n) - 1}]=${a[Math.min(curr, n) - 1]} > ${target} (or end). Linear scan in block [${prev}..${blockEnd}].`,
+    msgKey: 'steps:searching.jump.scanBlock', msgParams: { i: Math.min(curr, n) - 1, a: a[Math.min(curr, n) - 1], target, from: prev, to: blockEnd },
     codeLine: 6,
     codeLines: { js: 6, python: 6, cpp: 5, java: 6, csharp: 6 },
   });
@@ -229,6 +243,8 @@ export function genJumpSearchSteps(arr, target) {
       phase: 'linear',
       found: null, foundIdx: -1,
       msg: `Linear scan: a[${i}]=${a[i]}  ${a[i] === target ? '→ Match! ✅' : `≠ ${target}`}`,
+      msgKey: a[i] === target ? 'steps:searching.jump.scanMatch' : 'steps:searching.jump.scanMiss',
+      msgParams: { i, a: a[i], target },
       codeLine: 7,
       codeLines: { js: 7, python: 7, cpp: 6, java: 7, csharp: 7 },
     });
@@ -241,6 +257,7 @@ export function genJumpSearchSteps(arr, target) {
         phase: 'linear',
         found: true, foundIdx: i,
         msg: `✅ Found ${target} at index ${i}!`,
+        msgKey: 'steps:searching.found', msgParams: { target, i },
         codeLine: 8,
         codeLines: { js: 8, python: 8, cpp: 7, java: 8, csharp: 8 },
       });
@@ -256,6 +273,7 @@ export function genJumpSearchSteps(arr, target) {
     phase: 'done',
     found: false, foundIdx: -1,
     msg: `❌ ${target} not found in block [${prev}..${blockEnd}]. Not in array.`,
+    msgKey: 'steps:searching.jump.notFoundBlock', msgParams: { target, from: prev, to: blockEnd },
     codeLine: 9,
     codeLines: { js: 9, python: 9, cpp: 8, java: 9, csharp: 9 },
   });

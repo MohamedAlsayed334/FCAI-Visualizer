@@ -1,4 +1,5 @@
 import { Code2 } from 'lucide-react';
+import { useT } from '../../hooks/useT';
 
 const LANG_LABELS = {
   js: 'JS',
@@ -9,6 +10,7 @@ const LANG_LABELS = {
 };
 
 export default function CodePanel({ codeByLang, codeSnippet, activeLine, lang = 'js', setLang }) {
+  const t = useT();
   // Tabs follow data: only offer languages this algorithm actually has snippets for.
   const availableLangs = codeByLang
     ? Object.keys(LANG_LABELS).filter((key) => (codeByLang[key] ?? '').length > 0)
@@ -24,9 +26,9 @@ export default function CodePanel({ codeByLang, codeSnippet, activeLine, lang = 
   if (!resolvedSnippet) return null;
 
   return (
-    <section className="panel-card code-container shared-code-panel" aria-label="Algorithm implementation">
+    <section className="panel-card code-container shared-code-panel" aria-label={t('codePanel.ariaLabel')}>
       <div className="shared-code-heading">
-        <h3><Code2 size={17} /> Implementation</h3>
+        <h3><Code2 size={17} /> {t('codePanel.title')}</h3>
         {codeByLang && setLang && (
           <div className="lang-tab-bar" role="tablist" aria-label="Programming language">
             {availableLangs.map((key) => (
@@ -37,7 +39,7 @@ export default function CodePanel({ codeByLang, codeSnippet, activeLine, lang = 
                 aria-selected={effectiveLang === key}
                 className={`lang-tab${effectiveLang === key ? ' active' : ''}`}
                 onClick={() => setLang(key)}
-                title={`View in ${LANG_LABELS[key]}`}
+                title={t('codePanel.viewIn', { lang: LANG_LABELS[key] })}
               >
                 {LANG_LABELS[key]}
               </button>

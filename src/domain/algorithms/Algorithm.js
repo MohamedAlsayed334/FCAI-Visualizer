@@ -12,7 +12,7 @@ export class Algorithm {
   get codeSnippets() { throw new Error('Implement codeSnippets getter'); }
   get explanation() { throw new Error('Implement explanation getter'); }
 
-  generateSteps(input) {
+  generateSteps() {
     throw new Error('Implement generateSteps(input)');
   }
 

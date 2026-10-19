@@ -11,6 +11,7 @@ export class HeapTree extends TreeAlgorithm {
       arr: values.slice(0, i + 1),
       current: [i],
       msg: `Building heap: inserted ${val}`,
+      msgKey: 'steps:tree.heap.building', msgParams: { v: val },
       codeLine: 1,
       codeLines: { js: 1, python: 1, cpp: 1, java: 1, csharp: 1 },
     }));

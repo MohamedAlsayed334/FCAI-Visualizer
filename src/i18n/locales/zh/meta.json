@@ -1,0 +1,6 @@
+{
+  "name": "Chinese",
+  "nativeName": "简体中文",
+  "dir": "ltr",
+  "fontFamily": "'Noto Sans SC', var(--font-body)"
+}

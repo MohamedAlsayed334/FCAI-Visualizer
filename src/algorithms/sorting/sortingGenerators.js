@@ -6,17 +6,19 @@ export function genBubbleSteps(arr) {
       // js:l4 py:l4 cpp:l3 — the "if (arr[j] > arr[j+1])" line
       steps.push({arr:[...a], compare:[j,j+1], swap:null, sorted:Array.from({length:i},(_,k)=>n-1-k),
         msg:`Comparing a[${j}]=${a[j]} and a[${j+1}]=${a[j+1]}`,
+        msgKey:'steps:sorting.bubble.compare', msgParams:{j, a:a[j], jj:j+1, ajj:a[j+1]},
         codeLine:4, codeLines:{js:4,python:4,cpp:3,java:4,csharp:4}});
       if (a[j] > a[j+1]) {
         [a[j],a[j+1]] = [a[j+1],a[j]];
         // js:l5 py:l5 cpp:l4 — the swap line
         steps.push({arr:[...a], compare:null, swap:[j,j+1], sorted:Array.from({length:i},(_,k)=>n-1-k),
           msg:`Swapping ${a[j+1]} and ${a[j]} (left > right)`,
+          msgKey:'steps:sorting.bubble.swap', msgParams:{x:a[j+1], y:a[j]},
           codeLine:5, codeLines:{js:5,python:5,cpp:4,java:5,csharp:5}});
       }
     }
   }
-  steps.push({arr:[...a], compare:null, swap:null, sorted:Array.from({length:n},(_,k)=>k), msg:'Array sorted!', codeLine:-1});
+  steps.push({arr:[...a], compare:null, swap:null, sorted:Array.from({length:n},(_,k)=>k), msg:'Array sorted!', msgKey:'steps:sorting.done', codeLine:-1});
   return steps;
 }
 
@@ -29,6 +31,7 @@ export function genSelectionSteps(arr) {
       // js:l5 py:l5 cpp:l4 — the "if (arr[j] < arr[minIdx])" line
       steps.push({arr:[...a], compare:[minIdx,j], current:[i], sorted:Array.from({length:i},(_,k)=>k),
         msg:`Comparing min(a[${minIdx}]=${a[minIdx]}) with a[${j}]=${a[j]}`,
+        msgKey:'steps:sorting.selection.compare', msgParams:{m:minIdx, mv:a[minIdx], j, a:a[j]},
         codeLine:4, codeLines:{js:5,python:5,cpp:4,java:5,csharp:5}});
       if (a[j] < a[minIdx]) { minIdx = j; }
     }
@@ -37,10 +40,11 @@ export function genSelectionSteps(arr) {
       // js:l10 py:l7 cpp:l5 — the swap line
       steps.push({arr:[...a], swap:[i,minIdx], sorted:Array.from({length:i},(_,k)=>k),
         msg:`Swapping a[${i}]=${a[i]} to position ${i}`,
+        msgKey:'steps:sorting.selection.swap', msgParams:{i, a:a[i]},
         codeLine:9, codeLines:{js:10,python:7,cpp:5,java:8,csharp:8}});
     }
   }
-  steps.push({arr:[...a], sorted:Array.from({length:n},(_,k)=>k), msg:'Array sorted!', codeLine:-1});
+  steps.push({arr:[...a], sorted:Array.from({length:n},(_,k)=>k), msg:'Array sorted!', msgKey:'steps:sorting.done', codeLine:-1});
   return steps;
 }
 
@@ -57,6 +61,7 @@ export function genInsertionSteps(arr) {
       current: [j],
       sorted: Array.from({ length: i }, (_, k) => k),
       msg: `Pick a[${j}] = ${a[j]} as the key`,
+      msgKey: 'steps:sorting.insertion.pick', msgParams: { j, a: a[j] },
       codeLine: 2, // matches typical insertion sort line where key is taken
       codeLines: { js: 2, python: 2, cpp: 2, java: 2, csharp: 2 }
     });
@@ -69,6 +74,7 @@ export function genInsertionSteps(arr) {
         compare: [j, j - 1],
         sorted: Array.from({ length: i }, (_, k) => k),
         msg: `Compare a[${j}] = ${a[j]} and a[${j-1}] = ${a[j-1]}`,
+        msgKey: 'steps:sorting.insertion.compare', msgParams: { j, a: a[j], j2: j-1, a2: a[j-1] },
         codeLine: 3, // line where the comparison is made
         codeLines: { js: 3, python: 3, cpp: 3, java: 3, csharp: 3 }
       });
@@ -80,6 +86,7 @@ export function genInsertionSteps(arr) {
         swap: [j, j - 1],
         sorted: Array.from({ length: i }, (_, k) => k),
         msg: `Swap: move ${a[j]} left to index ${j-1}`,
+        msgKey: 'steps:sorting.insertion.swap', msgParams: { x: a[j], to: j-1 },
         codeLine: 4, // line where the swap happens
         codeLines: { js: 4, python: 4, cpp: 4, java: 4, csharp: 4 }
       });
@@ -90,6 +97,7 @@ export function genInsertionSteps(arr) {
       arr: [...a],
       sorted: Array.from({ length: i + 1 }, (_, k) => k),
       msg: `Key ${a[j]} placed → first ${i+1} elements sorted`,
+      msgKey: 'steps:sorting.insertion.place', msgParams: { key: a[j], count: i+1 },
       codeLine: -1
     });
   }
@@ -98,6 +106,7 @@ export function genInsertionSteps(arr) {
     arr: [...a],
     sorted: Array.from({ length: n }, (_, k) => k),
     msg: 'Array sorted!',
+    msgKey: 'steps:sorting.done',
     codeLine: -1
   });
   return steps;
@@ -136,6 +145,8 @@ export function genMergeSteps(arr) {
       placedSourceIdx: extra.placedSourceIdx ?? -1,
       activeId:        extra.activeId        ?? -1,
       msg,
+      msgKey:          extra.msgKey,
+      msgParams:       extra.msgParams,
       codeLine: extra.codeLine || 0,
       codeLines: extra.codeLines || null,
     });
@@ -144,7 +155,8 @@ export function genMergeSteps(arr) {
   const root = makeNode(0, n - 1, 0);
   visible.add(root.id);
   snap('split', `Merge Sort: array [${orig.join(', ')}]. Will split left-first.`,
-    { activeId: root.id, codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } }); // line 11 (1‑based) -> index 10
+    { activeId: root.id, msgKey: 'steps:sorting.merge.intro', msgParams: { list: orig.join(', ') },
+      codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } }); // line 11 (1‑based) -> index 10
 
   function recurse(nd) {
     const { l, r, id } = nd;
@@ -152,7 +164,8 @@ export function genMergeSteps(arr) {
       nd.state = 'sorted';
       nd.values = [work[l]];
       snap('split', `[${work[l]}] — single element, already sorted.`,
-        { activeId: id, codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } });
+        { activeId: id, msgKey: 'steps:sorting.merge.single', msgParams: { value: work[l] },
+          codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } });
       return;
     }
     const m = (l + r) >> 1;
@@ -162,19 +175,25 @@ export function genMergeSteps(arr) {
     visible.add(lnd.id);
     snap('split',
       `Split [${work.slice(l,r+1).join(', ')}] → left [${work.slice(l,m+1).join(', ')}]`,
-      { activeId: lnd.id, codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } });
+      { activeId: lnd.id, msgKey: 'steps:sorting.merge.splitLeft',
+        msgParams: { list: work.slice(l, r+1).join(', '), left: work.slice(l, m+1).join(', ') },
+        codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } });
     recurse(lnd);
     visible.add(rnd.id);
     snap('split',
       `Now split right half [${work.slice(m+1,r+1).join(', ')}]`,
-      { activeId: rnd.id, codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } });
+      { activeId: rnd.id, msgKey: 'steps:sorting.merge.splitRight',
+        msgParams: { list: work.slice(m+1, r+1).join(', ') },
+        codeLine: 10, codeLines: { cpp: 10, python: 10, java: 10, csharp: 10 } });
     recurse(rnd);
 
     nd.state = 'merging';
     nd.values = new Array(r - l + 1).fill(null);
     snap('merge',
       `Merging [${lnd.values.join(', ')}] + [${rnd.values.join(', ')}]`,
-      { activeId: id, codeLine: 11, codeLines: { cpp: 11, python: 11, java: 11, csharp: 11 } }); // line 12 (1‑based) -> index 11
+      { activeId: id, msgKey: 'steps:sorting.merge.merging',
+        msgParams: { left: lnd.values.join(', '), right: rnd.values.join(', ') },
+        codeLine: 11, codeLines: { cpp: 11, python: 11, java: 11, csharp: 11 } }); // line 12 (1‑based) -> index 11
 
     const Lv = [...lnd.values];
     const Rv = [...rnd.values];
@@ -182,7 +201,9 @@ export function genMergeSteps(arr) {
     while (i < Lv.length && j < Rv.length) {
       snap('merge',
         `Compare ${Lv[i]} vs ${Rv[j]}`,
-        { activeId: id, compareL: l + i, compareR: m + 1 + j,
+        { activeId: id, msgKey: 'steps:sorting.merge.comparePair',
+          msgParams: { x: Lv[i], y: Rv[j] },
+          compareL: l + i, compareR: m + 1 + j,
           codeLine: 3, codeLines: { cpp: 3, python: 3, java: 3, csharp: 3 } }); // line 4 (1‑based) -> index 3
       const fromLeft = Lv[i] <= Rv[j];
       const sourceIdx = fromLeft ? l + i : m + 1 + j;
@@ -191,7 +212,9 @@ export function genMergeSteps(arr) {
       nd.values[k] = winner;
       snap('merge',
         `Place ${winner} → merged[${k}]`,
-        { activeId: id, placedParentIdx: l + k, placedSourceIdx: sourceIdx,
+        { activeId: id, msgKey: 'steps:sorting.merge.placeWinner',
+          msgParams: { value: winner, pos: k },
+          placedParentIdx: l + k, placedSourceIdx: sourceIdx,
           codeLine: 4, codeLines: { cpp: 4, python: 4, java: 4, csharp: 4 } }); // line 5 (1‑based) -> index 4
       k++;
     }
@@ -199,7 +222,8 @@ export function genMergeSteps(arr) {
       work[l + k] = Lv[i];
       nd.values[k] = Lv[i];
       snap('merge', `Copy left remainder: ${Lv[i]}`,
-        { activeId: id, placedParentIdx: l + k, placedSourceIdx: l + i,
+        { activeId: id, msgKey: 'steps:sorting.merge.copyLeft', msgParams: { value: Lv[i] },
+          placedParentIdx: l + k, placedSourceIdx: l + i,
           codeLine: 5, codeLines: { cpp: 5, python: 5, java: 5, csharp: 5 } }); // line 6 (1‑based) -> index 5
       i++; k++;
     }
@@ -207,7 +231,8 @@ export function genMergeSteps(arr) {
       work[l + k] = Rv[j];
       nd.values[k] = Rv[j];
       snap('merge', `Copy right remainder: ${Rv[j]}`,
-        { activeId: id, placedParentIdx: l + k, placedSourceIdx: m + 1 + j,
+        { activeId: id, msgKey: 'steps:sorting.merge.copyRight', msgParams: { value: Rv[j] },
+          placedParentIdx: l + k, placedSourceIdx: m + 1 + j,
           codeLine: 6, codeLines: { cpp: 6, python: 6, java: 6, csharp: 6 } }); // line 7 (1‑based) -> index 6
       j++; k++;
     }
@@ -216,14 +241,17 @@ export function genMergeSteps(arr) {
     visible.delete(rnd.id);
     snap('merge',
       `Merged → [${nd.values.join(', ')}]`,
-      { activeId: id, codeLine: 11, codeLines: { cpp: 11, python: 11, java: 11, csharp: 11 } });
+      { activeId: id, msgKey: 'steps:sorting.merge.merged',
+        msgParams: { list: nd.values.join(', ') },
+        codeLine: 11, codeLines: { cpp: 11, python: 11, java: 11, csharp: 11 } });
   }
 
   recurse(root);
 
   root.state = 'sorted';
   snap('done', `✅ Array sorted! [${work.join(', ')}]`,
-    { activeId: root.id, codeLine: -1 });
+    { activeId: root.id, msgKey: 'steps:sorting.doneList', msgParams: { list: work.join(', ') },
+      codeLine: -1 });
   const last = steps[steps.length - 1];
   last.arr    = [...work];
   last.sorted = Array.from({ length: n }, (_, k) => k);
@@ -238,9 +266,9 @@ export function genQuickSteps(arr) {
   let rowList    = [];
   let rowId      = 0;
 
-  function snap(lo, hi, pivotIdx, pivotVal, iPtr, jPtr, phase, msg) {
-    let codeLine = 0;
-    let codeLines = { cpp: 0, python: 0, java: 0, csharp: 0 };
+  function snap(lo, hi, pivotIdx, pivotVal, iPtr, jPtr, phase, msg, msgMeta = {}) {
+    let codeLine;
+    let codeLines;
     switch (phase) {
       case 'select': codeLine = 1; break;
       case 'scan':   codeLine = 4; break;
@@ -261,6 +289,8 @@ export function genQuickSteps(arr) {
       phase,
       sorted:   [...sortedSet],
       msg,
+      msgKey: msgMeta.msgKey,
+      msgParams: msgMeta.msgParams,
       codeLine,
       codeLines,
     });
@@ -275,23 +305,27 @@ export function genQuickSteps(arr) {
       state: 'active',
     }];
     snap(lo, hi, lo, pivotVal, lo, lo + 1, 'select',
-      `Pivot = a[${lo}] = ${pivotVal}  Subarray: [${a.slice(lo,hi+1).join(', ')}]`);
+      `Pivot = a[${lo}] = ${pivotVal}  Subarray: [${a.slice(lo,hi+1).join(', ')}]`,
+      { msgKey: 'steps:sorting.quick.pivot', msgParams: { pos: lo, pivot: pivotVal, list: a.slice(lo, hi+1).join(', ') } });
 
     let i = lo;
     let j = lo + 1;
     while (j <= hi) {
       snap(lo, hi, lo, pivotVal, i, j, 'scan',
-        `j=${j}: a[${j}]=${a[j]} ${a[j] <= pivotVal ? '≤' : '>'} pivot ${pivotVal}`);
+        `j=${j}: a[${j}]=${a[j]} ${a[j] <= pivotVal ? '≤' : '>'} pivot ${pivotVal}`,
+        { msgKey: 'steps:sorting.quick.scan', msgParams: { j, a: a[j], op: a[j] <= pivotVal ? '≤' : '>', pivot: pivotVal } });
       if (a[j] <= pivotVal) {
         i++;
         if (i !== j) {
           [a[i], a[j]] = [a[j], a[i]];
           rowList = rowList.map(r => r.id===rid ? {...r, values:a.slice(lo,hi+1)} : r);
           snap(lo, hi, lo, pivotVal, i, j, 'swap',
-            `a[${j}]=${a[j]} ≤ ${pivotVal} → i=${i}, swap a[${i}] ↔ a[${j}]`);
+            `a[${j}]=${a[j]} ≤ ${pivotVal} → i=${i}, swap a[${i}] ↔ a[${j}]`,
+            { msgKey: 'steps:sorting.quick.swap', msgParams: { j, a: a[j], pivot: pivotVal, i } });
         } else {
           snap(lo, hi, lo, pivotVal, i, j, 'scan',
-            `a[${j}]=${a[j]} ≤ ${pivotVal} → i=${i}, already in place`);
+            `a[${j}]=${a[j]} ≤ ${pivotVal} → i=${i}, already in place`,
+            { msgKey: 'steps:sorting.quick.inPlace', msgParams: { j, a: a[j], pivot: pivotVal, i } });
         }
       }
       j++;
@@ -302,7 +336,8 @@ export function genQuickSteps(arr) {
       ? {...r, values:a.slice(lo,hi+1), state:'partitioned'}
       : r);
     snap(lo, hi, i, pivotVal, i, hi, 'place',
-      `Pivot ${pivotVal} → placed at [${i}]  Left < ${pivotVal}: [${a.slice(lo,i).join(',')}]  Right ≥ ${pivotVal}: [${a.slice(i+1,hi+1).join(',')}]`);
+      `Pivot ${pivotVal} → placed at [${i}]  Left < ${pivotVal}: [${a.slice(lo,i).join(',')}]  Right ≥ ${pivotVal}: [${a.slice(i+1,hi+1).join(',')}]`,
+      { msgKey: 'steps:sorting.quick.place', msgParams: { pivot: pivotVal, pos: i, left: a.slice(lo, i).join(','), right: a.slice(i+1, hi+1).join(',') } });
     return i;
   }
 
@@ -325,6 +360,7 @@ export function genQuickSteps(arr) {
     phase: 'done',
     sorted: [...sortedSet],
     msg: '✅ Array fully sorted!',
+    msgKey: 'steps:sorting.doneFull',
     codeLine: -1,
     codeLines: { cpp: -1, python: -1, java: -1, csharp: -1 }
   });
@@ -340,12 +376,12 @@ export function genHeapSteps(arr) {
   const steps = [];
   function heapify(a,n,i){
     let lg=i,l=2*i+1,r=2*i+2;
-    steps.push({arr:[...a],current:[i],compare:[l<n?l:-1,r<n?r:-1].filter(x=>x>=0),msg:`Heapify at ${i}`,codeLine:8});
+    steps.push({arr:[...a],current:[i],compare:[l<n?l:-1,r<n?r:-1].filter(x=>x>=0),msg:`Heapify at ${i}`,msgKey:'steps:sorting.heap.heapify',msgParams:{i},codeLine:8});
     if(l<n&&a[l]>a[lg]){lg=l;}
     if(r<n&&a[r]>a[lg]){lg=r;}
     if(lg!==i){
       [a[i],a[lg]]=[a[lg],a[i]];
-      steps.push({arr:[...a],swap:[i,lg],msg:`Swap ${a[lg]} and ${a[i]}`,codeLine:13});
+      steps.push({arr:[...a],swap:[i,lg],msg:`Swap ${a[lg]} and ${a[i]}`,msgKey:'steps:sorting.heap.swap',msgParams:{x:a[lg],y:a[i]},codeLine:13});
       heapify(a,n,lg);
     }
   }
@@ -353,10 +389,10 @@ export function genHeapSteps(arr) {
   for(let i=n/2-1|0;i>=0;i--) heapify(a,n,i);
   for(let i=n-1;i>0;i--){
     [a[0],a[i]]=[a[i],a[0]];
-    steps.push({arr:[...a],swap:[0,i],sorted:Array.from({length:n-i},(_,k)=>n-1-k),msg:`Move max ${a[i]} to position ${i}`,codeLine:4});
+    steps.push({arr:[...a],swap:[0,i],sorted:Array.from({length:n-i},(_,k)=>n-1-k),msg:`Move max ${a[i]} to position ${i}`,msgKey:'steps:sorting.heap.moveMax',msgParams:{v:a[i],i},codeLine:4});
     heapify(a,i,0);
   }
-  steps.push({arr:[...a],sorted:Array.from({length:n},(_,k)=>k),msg:'Array sorted!',codeLine:-1});
+  steps.push({arr:[...a],sorted:Array.from({length:n},(_,k)=>k),msg:'Array sorted!',msgKey:'steps:sorting.done',codeLine:-1});
   return steps;
 }
 
@@ -368,7 +404,7 @@ export function genCountingSteps(arr) {
   const count = new Array(max + 1).fill(0);
   const output = new Array(n).fill(null);
 
-  function snap(msg, codeLine, activeOrig, activeCount, activeOutput) {
+  function snap(msg, codeLine, activeOrig, activeCount, activeOutput, msgKey, msgParams) {
     steps.push({
       multiArray: true,
       origArr:    [...orig],
@@ -378,32 +414,40 @@ export function genCountingSteps(arr) {
       activeCount:  activeCount !== undefined ? activeCount : -1,
       activeOutput: activeOutput!== undefined ? activeOutput: -1,
       msg,
+      msgKey,
+      msgParams,
       codeLine: codeLine || 0,
       codeLines: { cpp: codeLine || 0, python: codeLine || 0, java: codeLine || 0, csharp: codeLine || 0 }
     });
   }
 
-  snap(`Max value = ${max}. Create count array of size ${max + 1}, all zeros.`, 0); // line 1 -> index 0
-  snap(`Initialize count array.`, 1);                                            // line 2 -> index 1
+  snap(`Max value = ${max}. Create count array of size ${max + 1}, all zeros.`, 0, -1, -1, -1,
+    'steps:sorting.counting.init', { max, size: max + 1 }); // line 1 -> index 0
+  snap(`Initialize count array.`, 1, -1, -1, -1, 'steps:sorting.counting.initZero', {}); // line 2 -> index 1
   for (let i = 0; i < n; i++) {
     const val = orig[i];
-    snap(`Reading orig[${i}] = ${val}. About to increment count[${val}].`, 2, i, val, -1); // line 3 -> index 2
+    snap(`Reading orig[${i}] = ${val}. About to increment count[${val}].`, 2, i, val, -1,
+      'steps:sorting.counting.reading', { i, val }); // line 3 -> index 2
     count[val]++;
-    snap(`count[${val}] is now ${count[val]}.`, 2, i, val, -1);
+    snap(`count[${val}] is now ${count[val]}.`, 2, i, val, -1,
+      'steps:sorting.counting.updated', { val, count: count[val] });
   }
-  snap(`Counting done. Now build OUTPUT array from COUNT.`, 4); // line 5 -> index 4
+  snap(`Counting done. Now build OUTPUT array from COUNT.`, 4, -1, -1, -1,
+    'steps:sorting.counting.buildOutput', {}); // line 5 -> index 4
   let outIdx = 0;
   for (let v = 0; v <= max; v++) {
     const freq = count[v];
     if (freq === 0) continue;
-    snap(`count[${v}] = ${freq}. Will place ${freq}× the value ${v} into OUTPUT.`, 4, -1, v, outIdx);
+    snap(`count[${v}] = ${freq}. Will place ${freq}× the value ${v} into OUTPUT.`, 4, -1, v, outIdx,
+      'steps:sorting.counting.duplicate', { v, freq });
     for (let k = 0; k < freq; k++) {
       output[outIdx] = v;
-      snap(`Placed ${v} at output[${outIdx}].`, 5, -1, v, outIdx); // line 6 -> index 5
+      snap(`Placed ${v} at output[${outIdx}].`, 5, -1, v, outIdx,
+        'steps:sorting.counting.placedOut', { v, out: outIdx }); // line 6 -> index 5
       outIdx++;
     }
   }
-  snap(`OUTPUT complete — array is sorted! ✅`, -1);
+  snap(`OUTPUT complete — array is sorted! ✅`, -1, -1, -1, -1, 'steps:sorting.doneOut', {});
   steps[steps.length - 1].sorted = Array.from({length: n}, (_, k) => k);
   return steps;
 }
@@ -416,7 +460,7 @@ export function genRadixSteps(arr) {
   const max = a.length > 0 ? Math.max(...a) : 0;
   let exp = 1;
 
-  function snap(label, compIndex = -1, swapIndex = -1, buckets = null) {
+  function snap(label, compIndex = -1, swapIndex = -1, buckets = null, stepMeta = {}) {
     steps.push({
       radixStep: true,
       arr: [...a],
@@ -424,35 +468,41 @@ export function genRadixSteps(arr) {
       comp: compIndex !== -1 ? [compIndex] : [],
       swap: swapIndex !== -1 ? [swapIndex] : [],
       label: label || '',
+      ...stepMeta,
     });
   }
 
   if (max > 0) {
     while (Math.floor(max / exp) > 0) {
-      snap(`Pass for digit position ${exp} (${exp === 1 ? 'ones' : exp === 10 ? 'tens' : 'hundreds'})`);
+      snap(`Pass for digit position ${exp} (${exp === 1 ? 'ones' : exp === 10 ? 'tens' : 'hundreds'})`,
+        -1, -1, null,
+        { msgKey: exp === 1 ? 'steps:sorting.radix.passOnes' : exp === 10 ? 'steps:sorting.radix.passTens' : 'steps:sorting.radix.passHundreds', msgParams: { pos: exp } });
 
       let buckets = Array.from({ length: 10 }, () => []);
       for (let i = 0; i < a.length; i++) {
         const val = a[i];
         if (val === null) continue;
         const digit = Math.floor(val / exp) % 10;
-        snap(`Extracting digit ${digit} from ${val}`, i, -1, buckets);
+        snap(`Extracting digit ${digit} from ${val}`, i, -1, buckets,
+          { msgKey: 'steps:sorting.radix.extract', msgParams: { digit, v: val } });
         buckets[digit].push(val);
         a[i] = null;
-        snap(`Placed ${val} into bucket [${digit}]`, -1, -1, buckets);
+        snap(`Placed ${val} into bucket [${digit}]`, -1, -1, buckets,
+          { msgKey: 'steps:sorting.radix.bucket', msgParams: { v: val, digit } });
       }
       let idx = 0;
       for (let b = 0; b < 10; b++) {
         while (buckets[b].length) {
           const val = buckets[b].shift();
           a[idx] = val;
-          snap(`Collecting ${val} back to array`, -1, idx, buckets);
+          snap(`Collecting ${val} back to array`, -1, idx, buckets,
+            { msgKey: 'steps:sorting.radix.collect', msgParams: { v: val } });
           idx++;
         }
       }
       exp *= 10;
     }
   }
-  snap('Array sorted!', -1, -1, null);
+  snap('Array sorted!', -1, -1, null, { msgKey: 'steps:sorting.done' });
   return steps;
 }

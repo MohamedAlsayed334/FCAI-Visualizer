@@ -33,7 +33,7 @@ export function initDSVisualizer(container, type) {
 
   // 1. Create Data Structure Engine
   let dsEngine = null;
-  let titleMain = 'Data Structure';
+  let titleMain;
   let titleSub = 'Visualizer';
 
   switch (type) {
@@ -192,7 +192,6 @@ export function initDSVisualizer(container, type) {
   const codeCloseBtn = canvasWrap.querySelector('#ds-code-close');
   let currentLang = 'js';
   let currentCodeSnippet = null;  // { js: [...], python: [...] }
-  let currentSteps = null;        // [{ line, msg, action? }, ...]
   let stepRunnerTimer = null;
   let currentStepIdx = -1;
   let traceEnabled = true;
@@ -271,7 +270,6 @@ export function initDSVisualizer(container, type) {
     // Cancel any running step sequence
     if (stepRunnerTimer) clearTimeout(stepRunnerTimer);
     currentCodeSnippet = codeObj;
-    currentSteps = steps;
     currentStepIdx = -1;
 
     // Show the code panel with animation

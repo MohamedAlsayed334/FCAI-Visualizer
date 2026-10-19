@@ -1,0 +1,20 @@
+{
+  "title": "探索",
+  "canvasAria": "探索の可視化キャンバス",
+  "descriptionFallback": "{{name}}探索",
+  "target": "ターゲット:",
+  "result": {
+    "foundAt": "✅ idx {{index}}",
+    "notFound": "❌ 見つかりません"
+  },
+  "legend": {
+    "unseen": "未確認",
+    "scanned": "確認済み",
+    "current": "現在位置",
+    "found": "発見",
+    "notFound": "未発見"
+  },
+  "canvas": {
+    "emptyState": "配列を生成して始めましょう"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Japanese",
+  "nativeName": "日本語",
+  "dir": "ltr",
+  "fontFamily": "'Noto Sans JP', var(--font-body)"
+}

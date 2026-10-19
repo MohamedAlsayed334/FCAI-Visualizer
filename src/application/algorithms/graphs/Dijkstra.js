@@ -32,6 +32,7 @@ export class Dijkstra extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, distances: { ...dist }, visited: [...visited], current: start },
       msg: `Initialize distances: ${start} = 0, all others = ∞`,
+      msgKey: 'steps:graphs.dijkstra.init', msgParams: { start },
       codeLine: 1,
       codeLines: { js: 1, python: 1, cpp: 1, java: 1, csharp: 1 },
     });
@@ -51,6 +52,7 @@ export class Dijkstra extends GraphAlgorithm {
       steps.push({
         graph: { nodes, edges, distances: { ...dist }, visited: [...visited], current: u },
         msg: `Select ${u} (dist = ${dist[u]}), mark visited`,
+        msgKey: 'steps:graphs.dijkstra.select', msgParams: { node: u, dist: dist[u] },
         codeLine: 2,
         codeLines: { js: 2, python: 2, cpp: 2, java: 2, csharp: 2 },
       });
@@ -62,6 +64,7 @@ export class Dijkstra extends GraphAlgorithm {
           steps.push({
             graph: { nodes, edges, distances: { ...dist }, visited: [...visited], current: v },
             msg: `Update ${v}: dist = ${dist[u]} + ${w} = ${dist[v]}`,
+            msgKey: 'steps:graphs.dijkstra.update', msgParams: { node: v, du: dist[u], w, dv: dist[v] },
             codeLine: 3,
             codeLines: { js: 3, python: 3, cpp: 3, java: 3, csharp: 3 },
           });
@@ -77,6 +80,7 @@ export class Dijkstra extends GraphAlgorithm {
     steps.push({
       graph: { nodes, edges, distances: { ...dist }, visited: [...visited] },
       msg: `✅ Shortest path from ${start} to ${dest}: ${path.join(' → ')} (cost: ${dist[dest]})`,
+      msgKey: 'steps:graphs.dijkstra.path', msgParams: { start, dest, path: path.join(' → '), cost: dist[dest] },
       codeLine: -1,
     });
     return steps;

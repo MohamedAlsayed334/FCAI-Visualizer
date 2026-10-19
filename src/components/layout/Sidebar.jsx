@@ -17,40 +17,43 @@ import {
   Trophy,
   Workflow,
 } from 'lucide-react';
+import { useT } from '../../hooks/useT';
 import './Sidebar.css';
 import logo from '../../../assets/ddc-logo-transparent.png';
 
+// Labels resolve through the catalog namespace at render time so switching
+// language re-renders without remounting the sidebar.
 const COURSE_LINKS = [
   {
-    title: 'Data Structure',
+    key: 'data-structure',
     to: '/courses/data-structure',
     icon: Layers,
     children: [
-      { to: '/courses/data-structure/arrays', label: 'Arrays', icon: Binary },
-      { to: '/courses/data-structure/stacks', label: 'Stacks', icon: Layers },
-      { to: '/courses/data-structure/queues', label: 'Queues', icon: Workflow },
-      { to: '/courses/data-structure/linked-lists', label: 'Linked Lists', icon: GitBranch },
-      { to: '/courses/data-structure/sorting', label: 'Sorting', icon: ListOrdered },
-      { to: '/courses/data-structure/searching', label: 'Searching', icon: Search },
-      { to: '/courses/data-structure/graphs', label: 'Graphs', icon: Network },
+      { key: 'arrays', to: '/courses/data-structure/arrays', icon: Binary },
+      { key: 'stacks', to: '/courses/data-structure/stacks', icon: Layers },
+      { key: 'queues', to: '/courses/data-structure/queues', icon: Workflow },
+      { key: 'linked-lists', to: '/courses/data-structure/linked-lists', icon: GitBranch },
+      { key: 'sorting', to: '/courses/data-structure/sorting', icon: ListOrdered },
+      { key: 'searching', to: '/courses/data-structure/searching', icon: Search },
+      { key: 'graphs', to: '/courses/data-structure/graphs', icon: Network },
     ],
   },
   {
-    title: 'Advanced Data Structure',
+    key: 'advanced-data-structure',
     to: '/courses/advanced-data-structure',
     icon: GitBranch,
     children: [
-      { to: '/courses/advanced-data-structure/trees', label: 'Binary Search Trees', icon: TreePine },
-      { to: '/courses/advanced-data-structure/avl-tree', label: 'AVL Tree', icon: TreePine },
-      { to: '/courses/advanced-data-structure/red-black-tree', label: 'Red-Black Tree', icon: TreePine },
+      { key: 'trees', to: '/courses/advanced-data-structure/trees', icon: TreePine },
+      { key: 'avl-tree', to: '/courses/advanced-data-structure/avl-tree', icon: TreePine },
+      { key: 'red-black-tree', to: '/courses/advanced-data-structure/red-black-tree', icon: TreePine },
     ],
   },
 ];
 
 const TOOLS = [
-  { to: '/practice', label: 'Practice Mode', icon: Trophy },
-  { to: '/compare', label: 'Compare Algorithms', icon: Scale },
-  { to: '/api-keys', label: 'AI & API Settings', icon: KeyRound },
+  { key: 'practice', to: '/practice', icon: Trophy },
+  { key: 'compare', to: '/compare', icon: Scale },
+  { key: 'apiKeys', to: '/api-keys', icon: KeyRound },
 ];
 
 function SidebarLink({ to, label, icon: Icon, onNavigate, end = false }) {
@@ -70,41 +73,48 @@ function SidebarLink({ to, label, icon: Icon, onNavigate, end = false }) {
 }
 
 export default function Sidebar({ collapsed, onToggle }) {
+  const t = useT();
   const handleNavigate = () => {
     if (window.matchMedia('(max-width: 1199px)').matches) onToggle();
   };
 
   return (
-    <aside className={`sidebar${collapsed ? ' collapsed' : ''}`} aria-label="Main navigation">
+    <aside className={`sidebar${collapsed ? ' collapsed' : ''}`} aria-label={t('nav.mainNavigation')}>
       <Link
         to="/"
         className="sidebar-brand"
         onClick={handleNavigate}
-        title="Home"
-        aria-label="FCAI-Visualizer home"
+        title={t('nav.home')}
+        aria-label={t('nav.homeLink')}
       >
         <img src={logo} alt="" className="sidebar-brand-logo" />
         <span className="sidebar-brand-copy">
           <strong>FCAI-CU</strong>
-          <small>Learn by visualizing</small>
+          <small>{t('nav.brandTagline')}</small>
         </span>
       </Link>
       <button
         type="button"
         className="sidebar-toggle"
         onClick={onToggle}
-        title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-        aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        title={collapsed ? t('nav.expandSidebar') : t('nav.collapseSidebar')}
+        aria-label={collapsed ? t('nav.expandSidebar') : t('nav.collapseSidebar')}
         aria-expanded={!collapsed}
       >
-        {collapsed ? <ChevronRight size={17} /> : <ChevronLeft size={17} />}
+        {collapsed ? <ChevronRight size={17} className="rtl-flip" /> : <ChevronLeft size={17} className="rtl-flip" />}
       </button>
 
       <nav className="sidebar-nav">
-        <p className="sidebar-section-title">Workspace</p>
-        <SidebarLink to="/" label="Home" icon={Home} onNavigate={handleNavigate} end />
+        <p className="sidebar-section-title">{t('nav.workspace')}</p>
+        <SidebarLink
+          to="/"
+          label={t('nav.home')}
+          icon={Home}
+          onNavigate={handleNavigate}
+          end
+        />
 
-        <p className="sidebar-section-title">Courses</p>
+        <p className="sidebar-section-title">{t('nav.courses')}</p>
         {COURSE_LINKS.map((course) => {
           const Icon = course.icon;
           return (
@@ -113,37 +123,51 @@ export default function Sidebar({ collapsed, onToggle }) {
                 to={course.to}
                 className="sidebar-course-heading"
                 onClick={handleNavigate}
-                title={course.title}
-                aria-label={course.title}
+                title={t(`catalog:course.${course.key}.title`)}
+                aria-label={t(`catalog:course.${course.key}.title`)}
               >
                 <Icon size={17} aria-hidden="true" />
-                <span>{course.title}</span>
+                <span>{t(`catalog:course.${course.key}.title`)}</span>
               </Link>
               <div className="sidebar-course-topics">
                 {course.children.map((item) => (
-                <SidebarLink key={item.to} {...item} onNavigate={handleNavigate} />
+                  <SidebarLink
+                    key={item.to}
+                    to={item.to}
+                    icon={item.icon}
+                    label={t(`catalog:topic.${item.key}.title`)}
+                    onNavigate={handleNavigate}
+                  />
                 ))}
               </div>
             </section>
           );
         })}
 
-        <p className="sidebar-section-title">Learning tools</p>
+        <p className="sidebar-section-title">{t('nav.learningTools')}</p>
         {TOOLS.map((tool) => (
-          <SidebarLink key={tool.to} {...tool} onNavigate={handleNavigate} />
+          <SidebarLink
+            key={tool.to}
+            to={tool.to}
+            icon={tool.icon}
+            label={t(`catalog:tool.${tool.key}.title`)}
+            onNavigate={handleNavigate}
+          />
         ))}
 
         <div className="sidebar-support-card">
           <div className="sidebar-support-icon"><Sparkles size={16} /></div>
-          <strong>Learn actively</strong>
-          <span>Watch an algorithm, then try it yourself.</span>
-          <Link to="/practice" onClick={handleNavigate}>Explore practice <Trophy size={14} /></Link>
+          <strong>{t('sidebar.supportTitle')}</strong>
+          <span>{t('sidebar.supportBody')}</span>
+          <Link to="/practice" onClick={handleNavigate}>
+            {t('sidebar.supportLink')} <Trophy size={14} />
+          </Link>
         </div>
       </nav>
 
       <div className="sidebar-footer">
         <span className="sidebar-footer-mark"><BookOpen size={15} /></span>
-        <span>Faculty of Computers &amp; AI<br /><b>Cairo University</b></span>
+        <span>{t('sidebar.faculty')}<br /><b>{t('sidebar.university')}</b></span>
         <span className="sidebar-footer-cu">CU</span>
       </div>
     </aside>

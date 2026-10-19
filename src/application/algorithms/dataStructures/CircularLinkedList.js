@@ -11,7 +11,7 @@ export class CircularLinkedList extends DataStructureAlgorithm {
 
     steps.push({
       ds: 'linked-list', data: { values: [], type: 'circular', highlighted: -1, head: null },
-      msg: 'Initialize empty circular linked list', codeLine: 0, codeLines: {},
+      msg: 'Initialize empty circular linked list', msgKey: 'steps:ds.cll.init', codeLine: 0, codeLines: {},
     });
 
     for (const op of input) {
@@ -20,7 +20,8 @@ export class CircularLinkedList extends DataStructureAlgorithm {
         values.splice(idx, 0, op.value);
         steps.push({
           ds: 'linked-list', data: { values: [...values], type: 'circular', highlighted: idx, head: values[0] ?? null, operation: 'insert' },
-          msg: `Insert ${op.value} at position ${idx}`, codeLine: 1, codeLines: {},
+          msg: `Insert ${op.value} at position ${idx}`,
+          msgKey: 'steps:ds.ll.insert', msgParams: { v: op.value, idx }, codeLine: 1, codeLines: {},
         });
       } else if (op.op === 'delete') {
         const idx = op.index ?? 0;
@@ -28,7 +29,8 @@ export class CircularLinkedList extends DataStructureAlgorithm {
           const removed = values.splice(idx, 1)[0];
           steps.push({
             ds: 'linked-list', data: { values: [...values], type: 'circular', highlighted: -1, head: values[0] ?? null, operation: 'delete' },
-            msg: `Delete ${removed} at position ${idx}`, codeLine: 2, codeLines: {},
+            msg: `Delete ${removed} at position ${idx}`,
+          msgKey: 'steps:ds.ll.delete', msgParams: { v: removed, idx }, codeLine: 2, codeLines: {},
           });
         }
       }

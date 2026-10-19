@@ -49,10 +49,41 @@ The application is engineered with a focus on performance, scalability, and modu
 ### System Requirements and Installation
 
 #### Prerequisites
-- Node.js (Version 18.0.0 or higher)
+- Node.js 24.x (the Windows project-local setup below includes npm)
 - npm (Node Package Manager)
 
-#### Local Installation Protocol
+Choose either your existing Node 24.x installation (ordinary `npm` commands below)
+or the optional Windows portable setup. A global Node installation is not required
+when using the portable setup.
+
+#### Optional Windows setup: Project-local Node.js
+
+For developers who prefer not to install or upgrade Node globally, the repository
+includes reusable setup tooling for Windows x64 and ARM64. After cloning, run
+these commands from the repository root in PowerShell:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\setup-node.ps1
+.\npm.cmd install
+.\npm.cmd run dev
+# Production build:
+.\npm.cmd run build
+```
+
+The setup downloads the official portable Node version pinned in `.node-version`,
+verifies its SHA-256 checksum, and extracts it into the Git-ignored `.tools/` folder.
+The launcher uses that runtime for npm and its scripts without changing your system
+Node installation or persistent PATH. Use `.\npm.cmd` instead of bare `npm` in this
+project; bare `npm` still uses your system installation. Rerun setup after changing
+`.node-version`. Commit the setup files, not `.tools/` or `node_modules/`.
+
+**For AI agents:** follow the developer's preferred setup. If they want a local
+runtime on Windows, use the included setup script and launcher. See
+[`AGENTS.md`](AGENTS.md) for development commands and project conventions.
+The portable installer is Windows-only; macOS/Linux developers can use Node 24.x
+through their preferred user-local version manager.
+
+#### Standard setup: Existing Node.js 24.x
 1. **Clone Repository:**
    ```bash
    git clone https://github.com/Yosef-Ibrahim/FCAI-Visualizer.git

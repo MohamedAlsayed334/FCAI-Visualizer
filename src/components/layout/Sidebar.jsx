@@ -4,8 +4,10 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
+  FileArchive,
   GitBranch,
   Home,
+  Image,
   KeyRound,
   Layers,
   ListOrdered,
@@ -46,6 +48,15 @@ const COURSE_LINKS = [
       { key: 'trees', to: '/courses/advanced-data-structure/trees', icon: TreePine },
       { key: 'avl-tree', to: '/courses/advanced-data-structure/avl-tree', icon: TreePine },
       { key: 'red-black-tree', to: '/courses/advanced-data-structure/red-black-tree', icon: TreePine },
+    ],
+  },
+  {
+    key: 'information-theory-compression',
+    to: '/courses/information-theory-compression',
+    icon: FileArchive,
+    children: [
+      { key: 'lossless-compression', to: '/courses/information-theory-compression/lossless', icon: FileArchive },
+      { key: 'lossy-compression', to: '/courses/information-theory-compression/lossy', icon: Image },
     ],
   },
 ];

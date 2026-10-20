@@ -1,6 +1,8 @@
 import {
   Binary,
+  FileArchive,
   GitBranch,
+  Image,
   Layers3,
   ListOrdered,
   Network,
@@ -108,6 +110,35 @@ export const advancedDataStructureCourse = {
       route: '/courses/advanced-data-structure/red-black-tree',
       icon: GitBranch,
       tags: ['Color rules', 'Rotations', 'Balancing'],
+    },
+  ],
+};
+
+export const informationTheoryCourse = {
+  id: 'information-theory-compression',
+  title: 'Information Theory & Data Compression',
+  eyebrow: 'Compression course',
+  description: 'Explore how information can be represented efficiently through lossless and lossy compression, with interactive algorithm visualizations.',
+  icon: FileArchive,
+  color: 'violet',
+  lessonCount: 2,
+  topics: [
+    {
+      id: 'lossless-compression',
+      title: 'Lossless Compression',
+      description: 'Compress data without losing information, then reconstruct the original input exactly.',
+      route: '/courses/information-theory-compression/lossless',
+      icon: FileArchive,
+      tags: ['Exact recovery', 'LZ77', 'Interactive'],
+    },
+    {
+      id: 'lossy-compression',
+      title: 'Lossy Compression',
+      description: 'Reduce data size by discarding information that may be less noticeable.',
+      route: '/courses/information-theory-compression/lossy',
+      icon: Image,
+      tags: ['Approximation', 'Image & audio', 'Coming soon'],
+      comingSoon: true,
     },
   ],
 };

@@ -2,7 +2,7 @@
   "title": "練習モード",
   "subtitle": "アルゴリズムの知識を試そう",
   "modes": {
-    "quiz": { "title": "AIクイズ", "description": "選択式の問題" },
+    "quiz": { "title": "クイズ", "description": "選択式の問題" },
     "trace": { "title": "トレース", "description": "ステップごとの練習" }
   },
   "session": {
@@ -52,25 +52,13 @@
     },
     "actions": {
       "start": "▶ クイズを開始",
-      "retryAI": "🔄 再試行（AI）",
-      "useBuiltIn": "📚 内蔵問題を使う",
       "tryAgain": "↺ 再試行",
       "submit": "回答を送信",
       "next": "次の問題 →"
     },
     "loading": {
-      "ai": "🤖 AI問題を生成中...",
       "builtIn": "📚 内蔵問題を読み込み中...",
       "generic": "問題を読み込み中..."
-    },
-    "errors": {
-      "heading": "⚠️ AI問題を生成できません",
-      "rateLimit": "AIサービスがレート制限中です。しばらくしてから再試行してください。",
-      "auth": "AIサービスの認証に失敗しました。",
-      "server": "AIサービスが一時的に利用できません。",
-      "network": "ネットワークエラー。AIサービスに接続できませんでした。",
-      "parse": "AIが不正な形式のレスポンスを返しました。",
-      "generic": "AIエラー: {{message}}"
     },
     "progress": {
       "question": "問題 {{count}}"

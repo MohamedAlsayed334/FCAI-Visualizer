@@ -40,8 +40,31 @@ The commands below use the optional Windows launcher; replace `.\npm.cmd` with
   exists but there is no `test` script and no runner dependency. Treat tests
   as informational; verification = `npm run lint` + exercising the affected
   page in the dev server, plus a full `npm run build` when touching build
-  config or many files.
+  config or many files. `npm run verify` runs lint + typecheck + i18n:check
+  + build in one pass and mirrors CI (`.github/workflows/ci.yml`).
 - Do not hand-edit `dist/` (build output) or `package-lock.json`.
+
+## Commit messages
+
+Follow Conventional Commits: `type(scope): subject`.
+
+- Types and when to use each: `feat` (new feature), `fix` (bug fix),
+  `refactor` (no behavior change), `chore` (tooling/deps/cleanup),
+  `docs` (documentation), `style` (formatting/whitespace only), `perf`,
+  `test`, `ci`.
+- Scope is optional and names the area: `fix(sidebar): ...`,
+  `chore(trees): ...`.
+- Subject: imperative mood ("add", not "added/adding"), ≤ 72 characters,
+  no trailing period.
+- Body (blank line after subject): explain WHY when non-obvious; use
+  bullets for multi-part changes.
+- One logical change per commit — don't mix unrelated refactors into a
+  feature commit.
+- NEVER add `Co-Authored-By`, "Generated with ..." or any AI attribution
+  footers.
+
+Always follow these commit rules — they bind all contributors and AI agents
+working in this repo.
 
 ## Architecture (layered — keep it)
 
@@ -76,10 +99,7 @@ src/
   data/            algorithmData.js (complexity, names, explanations, code
                    snippets), courses.js
   styles/          CSS-variable design system; one CSS file per page area
-api/chat.js        Vercel serverless proxy to OpenRouter (server-side key)
 Red_Black_Tree/    C++ course reference implementation (do not modify)
-scratch_*.cjs,     scratch/experiment files (leave alone)
-src/algorithms/.../scratch.js
 ```
 
 **Key rule:** new algorithm logic goes in the pure layers
@@ -160,11 +180,12 @@ existing pattern exactly:
 ## AI features & secrets
 
 - **Never commit real API keys.** Client env vars (`VITE_*`, see
-  `.env.example`) are exposed to the browser; server-side only
-  (`api/chat.js` / Vercel env): `OPENROUTER_API_KEY`.
-- Two AI paths exist: user-managed multi-provider keys
-  (`src/services/aiService.js` + `/api-keys`) and the OpenRouter serverless
-  proxy (`api/chat.js`). Keep new AI features consistent with one of them.
+  `.env.example`) are exposed to the browser; secrets (e.g.
+  `OPENROUTER_API_KEY`) belong in server-side stores such as Vercel env
+  vars, never in source.
+- One AI path exists: user-managed multi-provider keys
+  (`src/services/aiService.js` + `/api-keys`). Keep new AI features
+  consistent with it.
 - `vercel.json` rewrites everything except `/api/*` to `index.html` (SPA).
 
 ## Style & code conventions
@@ -188,5 +209,3 @@ existing pattern exactly:
   if you change either.
 - `npm.cmd` and `scripts/setup-node.ps1` are maintained optional portable-Node
   tooling; keep their behavior aligned with `.node-version`.
-- `algoviz-react/` is a separate existing directory; leave it alone unless the
-  task specifically targets it.

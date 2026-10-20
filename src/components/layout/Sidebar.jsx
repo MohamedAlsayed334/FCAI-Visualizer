@@ -6,7 +6,6 @@ import {
   ChevronRight,
   GitBranch,
   Home,
-  KeyRound,
   Layers,
   ListOrdered,
   Network,
@@ -53,7 +52,6 @@ const COURSE_LINKS = [
 const TOOLS = [
   { key: 'practice', to: '/practice', icon: Trophy },
   { key: 'compare', to: '/compare', icon: Scale },
-  { key: 'apiKeys', to: '/api-keys', icon: KeyRound },
 ];
 
 function SidebarLink({ to, label, icon: Icon, onNavigate, end = false }) {

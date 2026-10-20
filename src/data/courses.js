@@ -127,11 +127,4 @@ export const learningTools = [
     icon: 'compare',
     label: 'Compare',
   },
-  {
-    title: 'AI Learning Tools',
-    description: 'Manage AI access for algorithm explanations and quizzes.',
-    route: '/api-keys',
-    icon: 'ai',
-    label: 'AI settings',
-  },
 ];

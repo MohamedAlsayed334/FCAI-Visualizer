@@ -93,9 +93,6 @@
       "title": "算法对比",
       "description": "并排查看两个算法，比较它们的行为。",
       "action": "打开对比"
-    },
-    "apiKeys": {
-      "title": "AI 与 API 设置"
     }
   }
 }

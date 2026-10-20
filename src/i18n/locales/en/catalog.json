@@ -93,9 +93,6 @@
       "title": "Compare Algorithms",
       "description": "See two algorithms side by side and compare how they behave.",
       "action": "Open comparison"
-    },
-    "apiKeys": {
-      "title": "AI & API Settings"
     }
   }
 }

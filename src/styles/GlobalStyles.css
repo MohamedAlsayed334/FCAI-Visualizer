@@ -204,7 +204,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .sorting-page, .searching-page { padding: clamp(14px, 2vw, 25px); gap: 14px; }
 .sorting-canvas-wrapper, .searching-canvas-wrapper, .panel-card,
 .compare-controls, .compare-metric-card, .compare-canvas-wrapper,
-.api-key-table-wrapper, .scoreboard, .training-card, .quiz-question {
+.scoreboard, .training-card, .quiz-question {
   border-radius: 15px;
   box-shadow: 0 7px 22px rgba(22, 50, 79, .055);
 }
@@ -216,14 +216,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .ds-page { color: var(--text); }
 .training-page { min-height: 100%; padding: clamp(18px, 3vw, 36px); }
 .training-card { box-shadow: 0 7px 22px rgba(22, 50, 79, .05); }
-.api-keys-page { width: min(100%, 1100px); padding: clamp(18px, 3vw, 36px); }
 .compare-page { padding: clamp(18px, 3vw, 36px); }
 .compare-controls, .compare-metric-card, .compare-canvas-wrapper { background: var(--surface); border-color: var(--border); }
 .compare-selector select, .compare-input { background: var(--surface2); color: var(--text); border-color: var(--border); }
 .compare-run-btn { background: var(--accent); color: #fff; }
-.api-key-table-wrapper { box-shadow: var(--shadow); }
-.api-key-table th { font-size: 10px; letter-spacing: .08em; }
-.api-key-table td { font-size: 12px; }
 .tree-page--course { min-height: 440px; }
 .tree-page--course .tree-panel { background-color: var(--surface); }
 .tree-page--course .tree-canvas-wrap { background: var(--bg); }
@@ -271,8 +267,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .btn { min-height: 42px; }
   .compare-page { padding: 18px 14px; }
   .compare-selectors, .compare-metrics { flex-direction: column; }
-  .api-keys-page { padding: 20px 12px; }
-  .api-key-table th, .api-key-table td { padding: .7rem .8rem; }
 }
 [data-theme="dark"] .home-hero {
   border-color: var(--border);

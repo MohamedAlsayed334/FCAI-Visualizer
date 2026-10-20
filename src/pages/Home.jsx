@@ -81,9 +81,6 @@ export default function Home() {
             <span className="section-eyebrow">{t('home:tools.eyebrow')}</span>
             <h2 id="home-tools-title">{t('home:tools.title')}</h2>
           </div>
-          <Link to="/api-keys" className="home-text-link">
-            {t('home:tools.settingsLink')} <ArrowRight size={14} className="rtl-flip" />
-          </Link>
         </div>
         <div className="learning-tools-grid">
           {TOOLS.map((tool) => <LearningToolCard key={tool.id} tool={tool} />)}

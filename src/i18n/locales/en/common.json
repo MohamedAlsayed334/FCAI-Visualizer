@@ -31,8 +31,7 @@
     "trees": "Tree Visualizer",
     "graphs": "Graph Algorithms",
     "practice": "Practice Mode",
-    "compare": "Algorithm Comparison",
-    "api-keys": "AI Settings"
+    "compare": "Algorithm Comparison"
   },
   "nav": {
     "mainNavigation": "Main navigation",

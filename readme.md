@@ -9,6 +9,10 @@
 </p>
 
 <p align="center">
+  <img src="assets/compression-flow.svg" alt="Animated flow from text through a compression dictionary to a compact bitstream" width="100%" />
+</p>
+
+<p align="center">
   <a href="https://github.com/Yosef-Ibrahim/FCAI-Visualizer/actions">CI</a>
   · React 19
   · Vite 8

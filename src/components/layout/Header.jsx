@@ -18,7 +18,6 @@ const ROUTE_TITLE_KEYS = {
   '/graphs': 'routes.graphs',
   '/practice': 'routes.practice',
   '/compare': 'routes.compare',
-  '/api-keys': 'routes.api-keys',
 };
 
 // Route slugs resolvable via the algorithm/catalog/data-structure namespaces.

@@ -19,7 +19,6 @@ import Searching from './pages/Searching';
 import DataStructures from './pages/DataStructures';
 import Graphs from './pages/Graphs';
 import PracticeMode from './pages/PracticeMode';
-import ApiKeys from './pages/ApiKeys';
 import Compare from './pages/Compare';
 import NotFound from './pages/NotFound';
 import { Analytics } from '@vercel/analytics/react';
@@ -68,9 +67,6 @@ export default function App() {
 
           {/* Practice Mode */}
           <Route path="practice" element={<PracticeMode />} />
-
-          {/* API Keys Status */}
-          <Route path="api-keys" element={<ApiKeys />} />
 
           {/* Comparison Mode */}
           <Route path="compare" element={<Compare />} />

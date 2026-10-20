@@ -2,7 +2,7 @@
   "title": "练习模式",
   "subtitle": "测试你的算法知识",
   "modes": {
-    "quiz": { "title": "AI 测验", "description": "选择题" },
+    "quiz": { "title": "测验", "description": "选择题" },
     "trace": { "title": "追踪", "description": "分步练习" }
   },
   "session": {
@@ -52,25 +52,13 @@
     },
     "actions": {
       "start": "▶ 开始测验",
-      "retryAI": "🔄 重试（AI）",
-      "useBuiltIn": "📚 使用内置题目",
       "tryAgain": "↺ 重试",
       "submit": "提交答案",
       "next": "下一题 →"
     },
     "loading": {
-      "ai": "🤖 正在生成 AI 题目...",
       "builtIn": "📚 正在加载内置题目...",
       "generic": "正在加载题目..."
-    },
-    "errors": {
-      "heading": "⚠️ 无法生成 AI 题目",
-      "rateLimit": "AI 服务被限流，请稍后再试。",
-      "auth": "AI 服务身份验证失败。",
-      "server": "AI 服务暂时不可用。",
-      "network": "网络错误，无法连接 AI 服务。",
-      "parse": "AI 返回了无效的响应格式。",
-      "generic": "AI 错误: {{message}}"
     },
     "progress": {
       "question": "第 {{count}} 题"

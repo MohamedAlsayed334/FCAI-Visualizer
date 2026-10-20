@@ -1,11 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useLang } from '../../hooks/useLang';
 import { useT } from '../../hooks/useT';
-import { useLocale } from '../../hooks/useLocale';
 import { complexity, algoNames, codeSnippets } from '../../data/algorithmData';
-import { GenerateQuestionUseCase } from '../../application/quiz/GenerateQuestionUseCase';
-
-const questionUseCase = new GenerateQuestionUseCase();
 
 const CODE_LANGUAGES = [
   { value: 'js', label: 'JavaScript' },
@@ -582,9 +578,8 @@ function generateAlgoOptions(correctAlgo) {
   };
 }
 
-export default function QuizPanel({ topic, onComplete, subTopic = null }) {
+export default function QuizPanel({ topic, onComplete }) {
   const t = useT('practice');
-  const { locale } = useLocale();
   const [started, setStarted] = useState(false);
   const [questionLimit, setQuestionLimit] = useState(10);
   const [questionMode, setQuestionMode] = useState('general');
@@ -601,7 +596,6 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
   const [lang, setLang] = useLang('js');
 
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleStart = async () => {
     console.log('Starting quiz - resetting state');
@@ -609,96 +603,38 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
     setScore(0);
     setCompleted(false);
     setStarted(true);
-    setError(null);
     setIsTransitioning(true);
     await loadQuestion();
     setIsTransitioning(false);
-  };
-
-  const handleRetry = async () => {
-    setError(null);
-    setIsTransitioning(true);
-    await loadQuestion(true);
-    setIsTransitioning(false);
-  };
-
-  const handleUseBuiltIn = () => {
-    setError(null);
-    setLoading(false);
   };
 
   const getActualQuestionType = () => {
     return questionMode;
   };
 
-  const loadQuestion = useCallback(async (retryWithAI = false) => {
+  const loadQuestion = useCallback(async () => {
     setLoading(true);
     setSelectedAnswer(null);
     setSubmitted(false);
     setFeedback(null);
     setSource('loading');
-    setError(null);
     setLoadingMode(null);
 
     const actualType = getActualQuestionType();
-    const actualSubTopic = subTopic || topic;
 
-    const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY;
-    const hasValidKey = apiKey && apiKey.startsWith('sk-or-v1-') && !apiKey.includes('xxxxxxxx');
+    setLoadingMode('built-in');
+    await new Promise(resolve => setTimeout(resolve, 300));
+    const questionData = getRandomQuestion(topic, actualType, lang);
 
-    let questionData;
-    let questionSource;
-
-    if (hasValidKey || retryWithAI) {
-      setLoadingMode('ai');
-      try {
-        const result = await questionUseCase.execute(topic, actualSubTopic, 'medium', 'mcq', actualType, lang, locale);
-        questionData = { question: result.question, options: result.options, correctAnswer: result.correctAnswer, explanation: result.explanation, type: result.type, difficulty: result.difficulty, topic: result.topic, subTopic: result.subTopic, questionMode: result.questionMode };
-        questionSource = 'ai';
-      } catch (err) {
-        console.log('AI failed:', err.message);
-        const errorMsg = err.message || 'Unknown error';
-        
-        let errorMessage;
-        if (errorMsg.includes('429') || errorMsg.includes('rate limit')) {
-          errorMessage = { kind: 'rateLimit' };
-        } else if (errorMsg.includes('401') || errorMsg.includes('unauthorized') || errorMsg.includes('API key')) {
-          errorMessage = { kind: 'auth' };
-        } else if (errorMsg.includes('500') || errorMsg.includes('server error')) {
-          errorMessage = { kind: 'server' };
-        } else if (errorMsg.includes('timeout') || errorMsg.includes('Fetch') || errorMsg.includes('network') || errorMsg.includes('Failed to fetch')) {
-          errorMessage = { kind: 'network' };
-        } else if (errorMsg.includes('Parsing')) {
-          errorMessage = { kind: 'parse' };
-        } else {
-          errorMessage = { kind: 'generic', detail: errorMsg.substring(0, 80) };
-        }
-        
-        questionData = getRandomQuestion(topic, actualType, lang);
-        questionSource = 'built-in';
-        
-        setError(errorMessage);
-        setLoadingMode('error');
-        setQuestion(questionData);
-        setSource(questionSource);
-        return;
-      }
-    } else {
-      setLoadingMode('built-in');
-      await new Promise(resolve => setTimeout(resolve, 300));
-      questionData = getRandomQuestion(topic, actualType, lang);
-      questionSource = 'built-in';
-    }
-    
     if (questionData) {
       questionData.questionType = actualType;
     }
 
     setQuestion(questionData);
-    setSource(questionSource);
+    setSource('built-in');
     setLoading(false);
     setLoadingMode(null);
-  }, [topic, subTopic, questionMode, lang, locale]);
+  }, [topic, questionMode, lang]);
 
   const handleSubmit = () => {
     console.log('Submit clicked - submitted:', submitted, 'selectedAnswer:', selectedAnswer);
@@ -827,45 +763,14 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
   if (loading) {
     return (
       <div className="quiz-container" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
-        {error ? (
-          <>
-            <div style={{ 
-              background: 'rgba(255, 107, 107, 0.15)', 
-              border: '1px solid var(--error)', 
-              borderRadius: '12px', 
-              padding: '1.5rem',
-              marginBottom: '1.5rem'
-            }}>
-              <div style={{ color: 'var(--error)', marginBottom: '0.5rem', fontSize: '1.2rem', fontWeight: '600' }}>
-                ⚠️ {t('quiz.errors.heading')}
-              </div>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '0' }}>
-                {t(`quiz.errors.${error.kind}`, { message: error.detail })}
-              </p>
-            </div>
-            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <button className="btn btn-primary" onClick={handleRetry} disabled={isTransitioning}>
-                {t('quiz.actions.retryAI')}
-              </button>
-              <button className="btn btn-secondary" onClick={handleUseBuiltIn} disabled={isTransitioning}>
-                {t('quiz.actions.useBuiltIn')}
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="loading-spinner"></div>
-            <p style={{ marginTop: '1rem', color: 'var(--text-muted)' }}>
-              {loadingMode === 'ai' ? (
-                <>{t('quiz.loading.ai')}</>
-              ) : loadingMode === 'built-in' ? (
-                <>{t('quiz.loading.builtIn')}</>
-              ) : (
-                <>{t('quiz.loading.generic')}</>
-              )}
-            </p>
-          </>
-        )}
+        <div className="loading-spinner"></div>
+        <p style={{ marginTop: '1rem', color: 'var(--text-muted)' }}>
+          {loadingMode === 'built-in' ? (
+            <>{t('quiz.loading.builtIn')}</>
+          ) : (
+            <>{t('quiz.loading.generic')}</>
+          )}
+        </p>
       </div>
     );
   }
@@ -912,14 +817,6 @@ export default function QuizPanel({ topic, onComplete, subTopic = null }) {
 
       <div className="quiz-question" style={{ borderLeftColor: topicColor.border, borderLeftWidth: '4px', borderLeftStyle: 'solid' }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-          {source === 'ai' && <span style={{ 
-            background: 'var(--accent3)', 
-            color: 'var(--bg)', 
-            padding: '0.2rem 0.5rem', 
-            borderRadius: '4px',
-            fontSize: '0.7rem',
-            fontWeight: '700'
-          }}>🤖 AI</span>}
           {source === 'built-in' && <span style={{ 
             background: 'var(--surface3)', 
             color: 'var(--text-muted)', 

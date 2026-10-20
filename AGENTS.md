@@ -72,7 +72,6 @@ working in this repo.
 src/
   domain/          Pure model layer. No React, no DOM import.
     algorithms/    Algorithm base class, AlgorithmMetadata, Step (playback unit)
-    apikeys/       ApiKey entity
     quiz/          Question entity
   application/     Use cases + strategies + registry
     AlgorithmRegistry.js     ← single source of truth for algorithm discovery
@@ -80,18 +79,13 @@ src/
                              classes: SortingAlgorithm, SearchingAlgorithm,
                              TreeAlgorithm, GraphAlgorithm, DataStructureAlgorithm
                              (all extend domain Algorithm)
-    apikeys/ApiKeyManager.js key rotation & status
-    quiz/GenerateQuestionUseCase.js
   algorithms/      Pure-JS engines + imperative canvas visualizers (older layer,
                    still in use): TreeBase + BST/AVLTree/RedBlackTree nodes,
-                   DS engines (ArrayDS/QueueDS/StackDS/LinkedListDS),
+                   DS engines (ArrayDS/QueueDS/StackS/LinkedListDS),
                    treeVisualizer.js, dsVisualizer.js, sorting/searching/graph
                    visualizers, sortingGenerators.js
-  infrastructure/  Adapters only: storage (localStorage), canvas renderers,
-                   apikeys/ApiKeyStore.js
+  infrastructure/  Adapters only: storage (localStorage), canvas renderers
   i18n/            Locale layer (en, ar, ja, zh): locales mirror data/dynamic UI
-  services/        aiService.js — provider-agnostic AI fetch client with key
-                   rotation, 429/401/402/403 handling, question caching
   pages/           React "playback controllers" (state: steps + stepIdx)
   components/      layout/ (Layout, Sidebar, Header), ai/, sorting/, shared/
   hooks/           useLang (persisted code language), useProgress (quiz state)
@@ -171,21 +165,16 @@ existing pattern exactly:
 ## Persistence & state
 
 - All `localStorage` keys are prefixed `fcai_visualizer_`
-  (`_lang`, `_theme`, `_training_progress`, question cache, API-key store).
+  (`_lang`, `_theme`, `_training_progress`).
   Wrap reads/writes in try/catch — Safari/private mode can block localStorage.
-- User AI keys are entered on `/api-keys` and rotated by `ApiKeyManager`;
-  a key hitting 429/401/402/403 is marked out of work and the next key is
-  tried. Don't bypass this flow with raw `fetch` calls to AI providers.
 
 ## AI features & secrets
 
-- **Never commit real API keys.** Client env vars (`VITE_*`, see
-  `.env.example`) are exposed to the browser; secrets (e.g.
-  `OPENROUTER_API_KEY`) belong in server-side stores such as Vercel env
-  vars, never in source.
-- One AI path exists: user-managed multi-provider keys
-  (`src/services/aiService.js` + `/api-keys`). Keep new AI features
-  consistent with it.
+- AI question generation and user AI-key management were removed (Phase 0);
+  the app is fully offline for questions/plans (built-in question banks).
+- No `VITE_*` build-time env vars are currently required (`.env.example`).
+- **Never commit real API keys.** If secrets are ever needed again, they
+  belong in server-side stores such as Vercel env vars, never in source.
 - `vercel.json` rewrites everything except `/api/*` to `index.html` (SPA).
 
 ## Style & code conventions

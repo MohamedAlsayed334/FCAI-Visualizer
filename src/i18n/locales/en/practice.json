@@ -2,7 +2,7 @@
   "title": "Practice Mode",
   "subtitle": "Test your algorithm knowledge",
   "modes": {
-    "quiz": { "title": "AI Quiz", "description": "Multiple choice questions" },
+    "quiz": { "title": "Quiz", "description": "Multiple choice questions" },
     "trace": { "title": "Tracing", "description": "Step-by-step practice" }
   },
   "session": {
@@ -52,25 +52,13 @@
     },
     "actions": {
       "start": "▶ Start Quiz",
-      "retryAI": "🔄 Try Again (AI)",
-      "useBuiltIn": "📚 Use Built-in Questions",
       "tryAgain": "↺ Try Again",
       "submit": "Submit Answer",
       "next": "Next Question →"
     },
     "loading": {
-      "ai": "🤖 Generating AI question...",
       "builtIn": "📚 Loading built-in question...",
       "generic": "Loading question..."
-    },
-    "errors": {
-      "heading": "⚠️ Unable to generate AI question",
-      "rateLimit": "AI service is rate limited. Please try again.",
-      "auth": "AI service authentication failed.",
-      "server": "AI service is temporarily unavailable.",
-      "network": "Network error. Could not connect to AI service.",
-      "parse": "AI returned invalid response format.",
-      "generic": "AI error: {{message}}"
     },
     "progress": {
       "question": "Question {{count}}"

@@ -1,17 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="300" viewBox="0 0 960 300" fill="none" role="img" aria-labelledby="title description">
-  <title id="title">FCAI-CU compression learning flow</title>
-  <desc id="description">An animated illustration showing text transformed into dictionary tokens and then a compact bitstream.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">Explore FCAI-CU learning paths</title>
+  <desc id="description">Three animated learning cards show data structures, advanced data structures, and information theory and compression side by side.</desc>
   <defs>
-    <linearGradient id="background" x1="40" y1="20" x2="920" y2="280" gradientUnits="userSpaceOnUse">
+    <linearGradient id="background" x1="40" y1="18" x2="920" y2="340" gradientUnits="userSpaceOnUse">
       <stop stop-color="#101B35"/>
       <stop offset="1" stop-color="#142B3C"/>
     </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1">
       <stop stop-color="#72E4C0"/>
-      <stop offset="1" stop-color="#55B8FF"/>
+      <stop offset="1" stop-color="#42BFA6"/>
     </linearGradient>
-    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#75C8FF"/>
+      <stop offset="1" stop-color="#658BFF"/>
+    </linearGradient>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#D5A4FF"/>
+      <stop offset="1" stop-color="#8B82FF"/>
+    </linearGradient>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
@@ -19,49 +27,92 @@
     </filter>
   </defs>
 
-  <rect x="1" y="1" width="958" height="298" rx="24" fill="url(#background)" stroke="#34465C" stroke-width="2"/>
-  <circle cx="844" cy="38" r="90" fill="#55B8FF" fill-opacity=".06"/>
-  <circle cx="92" cy="278" r="120" fill="#72E4C0" fill-opacity=".05"/>
+  <rect x="1" y="1" width="958" height="358" rx="24" fill="url(#background)" stroke="#34465C" stroke-width="2"/>
+  <circle cx="852" cy="30" r="110" fill="#658BFF" fill-opacity=".055"/>
+  <circle cx="68" cy="348" r="115" fill="#72E4C0" fill-opacity=".045"/>
 
-  <text x="44" y="48" fill="#72E4C0" font-family="Segoe UI, Arial, sans-serif" font-size="12" font-weight="700" letter-spacing="2.4">FCAI-CU  /  INFORMATION THEORY</text>
-  <text x="44" y="82" fill="#F3F7FF" font-family="Segoe UI, Arial, sans-serif" font-size="25" font-weight="700">Make every bit tell a story.</text>
-  <text x="44" y="105" fill="#AAB9CC" font-family="Segoe UI, Arial, sans-serif" font-size="13">Explore how lossless algorithms transform data, one step at a time.</text>
+  <text x="40" y="43" fill="#72E4C0" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="2.2">FCAI-CU  /  LEARN BY EXPLORING</text>
+  <text x="40" y="78" fill="#F3F7FF" font-family="Segoe UI, Arial, sans-serif" font-size="25" font-weight="700">Three paths. One hands-on learning experience.</text>
+  <text x="40" y="101" fill="#AAB9CC" font-family="Segoe UI, Arial, sans-serif" font-size="13">Watch concepts come alive, step by step.</text>
 
-  <g font-family="Segoe UI, Arial, sans-serif">
-    <rect x="48" y="142" width="218" height="105" rx="14" fill="#1B2A43" stroke="#34465C"/>
-    <text x="67" y="166" fill="#AAB9CC" font-size="11" font-weight="700" letter-spacing="1.3">01  INPUT</text>
-    <text x="67" y="198" fill="#F3F7FF" font-size="20" font-family="Consolas, monospace">ABRACADABRA</text>
-    <text x="67" y="224" fill="#72E4C0" font-size="12">11 symbols</text>
+  <g>
+    <rect x="32" y="123" width="288" height="194" rx="16" fill="#1A2941" stroke="#355448"/>
+    <rect x="32" y="123" width="288" height="3" rx="1.5" fill="url(#mint)"/>
+    <circle cx="58" cy="151" r="12" fill="#72E4C0" fill-opacity=".13"/>
+    <text x="58" y="155" text-anchor="middle" fill="#72E4C0" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700">01</text>
+    <text x="79" y="155" fill="#F3F7FF" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Data Structures</text>
+    <text x="52" y="179" fill="#AAB9CC" font-family="Segoe UI, Arial, sans-serif" font-size="11">Build it. Update it. Trace every step.</text>
 
-    <path d="M286 194H354" stroke="#52677F" stroke-width="2" stroke-dasharray="5 7"/>
-    <path d="M346 188L354 194L346 200" stroke="#72E4C0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="371" y="142" width="218" height="105" rx="14" fill="#1B2A43" stroke="#34465C"/>
-    <text x="390" y="166" fill="#AAB9CC" font-size="11" font-weight="700" letter-spacing="1.3">02  DICTIONARY</text>
-    <text x="390" y="196" fill="#F3F7FF" font-size="15" font-family="Consolas, monospace">A · B · R · (AB)</text>
-    <text x="390" y="220" fill="#72E4C0" font-size="12">LZ77  /  LZ78  /  LZW</text>
-
-    <path d="M609 194H677" stroke="#52677F" stroke-width="2" stroke-dasharray="5 7"/>
-    <path d="M669 188L677 194L669 200" stroke="#55B8FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <rect x="694" y="142" width="218" height="105" rx="14" fill="#1B2A43" stroke="#34465C"/>
-    <text x="713" y="166" fill="#AAB9CC" font-size="11" font-weight="700" letter-spacing="1.3">03  COMPACT BITS</text>
-    <text x="713" y="198" fill="#F3F7FF" font-size="20" font-family="Consolas, monospace">010 11 001 10</text>
-    <text x="713" y="224" fill="#55B8FF" font-size="12">See each decision unfold</text>
+    <g font-family="Consolas, monospace" font-size="12" text-anchor="middle">
+      <rect x="52" y="204" width="47" height="42" rx="7" fill="#203A4A" stroke="#477B70"/>
+      <rect x="104" y="204" width="47" height="42" rx="7" fill="#203A4A" stroke="#477B70"/>
+      <rect x="156" y="204" width="47" height="42" rx="7" fill="#203A4A" stroke="#477B70"/>
+      <rect x="208" y="204" width="47" height="42" rx="7" fill="#203A4A" stroke="#477B70"/>
+      <text x="75.5" y="230" fill="#C7F8EA">12</text>
+      <text x="127.5" y="230" fill="#C7F8EA">24</text>
+      <text x="179.5" y="230" fill="#72E4C0">36</text>
+      <text x="231.5" y="230" fill="#C7F8EA">48</text>
+      <path d="M75 254V261M127 254V261M179 254V261M231 254V261" stroke="#527A72" stroke-width="1.5"/>
+      <text x="75" y="277" fill="#AAB9CC" font-size="10">ARRAY</text>
+      <text x="179" y="277" fill="#AAB9CC" font-size="10">STACK</text>
+    </g>
+    <circle r="4" fill="#72E4C0" filter="url(#softGlow)">
+      <animate attributeName="cx" values="75;127;179;231;75" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="cy" values="204;204;204;204;204" dur="5s" repeatCount="indefinite"/>
+    </circle>
+    <text x="52" y="300" fill="#72E4C0" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="600">Arrays · Stacks · Queues · Graphs</text>
   </g>
 
-  <g filter="url(#glow)">
-    <circle r="5" fill="#72E4C0">
-      <animateMotion dur="3.6s" repeatCount="indefinite" path="M285 194H365"/>
-      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.82;1" dur="3.6s" repeatCount="indefinite"/>
+  <g>
+    <rect x="336" y="123" width="288" height="194" rx="16" fill="#1A2941" stroke="#3D4D79"/>
+    <rect x="336" y="123" width="288" height="3" rx="1.5" fill="url(#blue)"/>
+    <circle cx="362" cy="151" r="12" fill="#75C8FF" fill-opacity=".13"/>
+    <text x="362" y="155" text-anchor="middle" fill="#75C8FF" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700">02</text>
+    <text x="383" y="155" fill="#F3F7FF" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Advanced Data Structures</text>
+    <text x="356" y="179" fill="#AAB9CC" font-family="Segoe UI, Arial, sans-serif" font-size="11">See how trees grow and rebalance.</text>
+
+    <g stroke="#6683B6" stroke-width="2" stroke-linecap="round">
+      <path d="M480 213L435 244M480 213L525 244M435 254L408 278M435 254L459 278M525 254L502 278M525 254L552 278"/>
+    </g>
+    <g fill="#1D3850" stroke="#75C8FF" stroke-width="2">
+      <circle cx="480" cy="205" r="15"/>
+      <circle cx="435" cy="250" r="13"/>
+      <circle cx="525" cy="250" r="13"/>
+      <circle cx="408" cy="284" r="10"/>
+      <circle cx="459" cy="284" r="10"/>
+      <circle cx="502" cy="284" r="10"/>
+      <circle cx="552" cy="284" r="10"/>
+    </g>
+    <circle cx="480" cy="205" r="4" fill="#75C8FF" filter="url(#softGlow)">
+      <animate attributeName="r" values="4;7;4" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="1;.45;1" dur="2.4s" repeatCount="indefinite"/>
     </circle>
-    <circle r="5" fill="#55B8FF">
-      <animateMotion dur="3.6s" begin="1.2s" repeatCount="indefinite" path="M608 194H688"/>
-      <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.12;.82;1" dur="3.6s" begin="1.2s" repeatCount="indefinite"/>
-    </circle>
+    <text x="480" y="209" text-anchor="middle" fill="#F3F7FF" font-family="Consolas, monospace" font-size="9">30</text>
+    <text x="356" y="300" fill="#75C8FF" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="600">BST · AVL rotations · Red-Black Trees</text>
   </g>
-  <rect x="48" y="265" width="864" height="2" rx="1" fill="#34465C"/>
-  <rect x="48" y="265" width="120" height="2" rx="1" fill="url(#accent)">
-    <animate attributeName="width" values="120;864;120" dur="5s" repeatCount="indefinite"/>
-  </rect>
+
+  <g>
+    <rect x="640" y="123" width="288" height="194" rx="16" fill="#1A2941" stroke="#59487B"/>
+    <rect x="640" y="123" width="288" height="3" rx="1.5" fill="url(#violet)"/>
+    <circle cx="666" cy="151" r="12" fill="#D5A4FF" fill-opacity=".13"/>
+    <text x="666" y="155" text-anchor="middle" fill="#D5A4FF" font-family="Segoe UI, Arial, sans-serif" font-size="11" font-weight="700">03</text>
+    <text x="687" y="155" fill="#F3F7FF" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700">Information Theory</text>
+    <text x="660" y="179" fill="#AAB9CC" font-family="Segoe UI, Arial, sans-serif" font-size="11">Turn repeated data into compact codes.</text>
+
+    <g font-family="Consolas, monospace" font-size="11">
+      <rect x="660" y="205" width="83" height="41" rx="8" fill="#2B2744" stroke="#675482"/>
+      <text x="701.5" y="230" text-anchor="middle" fill="#EAD9FF">ABRACADABRA</text>
+      <path d="M752 225H785" stroke="#7A699F" stroke-width="2" stroke-dasharray="4 5"/>
+      <path d="M780 220L786 225L780 230" stroke="#D5A4FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="796" y="205" width="108" height="41" rx="8" fill="#2B2744" stroke="#675482"/>
+      <text x="850" y="230" text-anchor="middle" fill="#D5A4FF">010 · 11 · 001</text>
+    </g>
+    <circle r="3.5" fill="#D5A4FF" filter="url(#softGlow)">
+      <animateMotion dur="2.5s" repeatCount="indefinite" path="M752 225H789"/>
+    </circle>
+    <text x="660" y="273" fill="#AAB9CC" font-family="Segoe UI, Arial, sans-serif" font-size="10">LZ77 · LZ78 · LZW · Huffman</text>
+    <text x="660" y="300" fill="#D5A4FF" font-family="Segoe UI, Arial, sans-serif" font-size="10" font-weight="600">Compress · Decompress · Visualize</text>
+  </g>
+
+  <text x="480" y="342" text-anchor="middle" fill="#8092A9" font-family="Segoe UI, Arial, sans-serif" font-size="10" letter-spacing=".5">INTERACTIVE VISUALIZATIONS  ·  STEP-BY-STEP LEARNING  ·  BUILT FOR FCAI-CU</text>
 </svg>

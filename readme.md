@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/compression-flow.svg" alt="Animated flow from text through a compression dictionary to a compact bitstream" width="100%" />
+  <img src="assets/compression-flow.svg" alt="Animated overview of the data structures, advanced data structures, and information theory learning paths" width="100%" />
 </p>
 
 <p align="center">

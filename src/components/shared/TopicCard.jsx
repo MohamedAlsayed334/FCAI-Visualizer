@@ -1,10 +1,11 @@
-import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Clock3 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useT } from '../../hooks/useT';
 
 export default function TopicCard({ topic, index = 0 }) {
   const t = useT();
   const Icon = topic.icon;
+  const StatusIcon = topic.comingSoon ? Clock3 : CheckCircle2;
 
   return (
     <Link
@@ -14,7 +15,10 @@ export default function TopicCard({ topic, index = 0 }) {
     >
       <div className="topic-card-heading">
         <span className="topic-card-icon"><Icon size={21} strokeWidth={1.9} /></span>
-        <span className="topic-card-status"><CheckCircle2 size={13} /> {t('catalog:card.status')}</span>
+        <span className={`topic-card-status${topic.comingSoon ? ' is-coming-soon' : ''}`}>
+          <StatusIcon size={13} />
+          {topic.comingSoon ? t('catalog:compression.comingSoon') : t('catalog:card.status')}
+        </span>
       </div>
       <h3>{t(`catalog:topic.${topic.id}.title`)}</h3>
       <p>{t(`catalog:topic.${topic.id}.description`)}</p>

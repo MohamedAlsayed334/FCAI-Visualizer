@@ -30,7 +30,13 @@ Integration with advanced language models via the OpenRouter API enables the fol
 - **Contextual Inquiry:** Automated generation of educational assessments based on the current visualization state.
 - **Trace Analysis:** Detailed textual explanations of algorithmic transitions and state changes.
 
-#### 4. Supplemental Algorithms
+#### 4. Information Theory and Data Compression
+- **Lossless Compression:** Dictionary-based techniques, Huffman coding, and arithmetic coding.
+- **LZ77 Visualizer:** Interactive compression and decompression with a sliding search/look-ahead window, narrated steps, and three playback speeds.
+- **Lecture Fidelity:** The worked slide example is reproduced exactly, including its rule for choosing the nearest match on ties. Matches do not extend past the candidate suffix in the search buffer.
+- **Coming Soon:** LZ78, LZW, Huffman coding, arithmetic coding, and lossy compression techniques.
+
+#### 5. Supplemental Algorithms
 - **Sorting:** Implementations of Bubble, Selection, Insertion, Merge, Quick, and Heap sort algorithms.
 - **Searching:** Comparative analysis of Linear and Binary search methodologies.
 - **Linear Data Structures:** Visualizations for Stacks, Queues, and various Linked List configurations.
@@ -112,4 +118,3 @@ Contributions to the FCAI Algorithm Visualizer should follow the established arc
 
 ### License
 This project is distributed under the AGPLv3 License.
-

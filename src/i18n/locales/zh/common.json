@@ -15,11 +15,11 @@
   "settings": {
     "language": "语言",
     "digits": "数字样式",
-    "digitsToLatn": "切换到西文数字",
-    "digitsToArab": "切换到阿拉伯-印度数字"
+    "digitsToLatn": "切换为阿拉伯数字（0–9）",
+    "digitsToArab": "切换为阿拉伯-印度数字（٠–٩）"
   },
   "routes": {
-    "home": "学习面板",
+    "home": "首页",
     "data-structure": "数据结构",
     "advanced-data-structure": "高级数据结构",
     "course-trees": "树",
@@ -46,9 +46,9 @@
     "closeOverlay": "关闭导航"
   },
   "sidebar": {
-    "supportTitle": "主动学习",
+    "supportTitle": "动手实践",
     "supportBody": "先观看算法，再亲手试试。",
-    "supportLink": "探索练习",
+    "supportLink": "开始练习",
     "faculty": "计算机与人工智能学院",
     "university": "开罗大学"
   },
@@ -87,8 +87,8 @@
   },
   "notFound": {
     "eyebrow": "404 · 页面未找到",
-    "title": "这个页面不在地图上。",
-    "body": "链接可能已经更改，但你的学习路径仍在这里。",
-    "backHome": "返回 FCAI-CU"
+    "title": "找不到这个页面。",
+    "body": "链接可能已更改；你仍可以从首页继续学习。",
+    "backHome": "返回首页"
   }
 }

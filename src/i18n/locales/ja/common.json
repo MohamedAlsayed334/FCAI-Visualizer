@@ -15,13 +15,13 @@
   "settings": {
     "language": "言語",
     "digits": "数字のスタイル",
-    "digitsToLatn": "西洋数字に切り替える",
-    "digitsToArab": "アラビア・インド数字に切り替える"
+    "digitsToLatn": "算用数字（0–9）に切り替える",
+    "digitsToArab": "アラビア・インド数字（٠–٩）に切り替える"
   },
   "routes": {
-    "home": "学習ダッシュボード",
+    "home": "ホーム",
     "data-structure": "データ構造",
-    "advanced-data-structure": "応用データ構造",
+    "advanced-data-structure": "高度なデータ構造",
     "course-trees": "木構造",
     "course-avl-tree": "AVL木",
     "course-red-black-tree": "赤黒木",
@@ -46,10 +46,10 @@
     "closeOverlay": "ナビゲーションを閉じる"
   },
   "sidebar": {
-    "supportTitle": "能動的に学ぶ",
+    "supportTitle": "実践しながら学ぶ",
     "supportBody": "アルゴリズムを見て、自分の手で試してみましょう。",
-    "supportLink": "練習を探す",
-    "faculty": "コンピュータ＆AI学部",
+    "supportLink": "練習を始める",
+    "faculty": "コンピュータ・人工知能学部",
     "university": "カイロ大学"
   },
   "actions": {
@@ -87,8 +87,8 @@
   },
   "notFound": {
     "eyebrow": "404 · ページが見つかりません",
-    "title": "このページは地図の外にあります。",
-    "body": "リンクは変わったかもしれませんが、あなたの学習パスはまだここにあります。",
-    "backHome": "FCAI-CU へ戻る"
+    "title": "ページが見つかりません。",
+    "body": "リンク先が変更された可能性があります。ホームから学習を続けられます。",
+    "backHome": "ホームに戻る"
   }
 }

@@ -24,7 +24,7 @@
     "advanced-data-structure": {
       "eyebrow": "高级课程",
       "title": "高级数据结构",
-      "description": "研究组织层次化数据的树结构，让数据规模增长时操作依然高效。"
+      "description": "学习如何利用树结构组织层次化数据，并在数据规模增长时保持操作高效。"
     },
     "information-theory-compression": {
       "eyebrow": "信息论课程",
@@ -35,7 +35,7 @@
   "topic": {
     "arrays": {
       "title": "数组",
-      "description": "理解按索引存储、访问、更新及常见数组操作。",
+      "description": "了解数组如何按索引存储、访问和更新元素，以及常见的数组操作。",
       "tags": ["索引", "插入", "删除"]
     },
     "stacks": {
@@ -110,7 +110,7 @@
       "arithmeticDescription": "将消息表示为逐渐缩小的区间，包括浮点和自适应变体。",
       "adaptiveHuffmanTitle": "自适应霍夫曼编码",
       "adaptiveHuffmanDescription": "读取每个符号时更新霍夫曼树，无需预先计算频率表。",
-      "modifiedHuffmanTitle": "改进霍夫曼（其他符号）",
+      "modifiedHuffmanTitle": "改良霍夫曼编码（其他符号组）",
       "modifiedHuffmanDescription": "将概率不高于阈值的符号归入“其他”，并追加其定长原始符号代码。",
       "slideRule": "课件规则：匹配不能超出搜索缓冲区中候选后缀的长度。最长匹配相同时，选择距离最近的匹配。",
       "slideExample": "载入课件示例"
@@ -140,8 +140,8 @@
       "arithmeticPayloadPlaceholder": "{\"numerator\":\"1\",\"denominator\":\"2\",\"length\":1,\"frequencies\":{\"A\":1}}",
       "arithmeticModelLabel": "符号频率 (JSON)",
       "arithmeticModelHelp": "课件示例使用 {\"A\":80,\"B\":2,\"C\":18}。频率总和不必等于消息长度。",
-      "thresholdLabel": "“其他”符号的最小概率",
-      "thresholdHelp": "概率小于或等于阈值的符号使用“其他”代码，并追加定长符号代码。",
+      "thresholdLabel": "“其他”符号组的最小概率",
+      "thresholdHelp": "概率小于或等于该阈值的符号会使用“其他”代码，并附加定长的符号代码。",
       "adaptiveTreeTitle": "当前自适应树叶节点",
       "nytNode": "NYT",
       "nodeNumber": "节点 {{count}}",
@@ -160,14 +160,14 @@
       "lookaheadBuffer": "前瞻缓冲区",
       "remaining": "尚未检查",
       "cursor": "游标",
-      "tokensTitle": "编码标签",
-      "tokenFormat": "标签格式：<偏移量，长度，下一个符号>",
-      "emptyTokens": "运行压缩以生成 LZ77 标签。",
+      "tokensTitle": "编码项",
+      "tokenFormat": "编码项格式：<偏移量，长度，下一个符号>",
+      "emptyTokens": "运行压缩以生成 LZ77 编码项。",
       "decodedTitle": "解码结果",
-      "emptyDecoded": "运行解压以还原输入。",
+      "emptyDecoded": "运行解压以还原原始输入。",
       "statisticsTitle": "课件中的位数示例",
       "originalBits": "原始文本",
-      "compressedBits": "编码标签",
+      "compressedBits": "编码项",
       "savedBits": "节省空间",
       "bitsValue": "{{count}} 位",
       "compressionNote": "每个标签由 {{positionBits}} 位偏移量 + {{lengthBits}} 位长度 + 8 位下一个符号组成。",

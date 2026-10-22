@@ -3,7 +3,7 @@
     "done": "数组排序完成！",
     "doneFull": "✅ 数组已完全排序！",
     "doneList": "✅ 数组已排序！ [{{list}}]",
-    "doneOut": "OUTPUT 完成 — 数组已排序！ ✅",
+    "doneOut": "输出数组已构建，数组排序完成！ ✅",
     "bubble": {
       "compare": "比较 a[{{j}}]={{a}} 和 a[{{jj}}]={{ajj}}",
       "swap": "交换 {{x}} 和 {{y}}（左 > 右）"

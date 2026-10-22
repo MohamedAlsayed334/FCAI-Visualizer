@@ -13,7 +13,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Yosef-Ibrahim/FCAI-Visualizer/actions">CI</a>
+  <a href="https://github.com/Yosef-Ibrahim/FCAI-Visualizer/actions/workflows/ci.yml">
+    <img src="https://github.com/Yosef-Ibrahim/FCAI-Visualizer/actions/workflows/ci.yml/badge.svg" alt="CI" />
+  </a>
   · React 19
   · Vite 8
   · JavaScript
@@ -78,6 +80,8 @@ implemented visualizers.
   CSS-variable design system.
 - Canvas 2D visualizers for applicable algorithms and data structures.
 - i18next for localized interface text.
+- Vitest for the algorithm and data-structure test suites.
+- GitHub Actions for continuous integration.
 - Vercel Analytics and Vercel deployment configuration.
 
 Algorithm implementations are kept separate from React page components where
@@ -126,19 +130,44 @@ npm run dev         # Start the Vite development server
 npm run lint        # Run ESLint
 npm run typecheck   # Run the configured TypeScript checker
 npm run i18n:check  # Check that locale catalogs are in sync
+npm run test        # Run the Vitest suite
+npm run test:watch  # Run the Vitest suite in watch mode
 npm run build       # Create the production build in dist/
 npm run preview     # Preview the production build locally
-npm run verify      # Run lint, typecheck, i18n checks, and build
+npm run verify      # Run lint, typecheck, i18n checks, tests, and build
 ```
 
-There is currently no automated test-runner script. Algorithm examples and
-round trips can be verified with the project’s available checks and by
-exercising the relevant visualizer in the browser.
+## Tests
+
+The algorithm and data-structure engines are covered by Vitest. The suites live
+next to the code they cover (`src/**/<name>.test.js`) and run in Node, so they
+need no browser:
+
+```bash
+npm run test        # run once
+npm run test:watch  # rerun while you work
+```
+
+`src/application/AlgorithmRegistry.test.js` loops over every registered
+algorithm and checks the Step contract, so a newly registered algorithm is
+covered as soon as it is added.
+
+## Continuous integration
+
+GitHub Actions runs the same checks as `npm run verify` on every push to
+`main` and on every pull request: install → lint → typecheck → i18n check →
+test → build. The workflow lives in
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ## Deployment
 
-The project is configured for Vercel. Connect the GitHub repository to Vercel
-and deploy with the default Vite build settings, or verify a production build
+This repository is the source of truth. The live site is served by Vercel from
+a fork of this project, so pushing to `main` here does not deploy anything by
+itself — the change reaches the live site once it is merged into the fork that
+Vercel is connected to (as a pull request, so the CI checks gate the deploy).
+
+Anyone can fork the project and host their own copy: connect the fork to
+Vercel with the default Vite build settings, or verify a production build
 locally:
 
 ```bash
@@ -153,7 +182,8 @@ in `vercel.json`.
 - Keep algorithm logic in the framework-independent algorithm or application
   layers; React pages should coordinate the visualization and playback.
 - When adding user-facing text, update all four locale catalogs and run
-  `npm run i18n:check`.
+  `npm run i18n:check`. Plural strings use the `_one` / `_other` suffix form.
+- Add or extend a test next to the code you changed, and run `npm run test`.
 - Preserve accessible labels and narration for interactive visualizations.
 - Run `npm run verify` before submitting changes when possible.
 - Follow the repository conventions in [`AGENTS.md`](AGENTS.md).

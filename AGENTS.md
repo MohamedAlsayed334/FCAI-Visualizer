@@ -104,6 +104,7 @@ src/
   data/            algorithmData.js (complexity, names, explanations, code
                    snippets), courses.js
   styles/          CSS-variable design system; one CSS file per page area
+  *.test.js        Vitest suites, colocated with the code they cover
 Red_Black_Tree/    C++ course reference implementation (do not modify)
 ```
 
@@ -114,7 +115,9 @@ logic inside components.
 
 **i18n rule:** UI chrome uses `useT`; algorithms emit data-only
 `msgKey`/`msgParams` next to legacy `msg` and consume `stepText()` for display.
-See `docs/i18n.md`.
+Plural strings use the i18next suffix form (`key_one` / `key_other`) — the
+nested object form (`{ one, other }`) does not resolve to a string in i18next
+v26. See `docs/i18n.md`.
 
 ## The Step contract
 
@@ -144,11 +147,30 @@ See `docs/i18n.md`.
 4. Add metadata to `src/data/algorithmData.js`: `complexity`, `explanations`,
    `algoNames`, `codeSnippets` (multi-language, per language arrays of lines).
 5. Add URL slug handling: route in `src/App.jsx`, title label in
-   `src/components/layout/Header.jsx` (`TITLES` + `labels` maps), sidebar nav
+   `src/components/layout/Header.jsx` (`ROUTE_TITLE_KEYS` plus the
+   `ALGORITHM_SLUGS` / `TOPIC_SLUGS` / `DS_TYPE_KEYS` sets), sidebar nav
    in `src/components/layout/Sidebar.jsx`. Some pages additionally filter by
    id lists (e.g. `SORTING_KEYS` in `src/pages/Sorting.jsx`).
 6. Deep-link conventions: list route + `/<category>/<algo-slug>` route both
-   render the same page (sync state from `useParams`).
+   render the same page (sync state from `useParams`). A course page
+   (`/courses/...`) wraps the same component and needs its own
+   `/courses/.../<algo-slug>` route — keep the algorithm switch inside the
+   current route so the sidebar highlight survives.
+
+## Testing conventions
+
+- Suites live next to the code they cover (`<name>.test.js`) and run under
+  Vitest in Node (`vitest.config.js`). Import `{ describe, it, expect }`
+  from `'vitest'` — no globals.
+- Test the pure layers (`domain`, `application`, `algorithms` engines), not
+  React components or canvas drawing. A loop over `AlgorithmRegistry` checks
+  the Step contract for every registered algorithm, so a new algorithm is
+  covered as soon as it is registered — add cases there instead of a new
+  file.
+- Assert behaviour, not wording: check that `msg`/`msgKey` exist, never the
+  exact sentence.
+- A known limitation is tracked with `it.fails(...)` — the suite stays green
+  and the day someone fixes it, the test asks to be updated.
 
 ## Canvas visualizer conventions
 
@@ -203,6 +225,10 @@ existing pattern exactly:
   the page) — Tailwind v4 is configured via the Vite plugin but existing
   pages don't rely on it.
 - React 19 + React Router v7 (imported from `react-router-dom`).
+- Clickable cards and list items must be real `<button>` elements (or carry
+  `role` + `tabIndex` and handle Enter/Space) — never `<div onClick>`. A
+  control that is not usable yet stays focusable through `aria-disabled`
+  rather than the `disabled` attribute.
 - Step-generation and engine code should be framework-free pure JS
 
 ## One-off reference

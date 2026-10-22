@@ -2,14 +2,8 @@
   "title": "練習モード",
   "subtitle": "アルゴリズムの知識を試そう",
   "modes": {
-    "quiz": {
-      "title": "クイズ",
-      "description": "選択式の問題"
-    },
-    "trace": {
-      "title": "実行トレース",
-      "description": "ステップごとの実行トレース"
-    }
+    "quiz": { "title": "クイズ", "description": "選択式の問題" },
+    "trace": { "title": "実行トレース", "description": "ステップごとの実行トレース" }
   },
   "session": {
     "quiz": "クイズ",

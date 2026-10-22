@@ -36,62 +36,110 @@
     "arrays": {
       "title": "数组",
       "description": "了解数组如何按索引存储、访问和更新元素，以及常见的数组操作。",
-      "tags": ["索引", "插入", "删除"]
+      "tags": [
+        "索引",
+        "插入",
+        "删除"
+      ]
     },
     "stacks": {
       "title": "栈",
       "description": "通过 push、pop 和 peek 操作探究后进先出（LIFO）行为。",
-      "tags": ["LIFO", "Push", "Pop"]
+      "tags": [
+        "LIFO",
+        "Push",
+        "Pop"
+      ]
     },
     "queues": {
       "title": "队列",
       "description": "了解先进先出（FIFO）结构如何管理数据与调度。",
-      "tags": ["FIFO", "Enqueue", "Dequeue"]
+      "tags": [
+        "FIFO",
+        "Enqueue",
+        "Dequeue"
+      ]
     },
     "linked-lists": {
       "title": "链表",
       "description": "追踪单向、双向、循环和有序链表中的节点连接。",
-      "tags": ["节点", "指针", "变体"]
+      "tags": [
+        "节点",
+        "指针",
+        "变体"
+      ]
     },
     "sorting": {
       "title": "排序算法",
       "description": "逐步比较各排序策略如何整理数据。",
-      "tags": ["8 种算法", "步骤控制", "代码"]
+      "tags": [
+        "8 种算法",
+        "步骤控制",
+        "代码"
+      ]
     },
     "searching": {
       "title": "查找算法",
       "description": "追踪线性、二分和跳跃查找，高效定位目标值。",
-      "tags": ["3 种算法", "有序数据", "复杂度"]
+      "tags": [
+        "3 种算法",
+        "有序数据",
+        "复杂度"
+      ]
     },
     "graphs": {
       "title": "图",
       "description": "对连通数据进行建模，探索遍历与最短路径。",
-      "tags": ["BFS", "DFS", "Dijkstra"]
+      "tags": [
+        "BFS",
+        "DFS",
+        "Dijkstra"
+      ]
     },
     "trees": {
       "title": "二叉搜索树",
       "description": "在探索树遍历的同时插入、查找和删除值。",
-      "tags": ["BST", "遍历", "查找"]
+      "tags": [
+        "BST",
+        "遍历",
+        "查找"
+      ]
     },
     "avl-tree": {
       "title": "AVL 树",
       "description": "观察自平衡旋转如何保持对数级的树高。",
-      "tags": ["自平衡", "旋转", "高度"]
+      "tags": [
+        "自平衡",
+        "旋转",
+        "高度"
+      ]
     },
     "red-black-tree": {
       "title": "红黑树",
       "description": "探索节点着色、插入修复与平衡的查找路径。",
-      "tags": ["颜色规则", "旋转", "平衡"]
+      "tags": [
+        "颜色规则",
+        "旋转",
+        "平衡"
+      ]
     },
     "lossless-compression": {
       "title": "无损压缩",
       "description": "压缩数据时不丢失信息，并精确还原原始输入。",
-      "tags": ["精确还原", "LZ77", "交互式"]
+      "tags": [
+        "精确还原",
+        "LZ77",
+        "交互式"
+      ]
     },
     "lossy-compression": {
       "title": "有损压缩",
-      "description": "通过丢弃不太明显的信息来减少数据大小。",
-      "tags": ["近似", "图像与音频", "即将推出"]
+      "description": "通过交互式分步示例学习预测编码和 DCT 量化，比较原始信号或图像与重建后的近似结果。",
+      "tags": [
+        "DPCM",
+        "线性预测",
+        "DCT + 量化"
+      ]
     }
   },
   "compression": {
@@ -117,7 +165,65 @@
     },
     "lossy": {
       "eyebrow": "有损压缩",
-      "description": "有损预测方法（DPCM 和线性预测）以及带量化和 DCT 的变换编码将在后续课程中加入。"
+      "description": "通过交互式分步示例学习预测编码和 DCT 量化，比较原始信号或图像与重建后的近似结果。",
+      "partsTitle": "探索有损压缩方法",
+      "partsDescription": "选择一种方法并调整量化步长，逐步观察重建结果的变化。",
+      "dpcmTitle": "DPCM 差分脉冲编码调制",
+      "dpcmDescription": "量化预测误差，并使用上一个重建样本来还原当前样本。",
+      "linearTitle": "线性预测",
+      "linearDescription": "根据先前重建的样本预测当前值，再量化预测残差。",
+      "dctTitle": "二维 DCT + 量化",
+      "dctDescription": "将 8×8 图像块转换为频率系数，对系数进行量化，再重建近似图像块。",
+      "signalInput": "信号样本",
+      "signalHint": "输入 1–128 个数值，使用逗号、空格或分号分隔。",
+      "blockInput": "8×8 灰度像素块",
+      "blockHint": "请输入恰好 8 行，每行 8 个 0–255 的像素值。可以用空格或逗号分隔。",
+      "quantizationStep": "量化步长",
+      "quantizationHint": "步长越大，损失的精度越多。请输入大于 0 且不超过 1024 的数值。",
+      "predictorCoefficients": "预测器系数",
+      "coefficientsHint": "输入 1–4 个以逗号分隔的系数；每个系数需介于 -2 和 2 之间。",
+      "run": "运行压缩",
+      "resetInput": "重置示例",
+      "runError": "无法运行此示例。请检查输入值和量化设置。",
+      "originalSignal": "原始样本",
+      "reconstructedSignal": "重建样本",
+      "sampleDetails": "当前样本",
+      "predicted": "预测值",
+      "residual": "预测误差",
+      "quantizedResidual": "量化后的误差",
+      "originalBlock": "原始像素块",
+      "transformCoefficients": "DCT 系数",
+      "quantizedCoefficients": "量化后的系数",
+      "reconstructedBlock": "重建图像块",
+      "metrics": "重建质量",
+      "mse": "均方误差（MSE）",
+      "psnr": "峰值信噪比（PSNR）",
+      "perfect": "完全重建",
+      "retainedCoefficients": "非零系数数量",
+      "walkthrough": "逐步演示",
+      "stepsTitle": "算法步骤",
+      "stepCount": "第 {{current}} 步，共 {{total}} 步",
+      "speed": "播放速度",
+      "slow": "慢速",
+      "normal": "正常",
+      "fast": "快速",
+      "play": "播放",
+      "pause": "暂停",
+      "previous": "上一步",
+      "next": "下一步",
+      "restart": "重新开始",
+      "emptySteps": "运行压缩示例以查看算法步骤。",
+      "steps": {
+        "dpcmStart": "开始处理 {{count}} 个样本，使用 DPCM 量化步长 {{stepSize}}。",
+        "dpcmSample": "样本 {{sampleNumber}}：预测值 {{predicted}}，预测误差 {{residual}}，量化误差 {{quantizedResidual}}，重建值 {{reconstructed}}。",
+        "linearStart": "使用系数 {{coefficients}} 和量化步长 {{stepSize}}，开始对 {{count}} 个样本进行线性预测编码。",
+        "linearSample": "样本 {{sampleNumber}}：预测值 {{predicted}}，预测误差 {{residual}}，量化误差 {{quantizedResidual}}，重建值 {{reconstructed}}。",
+        "dctStart": "开始对 8×8 图像块执行 DCT 压缩，量化步长为 {{stepSize}}。变换前先将像素值减去 128。",
+        "dctTransform": "执行二维正向 DCT，得到 64 个频率系数。",
+        "dctQuantize": "量化第 {{u}} 行、第 {{v}} 列的系数：使用步长 {{stepSize}} 将 {{coefficient}} 量化为 {{quantized}}。",
+        "dctReconstruct": "对量化后的系数执行逆 DCT，并将重建像素限制在 0–255 范围内。",
+        "complete": "处理完成：共处理 {{count}} 个值。"
+      }
     },
     "dictionary": {
       "lz77Description": "使用向后偏移、匹配长度和下一个符号来编码重复序列。",

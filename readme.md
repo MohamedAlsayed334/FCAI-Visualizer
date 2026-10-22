@@ -62,9 +62,10 @@ decompression, step-by-step explanations, and slow, normal, and fast playback:
   and node numbers visualized during playback.
 - **Arithmetic coding** — interval encoding and decoding with configurable
   symbol frequencies.
+- **Lossy compression** — DPCM and linear prediction for numeric signals, plus
+  8×8 2D DCT and coefficient quantization for grayscale pixel blocks.
 
-Lossy-compression methods are identified as planned rather than presented as
-implemented visualizers.
+Lossy compression now includes step-by-step DPCM and linear-prediction examples, plus an 8×8 2D DCT and quantization visualizer. Each method exposes the original input, reconstructed approximation, quantization controls, playback, and distortion metrics (MSE/PSNR).
 
 ### Learning tools
 

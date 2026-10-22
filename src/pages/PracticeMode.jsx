@@ -72,20 +72,23 @@ export default function PracticeMode() {
 
         <div className="training-grid">
           {MODES.map((mode, index) => (
-            <div
+            <button
               key={mode.id}
+              type="button"
               className={`training-card ${mode.comingSoon ? 'coming-soon' : ''}`}
-              onClick={() => handleStart(mode.id)}
-              style={{ animationDelay: `${index * 0.1}s`, cursor: mode.comingSoon ? 'not-allowed' : 'pointer', opacity: mode.comingSoon ? 0.6 : 1 }}
+              onClick={() => { if (mode.comingSoon) return; handleStart(mode.id); }}
+              aria-disabled={mode.comingSoon || undefined}
+              data-label={mode.comingSoon ? t('comingSoon') : undefined}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <div className="training-card-icon">
+              <span className="training-card-icon">
                 {mode.icon}
-              </div>
-              <h3 className="training-card-title">{t(`modes.${mode.id}.title`)}</h3>
-              <p className="training-card-desc">
-                {mode.comingSoon ? t('comingSoon') : t(`modes.${mode.id}.description`)}
-              </p>
-            </div>
+              </span>
+              <span className="training-card-title">{t(`modes.${mode.id}.title`)}</span>
+              <span className="training-card-desc">
+                {t(`modes.${mode.id}.description`)}
+              </span>
+            </button>
           ))}
         </div>
       </div>

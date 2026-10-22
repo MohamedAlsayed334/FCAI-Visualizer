@@ -118,7 +118,7 @@ export const informationTheoryCourse = {
   id: 'information-theory-compression',
   title: 'Information Theory & Data Compression',
   eyebrow: 'Compression course',
-  description: 'Explore how information can be represented efficiently through lossless and lossy compression, with interactive algorithm visualizations.',
+  description: 'Explore lossless and lossy compression through interactive algorithm visualizations, from exact recovery to quantized signal and image reconstruction.',
   icon: FileArchive,
   color: 'violet',
   lessonCount: 2,
@@ -134,11 +134,10 @@ export const informationTheoryCourse = {
     {
       id: 'lossy-compression',
       title: 'Lossy Compression',
-      description: 'Reduce data size by discarding information that may be less noticeable.',
+      description: 'Explore predictive coding and DCT quantization through interactive, step-by-step signal and image examples.',
       route: '/courses/information-theory-compression/lossy',
       icon: Image,
-      tags: ['Approximation', 'Image & audio', 'Coming soon'],
-      comingSoon: true,
+      tags: ['DPCM', 'Linear prediction', 'DCT + quantization'],
     },
   ],
 };

@@ -1,26 +1,12 @@
 {
   "types": {
-    "array": {
-      "label": "数组"
-    },
-    "stack": {
-      "label": "栈"
-    },
-    "queue": {
-      "label": "队列"
-    },
-    "singly": {
-      "label": "单向链表"
-    },
-    "doubly": {
-      "label": "双向链表"
-    },
-    "circular": {
-      "label": "循环链表"
-    },
-    "ordered": {
-      "label": "有序链表"
-    }
+    "array": { "label": "数组" },
+    "stack": { "label": "栈" },
+    "queue": { "label": "队列" },
+    "singly": { "label": "单向链表" },
+    "doubly": { "label": "双向链表" },
+    "circular": { "label": "循环链表" },
+    "ordered": { "label": "有序链表" }
   },
   "tabs": {
     "aria": "图算法选项卡"

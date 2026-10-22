@@ -1,4 +1,4 @@
 {
-  "canvasAria": "مساحة عرض الترتيب",
-  "descriptionFallback": "عرض {{name}}"
+  "canvasAria": "لوحة العرض التفاعلي للترتيب",
+  "descriptionFallback": "عرض خوارزمية {{name}}"
 }

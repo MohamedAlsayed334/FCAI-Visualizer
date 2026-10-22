@@ -12,8 +12,10 @@
     "lint": "eslint .",
     "typecheck": "tsc",
     "i18n:check": "node scripts/i18n-check.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "vite preview",
-    "verify": "npm run lint && npm run typecheck && npm run i18n:check && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm run i18n:check && npm run test && npm run build"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

@@ -400,7 +400,8 @@ export function genCountingSteps(arr) {
   const steps = [];
   const orig  = [...arr];
   const n     = orig.length;
-  const max   = Math.max(...orig);
+  // Math.max() of an empty array is -Infinity, which cannot size an array.
+  const max   = n === 0 ? 0 : Math.max(...orig);
   const count = new Array(max + 1).fill(0);
   const output = new Array(n).fill(null);
 

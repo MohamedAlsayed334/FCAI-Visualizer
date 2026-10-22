@@ -77,11 +77,9 @@
     "mstEdges": "MST edges: {{edges}}",
     "visitOrder": "Visit order: {{order}}",
     "remainingValues": "Remaining values: [{{values}}]",
-    "treeSummary": "Final height: {{height}} · {{count}} {{nodeWord}} · In-order: {{order}}",
-    "treeNodes": {
-      "one": "node",
-      "other": "nodes"
-    },
+    "treeSummary": "Final height: {{height}} · {{nodeWord}} · In-order: {{order}}",
+    "treeNodes_one": "{{count}} node",
+    "treeNodes_other": "{{count}} nodes",
     "finalOutput": "See final visualization above."
   },
   "playback": {

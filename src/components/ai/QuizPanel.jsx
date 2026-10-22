@@ -80,7 +80,7 @@ const FALLBACK_QUESTIONS = {
     general: {
       easy: [
         { q: "What is the time complexity of Quick Sort in average case?", options: ["A) O(n)", "B) O(n log n)", "C) O(n²)", "D) O(log n)"], answer: "B", exp: "Quick Sort uses divide-and-conquer giving O(n log n)" },
-        { q: "Which sort is stable?", options: ["A) Quick Sort", "B) Merge Sort", "C) Heap Sort", "D) Quick Sort"], answer: "B", exp: "Merge Sort preserves order of equal elements" },
+        { q: "Which sort is stable?", options: ["A) Quick Sort", "B) Merge Sort", "C) Heap Sort", "D) Selection Sort"], answer: "B", exp: "Merge Sort preserves order of equal elements" },
         { q: "Best case of Bubble Sort?", options: ["A) O(n)", "B) O(n log n)", "C) O(n²)", "D) O(1)"], answer: "A", exp: "When already sorted, bubble sort makes one pass" },
         { q: "Which uses divide and conquer?", options: ["A) Bubble", "B) Insertion", "C) Merge", "D) Selection"], answer: "C", exp: "Merge Sort splits array and merges back" },
         { q: "Space complexity of Merge Sort?", options: ["A) O(1)", "B) O(n)", "C) O(log n)", "D) O(n²)"], answer: "B", exp: "Merge Sort needs auxiliary array" },
@@ -284,6 +284,31 @@ const TOPIC_COLORS = {
   graphs: { bg: 'rgba(247, 197, 159, 0.15)', border: '#f7c59f', text: '#f7c59f' },
 };
 
+// Abbreviations used by the question bank that the full names do not cover.
+const ALGO_ABBREV = { bst: 'bst', avl: 'avl', bfs: 'bfs', dfs: 'dfs' };
+
+/**
+ * Resolve the algorithm a general-mode question is actually about.
+ * Matches the question and its explanation against the topic's algorithm
+ * names (or their common abbreviations); returns an id only when exactly
+ * one algorithm is named, so the badge never claims an algorithm the
+ * question is not about.
+ * @param {{q: string, exp?: string}} question
+ * @param {string[]} algos
+ * @returns {string|undefined}
+ */
+function inferAlgorithm(question, algos) {
+  const haystack = `${question?.q || ''} ${question?.exp || ''}`.toLowerCase();
+  if (!haystack.trim()) return undefined;
+  const hits = algos.filter((id) => {
+    const name = (algoNames[id] || '').toLowerCase();
+    if (name.length > 3 && haystack.includes(name)) return true;
+    const abbrev = ALGO_ABBREV[id];
+    return Boolean(abbrev) && new RegExp(`\\b${abbrev}\\b`).test(haystack);
+  });
+  return hits.length === 1 ? hits[0] : undefined;
+}
+
 function getRandomQuestion(topic, questionType = 'general', lang = 'js') {
   const levels = ['easy', 'medium', 'hard'];
   const typeKey = questionType === 'code' ? 'code' : questionType === 'complexity' ? 'complexity' : 'general';
@@ -352,7 +377,9 @@ function getRandomQuestion(topic, questionType = 'general', lang = 'js') {
         source: 'built-in',
         level: level,
         questionType: questionType,
-        algorithm: randomAlgo
+        // General questions span the whole topic — only tag one when the
+        // question text names exactly one algorithm, never a random one.
+        algorithm: inferAlgorithm(random, algos)
       };
     }
   }
@@ -817,14 +844,17 @@ export default function QuizPanel({ topic, onComplete }) {
 
       <div className="quiz-question" style={{ borderLeftColor: topicColor.border, borderLeftWidth: '4px', borderLeftStyle: 'solid' }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-          {source === 'built-in' && <span style={{ 
-            background: 'var(--surface3)', 
-            color: 'var(--text-muted)', 
-            padding: '0.2rem 0.5rem', 
+          {source === 'built-in' && <span style={{
+            background: 'var(--surface3)',
+            color: 'var(--text-muted)',
+            padding: '0.2rem 0.5rem',
             borderRadius: '4px',
             fontSize: '0.7rem',
             fontWeight: '600'
-          }}>📚 {t('quiz.badges.builtIn')}</span>}
+          }}>
+            {/* The emoji lives in the locale string — do not prefix it here. */}
+            {t('quiz.badges.builtIn')}
+          </span>}
           {question.algorithm && <span style={{
             background: topicColor.bg,
             color: topicColor.text,

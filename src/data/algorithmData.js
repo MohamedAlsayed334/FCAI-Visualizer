@@ -676,8 +676,20 @@ export const codeSnippets = {
       '  return -1; // not found',
       '}',
     ],
-    python: ['def linear_search(arr, target):\n    for i in range(len(arr)):\n        if arr[i] == target:\n            return i\n    return -1'],
-    cpp: ['int linearSearch(int a[],int n,int t){\n    for(int i=0;i<n;i++)\n        if(a[i]==t) return i;\n    return -1;\n}'],
+    python: [
+      'def linear_search(arr, target):',
+      '    for i in range(len(arr)):',
+      '        if arr[i] == target:',
+      '            return i',
+      '    return -1',
+    ],
+    cpp: [
+      'int linearSearch(int a[],int n,int t){',
+      '    for(int i=0;i<n;i++)',
+      '        if(a[i]==t) return i;',
+      '    return -1;',
+      '}',
+    ],
     java: [
       'int linearSearch(int[] a, int t) {',
       '    for (int i = 0; i < a.length; i++)',

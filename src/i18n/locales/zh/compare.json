@@ -77,11 +77,9 @@
     "mstEdges": "最小生成树的边: {{edges}}",
     "visitOrder": "访问顺序: {{order}}",
     "remainingValues": "剩余值: [{{values}}]",
-    "treeSummary": "最终高度: {{height}} · {{count}} {{nodeWord}} · 中序遍历: {{order}}",
-    "treeNodes": {
-      "one": "个节点",
-      "other": "个节点"
-    },
+    "treeSummary": "最终高度: {{height}} · {{nodeWord}} · 中序遍历: {{order}}",
+    "treeNodes_one": "{{count}}个节点",
+    "treeNodes_other": "{{count}}个节点",
     "finalOutput": "最终可视化见上方。"
   },
   "playback": {

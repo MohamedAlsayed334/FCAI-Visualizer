@@ -77,15 +77,13 @@
     "mstEdges": "حواف MST: {{edges}}",
     "visitOrder": "ترتيب الزيارة: {{order}}",
     "remainingValues": "القيم المتبقّية: [{{values}}]",
-    "treeSummary": "الارتفاع النهائي: {{height}} · {{count}} {{nodeWord}} · بالترتيب الأوسط: {{order}}",
-    "treeNodes": {
-      "zero": "لا عقد",
-      "one": "عقدة واحدة",
-      "two": "عقدتان",
-      "few": "{{count}} عُقد",
-      "many": "{{count}} عقدة",
-      "other": "{{count}} من العقد"
-    },
+    "treeSummary": "الارتفاع النهائي: {{height}} · {{nodeWord}} · بالترتيب الأوسط: {{order}}",
+    "treeNodes_zero": "لا عقد",
+    "treeNodes_one": "عقدة واحدة",
+    "treeNodes_two": "عقدتان",
+    "treeNodes_few": "{{count}} عُقد",
+    "treeNodes_many": "{{count}} عقدة",
+    "treeNodes_other": "{{count}} من العقد",
     "finalOutput": "شاهد العرض النهائي أعلاه."
   },
   "playback": {

@@ -12,8 +12,10 @@
     "lint": "eslint .",
     "typecheck": "tsc",
     "i18n:check": "node scripts/i18n-check.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "vite preview",
-    "verify": "npm run lint && npm run typecheck && npm run i18n:check && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm run i18n:check && npm run test && npm run build"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
@@ -27,6 +29,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/mcp": "0.0.83",
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
@@ -37,6 +40,7 @@
     "globals": "^17.5.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
-    "vite": "^8.0.11"
+    "vite": "^8.0.11",
+    "vitest": "^5.0.5"
   }
 }

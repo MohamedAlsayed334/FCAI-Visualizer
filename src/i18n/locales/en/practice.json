@@ -12,11 +12,9 @@
   "comingSoon": "Coming Soon",
   "selectTopic": "Select a Topic",
   "backToMenu": "Back to Menu",
-  "questionsAttempted": {
-    "zero": "no questions",
-    "one": "{{count}} question",
-    "other": "{{count}} questions"
-  },
+  "questionsAttempted_zero": "no questions",
+  "questionsAttempted_one": "{{count}} question",
+  "questionsAttempted_other": "{{count}} questions",
   "topics": {
     "sorting": "Sorting",
     "searching": "Searching",

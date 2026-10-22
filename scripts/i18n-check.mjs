@@ -18,6 +18,13 @@ const LOCALES_DIR = decodeURIComponent(new URL('src/i18n/locales', repoUrl).path
 const PLURAL_CATS = ['zero', 'one', 'two', 'few', 'many', 'other'];
 const isPluralCat = (k) => PLURAL_CATS.includes(k);
 
+// i18next v26 only understands the suffix form (`key_one` / `key_other`). The
+// nested object form (`{ "one": …, "other": … }`) silently resolves to the
+// object instead of a string, so the UI prints the key. Collect every nested
+// plural so the check can reject them.
+const nestedPluralKeys = new Map();
+let currentSource = '';
+
 function readJson(path) {
   try {
     return JSON.parse(readFileSync(path, 'utf8'));
@@ -39,6 +46,8 @@ function flatten(obj, prefix = '', out = {}) {
   const isPluralObj = prefix && keys.length > 0
     && keys.every((k) => isPluralCat(k) && typeof obj[k] === 'string');
   if (isPluralObj) {
+    if (!nestedPluralKeys.has(prefix)) nestedPluralKeys.set(prefix, new Set());
+    nestedPluralKeys.get(prefix).add(currentSource);
     out[prefix] = { plural: new Set(keys) };
     return out;
   }
@@ -80,6 +89,7 @@ const locales = readdirSync(LOCALES_DIR, { withFileTypes: true })
 const en = {};
 for (const file of readdirSync(join(LOCALES_DIR, 'en'))) {
   if (file.endsWith('.json')) {
+    currentSource = `en/${file}`;
     en[basename(file, '.json')] = flatten(readJson(join(LOCALES_DIR, 'en', file))) ?? {};
   }
 }
@@ -91,6 +101,7 @@ for (const locale of locales) {
   for (const ns of Object.keys(en)) {
     if (ns === 'meta') continue; // per-locale configuration (dir, fonts), not copy
 
+    currentSource = `${locale}/${ns}.json`;
     const flat = flatten(readJson(join(LOCALES_DIR, locale, `${ns}.json`)));
     if (!flat) continue;
     if (process.exitCode) continue;
@@ -142,6 +153,12 @@ for (const locale of locales) {
       }
     }
   }
+}
+
+// Nested plural objects are not a valid i18next v26 format — reject them so
+// nobody ships the broken shape again.
+for (const [key, sources] of nestedPluralKeys) {
+  fail(`${[...sources].join(', ')}: "${key}" uses the nested plural format — i18next v26 needs the suffix form ("${key}_one" / "${key}_other")`);
 }
 
 if (problems) {

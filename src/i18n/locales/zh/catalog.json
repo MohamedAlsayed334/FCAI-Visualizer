@@ -4,16 +4,12 @@
     "status": "交互式",
     "openTopic": "打开主题",
     "exploreCourse": "查看课程",
-    "learningTopics": {
-      "one": "学习主题 {{count}} 个",
-      "other": "学习主题 {{count}} 个"
-    }
+    "learningTopics_one": "学习主题",
+    "learningTopics_other": "学习主题"
   },
   "overview": {
-    "metaTopics": {
-      "one": "主题 {{count}} 个",
-      "other": "主题 {{count}} 个"
-    },
+    "metaTopics_one": "主题 {{count}} 个",
+    "metaTopics_other": "主题 {{count}} 个",
     "interactiveLessons": "交互式课时",
     "contentEyebrow": "课程内容",
     "contentTitle": "选择要学习的主题",

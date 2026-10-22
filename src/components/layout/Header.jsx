@@ -11,6 +11,9 @@ const ROUTE_TITLE_KEYS = {
   '/courses/information-theory-compression': 'catalog:course.information-theory-compression.title',
   '/courses/information-theory-compression/lossless': 'catalog:topic.lossless-compression.title',
   '/courses/information-theory-compression/lossy': 'catalog:topic.lossy-compression.title',
+  '/courses/data-structure/sorting': 'catalog:topic.sorting.title',
+  '/courses/data-structure/searching': 'catalog:topic.searching.title',
+  '/courses/data-structure/graphs': 'catalog:topic.graphs.title',
   '/courses/advanced-data-structure/trees': 'routes.course-trees',
   '/courses/advanced-data-structure/avl-tree': 'routes.course-avl-tree',
   '/courses/advanced-data-structure/red-black-tree': 'routes.course-red-black-tree',
@@ -41,7 +44,7 @@ const DS_TYPE_KEYS = {
   'ordered-ll': 'types.ordered.label',
 };
 
-/** Localized page title from the current route; falls back to a prettified slug. */
+/** Localized page title from the current route; falls back to the 404 title. */
 function resolveTitle(pathname, t) {
   if (ROUTE_TITLE_KEYS[pathname]) return t(ROUTE_TITLE_KEYS[pathname]);
   const parts = pathname.split('/').filter(Boolean);
@@ -50,7 +53,7 @@ function resolveTitle(pathname, t) {
   if (ALGORITHM_SLUGS.has(slug)) return t(`algorithms:${slug}.name`);
   if (TOPIC_SLUGS.has(slug)) return t(`catalog:topic.${slug}.title`);
   if (DS_TYPE_KEYS[slug]) return t(`dataStructures:${DS_TYPE_KEYS[slug]}`);
-  return slug.replace(/-/g, ' ');
+  return t('notFound.title');
 }
 
 export default function Header({ onToggleSidebar, theme, onToggleTheme }) {

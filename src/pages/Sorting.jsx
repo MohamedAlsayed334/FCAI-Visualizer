@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getAlgorithm, getAlgorithmsByCategory } from '../application/AlgorithmRegistry';
 import { SortingVisualizer } from '../algorithms/sorting/sortingVisualizer';
 import { useLang } from '../hooks/useLang';
@@ -23,6 +23,7 @@ const sortingAlgorithms = Object.fromEntries(
 export default function Sorting() {
   const { algo: urlAlgo } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const canvasRef = useRef(null);
 
   const initialAlgo = urlAlgo && sortingAlgorithms[urlAlgo] ? urlAlgo : 'bubble';
@@ -173,7 +174,15 @@ export default function Sorting() {
         onStepForward={stepForward}
         onGenerateRandom={() => generateArray(arraySize)}
         algorithm={algo}
-        setAlgorithm={(a) => { setAlgo(a); navigate(`/sorting/${a}`); reset(); }}
+        setAlgorithm={(a) => {
+          setAlgo(a);
+          // Keep the algorithm switch inside the current (course or legacy) route.
+          const base = location.pathname.startsWith('/courses/data-structure/sorting')
+            ? '/courses/data-structure/sorting'
+            : '/sorting';
+          navigate(`${base}/${a}`);
+          reset();
+        }}
         arraySize={arraySize}
         setArraySize={setArraySize}
         speed={speed}

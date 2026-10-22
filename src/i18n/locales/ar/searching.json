@@ -1,20 +1,20 @@
 {
   "title": "البحث",
-  "canvasAria": "مساحة عرض البحث",
-  "descriptionFallback": "بحث {{name}}",
-  "target": "الهدف:",
+  "canvasAria": "لوحة العرض التفاعلي للبحث",
+  "descriptionFallback": "خوارزمية {{name}} للبحث",
+  "target": "القيمة المراد البحث عنها:",
   "result": {
-    "foundAt": "✅ الموضع {{index}}",
+    "foundAt": "✅ عُثر على القيمة عند الفهرس {{index}}",
     "notFound": "❌ غير موجود"
   },
   "legend": {
-    "unseen": "لم يُفحص",
-    "scanned": "فُحص",
-    "current": "الحالي",
-    "found": "وُجد",
-    "notFound": "لم يوجد"
+    "unseen": "لم يُفحص بعد",
+    "scanned": "تم فحصه",
+    "current": "العنصر الحالي",
+    "found": "عُثر عليه",
+    "notFound": "لم يُعثر عليه"
   },
   "canvas": {
-    "emptyState": "أنشئ مصفوفة للبدء"
+    "emptyState": "أنشئ مصفوفة لبدء العرض"
   }
 }

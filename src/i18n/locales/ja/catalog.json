@@ -36,62 +36,110 @@
     "arrays": {
       "title": "配列",
       "description": "インデックスによる格納・アクセス・更新と、よく使われる配列操作を理解しましょう。",
-      "tags": ["インデックス", "挿入", "削除"]
+      "tags": [
+        "インデックス",
+        "挿入",
+        "削除"
+      ]
     },
     "stacks": {
       "title": "スタック",
       "description": "push・pop・peek の操作で、後入れ先出し（LIFO）の動作を確かめましょう。",
-      "tags": ["LIFO", "Push", "Pop"]
+      "tags": [
+        "LIFO",
+        "Push",
+        "Pop"
+      ]
     },
     "queues": {
       "title": "キュー",
       "description": "先入れ先出し（FIFO）の構造がデータとスケジューリングをどう扱うかを見てみましょう。",
-      "tags": ["FIFO", "Enqueue", "Dequeue"]
+      "tags": [
+        "FIFO",
+        "Enqueue",
+        "Dequeue"
+      ]
     },
     "linked-lists": {
       "title": "連結リスト",
       "description": "片方向・双方向・循環・順序付きリストのノードのつながりをたどりましょう。",
-      "tags": ["ノード", "ポインタ", "種類"]
+      "tags": [
+        "ノード",
+        "ポインタ",
+        "種類"
+      ]
     },
     "sorting": {
       "title": "ソートアルゴリズム",
       "description": "各ソート戦略がデータをどう並べ替えるか、1 操作ずつ比較しましょう。",
-      "tags": ["アルゴリズム 8 種", "ステップ操作", "コード"]
+      "tags": [
+        "アルゴリズム 8 種",
+        "ステップ操作",
+        "コード"
+      ]
     },
     "searching": {
       "title": "探索アルゴリズム",
       "description": "線形探索・二分探索・ジャンプ探索を追いかけて、効率よく値を見つけましょう。",
-      "tags": ["アルゴリズム 3 種", "ソート済みデータ", "計算量"]
+      "tags": [
+        "アルゴリズム 3 種",
+        "ソート済みデータ",
+        "計算量"
+      ]
     },
     "graphs": {
       "title": "グラフ",
       "description": "つながったデータをモデル化し、走査や最短経路を探求しましょう。",
-      "tags": ["BFS", "DFS", "Dijkstra"]
+      "tags": [
+        "BFS",
+        "DFS",
+        "Dijkstra"
+      ]
     },
     "trees": {
       "title": "二分探索木",
       "description": "木の走査を見ながら、値の挿入・検索・削除を試しましょう。",
-      "tags": ["BST", "走査", "探索"]
+      "tags": [
+        "BST",
+        "走査",
+        "探索"
+      ]
     },
     "avl-tree": {
       "title": "AVL木",
       "description": "自己平衡化の回転が木の高さを対数オーダーに保つ様子を見てみましょう。",
-      "tags": ["自己平衡", "回転", "高さ"]
+      "tags": [
+        "自己平衡",
+        "回転",
+        "高さ"
+      ]
     },
     "red-black-tree": {
       "title": "赤黒木",
       "description": "ノードの色分け・挿入時の修正・平衡な探索経路を探求しましょう。",
-      "tags": ["色の規則", "回転", "平衡化"]
+      "tags": [
+        "色の規則",
+        "回転",
+        "平衡化"
+      ]
     },
     "lossless-compression": {
       "title": "可逆圧縮",
       "description": "情報を失わずに圧縮し、入力を完全に復元します。",
-      "tags": ["完全復元", "LZ77", "インタラクティブ"]
+      "tags": [
+        "完全復元",
+        "LZ77",
+        "インタラクティブ"
+      ]
     },
     "lossy-compression": {
       "title": "非可逆圧縮",
-      "description": "目立ちにくい情報を取り除いてデータ量を削減します。",
-      "tags": ["近似", "画像・音声", "近日公開"]
+      "description": "予測符号化と DCT 量子化を、信号や画像の対話型ステップ表示で学び、元の入力と再構成された近似結果を比較します。",
+      "tags": [
+        "DPCM",
+        "線形予測",
+        "DCT＋量子化"
+      ]
     }
   },
   "compression": {
@@ -117,7 +165,65 @@
     },
     "lossy": {
       "eyebrow": "非可逆圧縮",
-      "description": "非可逆予測符号化（DPCM・線形予測）や、量子化とDCTを使う変換符号化を今後追加します。"
+      "description": "予測符号化と DCT 量子化を、信号や画像の対話型ステップ表示で学び、元の入力と再構成された近似結果を比較します。",
+      "partsTitle": "非可逆圧縮の手法",
+      "partsDescription": "手法を選び、量子化ステップを調整して、各処理段階で再構成結果がどう変わるか確認しましょう。",
+      "dpcmTitle": "DPCM（差分パルス符号変調）",
+      "dpcmDescription": "予測誤差を量子化し、直前に再構成したサンプルを使って各サンプルを復元します。",
+      "linearTitle": "線形予測",
+      "linearDescription": "過去に再構成したサンプルから現在の値を予測し、予測残差を量子化します。",
+      "dctTitle": "2次元 DCT ＋ 量子化",
+      "dctDescription": "8×8 の画像ブロックを周波数係数へ変換して量子化し、近似ブロックを再構成します。",
+      "signalInput": "信号サンプル",
+      "signalHint": "1〜128 個の数値を、カンマ・空白・セミコロンで区切って入力してください。",
+      "blockInput": "8×8 グレースケール画素ブロック",
+      "blockHint": "0〜255 の画素値を各行8個、合計8行入力してください。空白またはカンマで区切れます。",
+      "quantizationStep": "量子化ステップ幅",
+      "quantizationHint": "値が大きいほど精度が失われます。0より大きく1024以下の値を入力してください。",
+      "predictorCoefficients": "予測係数",
+      "coefficientsHint": "カンマ区切りで1〜4個の係数を入力してください。各係数は -2〜2 の範囲です。",
+      "run": "圧縮を実行",
+      "resetInput": "サンプルをリセット",
+      "runError": "実行できませんでした。入力値と量子化設定を確認してください。",
+      "originalSignal": "元のサンプル",
+      "reconstructedSignal": "再構成サンプル",
+      "sampleDetails": "現在のサンプル",
+      "predicted": "予測値",
+      "residual": "予測誤差",
+      "quantizedResidual": "量子化後の誤差",
+      "originalBlock": "元の画素ブロック",
+      "transformCoefficients": "DCT 係数",
+      "quantizedCoefficients": "量子化後の係数",
+      "reconstructedBlock": "再構成ブロック",
+      "metrics": "再構成品質",
+      "mse": "平均二乗誤差（MSE）",
+      "psnr": "ピーク信号対雑音比（PSNR）",
+      "perfect": "完全に再構成",
+      "retainedCoefficients": "非ゼロ係数数",
+      "walkthrough": "ステップごとの実行",
+      "stepsTitle": "アルゴリズムの手順",
+      "stepCount": "全 {{total}} ステップ中 {{current}}",
+      "speed": "再生速度",
+      "slow": "遅い",
+      "normal": "標準",
+      "fast": "速い",
+      "play": "再生",
+      "pause": "一時停止",
+      "previous": "前のステップ",
+      "next": "次のステップ",
+      "restart": "最初から",
+      "emptySteps": "圧縮を実行すると各ステップを確認できます。",
+      "steps": {
+        "dpcmStart": "量子化ステップ {{stepSize}} で {{count}} 個のサンプルに DPCM を適用します。",
+        "dpcmSample": "サンプル {{sampleNumber}}：予測値 {{predicted}}、予測誤差 {{residual}}、量子化誤差 {{quantizedResidual}}、再構成値 {{reconstructed}}。",
+        "linearStart": "係数 {{coefficients}}、量子化ステップ {{stepSize}} を使い、{{count}} 個のサンプルを線形予測符号化します。",
+        "linearSample": "サンプル {{sampleNumber}}：予測値 {{predicted}}、予測誤差 {{residual}}、量子化誤差 {{quantizedResidual}}、再構成値 {{reconstructed}}。",
+        "dctStart": "量子化ステップ {{stepSize}} で 8×8 ブロックの DCT 圧縮を開始します。変換前に画素値から128を引きます。",
+        "dctTransform": "2次元順変換 DCT を適用し、64個の周波数係数を生成します。",
+        "dctQuantize": "行 {{u}}、列 {{v}} の係数を量子化します。ステップ {{stepSize}} により {{coefficient}} が {{quantized}} になります。",
+        "dctReconstruct": "量子化係数に逆 DCT を適用し、再構成画素を0〜255に収めます。",
+        "complete": "処理完了：{{count}} 個の値を処理しました。"
+      }
     },
     "dictionary": {
       "lz77Description": "後方オフセット、一致長、次の記号で繰り返しの並びを符号化します。",

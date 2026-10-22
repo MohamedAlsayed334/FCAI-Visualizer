@@ -36,62 +36,110 @@
     "arrays": {
       "title": "Arrays",
       "description": "Understand indexed storage, access, updates, and common array operations.",
-      "tags": ["Indexing", "Insertion", "Deletion"]
+      "tags": [
+        "Indexing",
+        "Insertion",
+        "Deletion"
+      ]
     },
     "stacks": {
       "title": "Stacks",
       "description": "Explore last-in, first-out behavior with push, pop, and peek operations.",
-      "tags": ["LIFO", "Push", "Pop"]
+      "tags": [
+        "LIFO",
+        "Push",
+        "Pop"
+      ]
     },
     "queues": {
       "title": "Queues",
       "description": "See how first-in, first-out structures manage data and scheduling.",
-      "tags": ["FIFO", "Enqueue", "Dequeue"]
+      "tags": [
+        "FIFO",
+        "Enqueue",
+        "Dequeue"
+      ]
     },
     "linked-lists": {
       "title": "Linked Lists",
       "description": "Follow node connections in singly, doubly, circular, and ordered lists.",
-      "tags": ["Nodes", "Pointers", "Variants"]
+      "tags": [
+        "Nodes",
+        "Pointers",
+        "Variants"
+      ]
     },
     "sorting": {
       "title": "Sorting Algorithms",
       "description": "Compare how sorting strategies order data, one operation at a time.",
-      "tags": ["8 algorithms", "Step controls", "Code"]
+      "tags": [
+        "8 algorithms",
+        "Step controls",
+        "Code"
+      ]
     },
     "searching": {
       "title": "Searching Algorithms",
       "description": "Trace linear, binary, and jump search to find values efficiently.",
-      "tags": ["3 algorithms", "Sorted data", "Complexity"]
+      "tags": [
+        "3 algorithms",
+        "Sorted data",
+        "Complexity"
+      ]
     },
     "graphs": {
       "title": "Graphs",
       "description": "Model connected data and explore traversals and shortest paths.",
-      "tags": ["BFS", "DFS", "Dijkstra"]
+      "tags": [
+        "BFS",
+        "DFS",
+        "Dijkstra"
+      ]
     },
     "trees": {
       "title": "Binary Search Trees",
       "description": "Insert, find, and remove values while exploring tree traversals.",
-      "tags": ["BST", "Traversals", "Search"]
+      "tags": [
+        "BST",
+        "Traversals",
+        "Search"
+      ]
     },
     "avl-tree": {
       "title": "AVL Tree",
       "description": "See how self-balancing rotations preserve logarithmic tree height.",
-      "tags": ["Self-balancing", "Rotations", "Height"]
+      "tags": [
+        "Self-balancing",
+        "Rotations",
+        "Height"
+      ]
     },
     "red-black-tree": {
       "title": "Red-Black Tree",
       "description": "Explore node coloring, insertion fix-ups, and balanced search paths.",
-      "tags": ["Color rules", "Rotations", "Balancing"]
+      "tags": [
+        "Color rules",
+        "Rotations",
+        "Balancing"
+      ]
     },
     "lossless-compression": {
       "title": "Lossless Compression",
       "description": "Compress data without losing information, then reconstruct the original input exactly.",
-      "tags": ["Exact recovery", "LZ77", "Interactive"]
+      "tags": [
+        "Exact recovery",
+        "LZ77",
+        "Interactive"
+      ]
     },
     "lossy-compression": {
       "title": "Lossy Compression",
-      "description": "Reduce data size by discarding information that may be less noticeable.",
-      "tags": ["Approximation", "Image & audio", "Coming soon"]
+      "description": "Explore predictive coding and DCT quantization through interactive, step-by-step signal and image examples. Compare the original input with its reconstructed approximation.",
+      "tags": [
+        "DPCM",
+        "Linear prediction",
+        "DCT + quantization"
+      ]
     }
   },
   "compression": {
@@ -117,7 +165,65 @@
     },
     "lossy": {
       "eyebrow": "Lossy compression",
-      "description": "Lossy predictive methods (DPCM and linear prediction) and transform coding with quantization and DCT are planned for a future lesson."
+      "description": "Explore predictive coding and DCT quantization through interactive, step-by-step signal and image examples. Compare the original input with its reconstructed approximation.",
+      "partsTitle": "Explore lossy techniques",
+      "partsDescription": "Choose a method, adjust its quantization step, and follow the reconstructed output as each step runs.",
+      "dpcmTitle": "DPCM",
+      "dpcmDescription": "Quantize the prediction error and rebuild each sample using the previously reconstructed sample.",
+      "linearTitle": "Linear prediction",
+      "linearDescription": "Predict each sample from previous reconstructed values, then quantize the residual.",
+      "dctTitle": "2D DCT + quantization",
+      "dctDescription": "Transform an 8×8 image block into frequency coefficients, quantize them, then reconstruct an approximate block.",
+      "signalInput": "Signal samples",
+      "signalHint": "Enter 1–128 numeric samples separated by commas, spaces, or semicolons.",
+      "blockInput": "8×8 grayscale pixel block",
+      "blockHint": "Enter exactly 8 rows of 8 pixel values (0–255). Spaces or commas can separate values.",
+      "quantizationStep": "Quantization step size",
+      "quantizationHint": "Larger steps discard more precision. Use a positive value up to 1024.",
+      "predictorCoefficients": "Predictor coefficients",
+      "coefficientsHint": "Enter 1–4 coefficients, separated by commas; each must be between -2 and 2.",
+      "run": "Run compression",
+      "resetInput": "Reset example",
+      "runError": "Unable to run this example. Check the input values and quantization settings.",
+      "originalSignal": "Original samples",
+      "reconstructedSignal": "Reconstructed samples",
+      "sampleDetails": "Current sample",
+      "predicted": "Predicted value",
+      "residual": "Prediction error",
+      "quantizedResidual": "Quantized error",
+      "originalBlock": "Original pixel block",
+      "transformCoefficients": "DCT coefficients",
+      "quantizedCoefficients": "Quantized coefficients",
+      "reconstructedBlock": "Reconstructed block",
+      "metrics": "Reconstruction quality",
+      "mse": "Mean squared error (MSE)",
+      "psnr": "Peak signal-to-noise ratio (PSNR)",
+      "perfect": "Exact reconstruction",
+      "retainedCoefficients": "Non-zero coefficients",
+      "walkthrough": "STEP-BY-STEP",
+      "stepsTitle": "Algorithm walkthrough",
+      "stepCount": "Step {{current}} of {{total}}",
+      "speed": "Playback speed",
+      "slow": "Slow",
+      "normal": "Normal",
+      "fast": "Fast",
+      "play": "Play",
+      "pause": "Pause",
+      "previous": "Previous step",
+      "next": "Next step",
+      "restart": "Restart",
+      "emptySteps": "Run a compression example to view its steps.",
+      "steps": {
+        "dpcmStart": "Start DPCM for {{count}} samples with quantization step {{stepSize}}.",
+        "dpcmSample": "Sample {{sampleNumber}}: prediction {{predicted}}, error {{residual}}, quantized error {{quantizedResidual}}, reconstructed value {{reconstructed}}.",
+        "linearStart": "Start linear prediction for {{count}} samples using coefficients {{coefficients}} and quantization step {{stepSize}}.",
+        "linearSample": "Sample {{sampleNumber}}: prediction {{predicted}}, error {{residual}}, quantized error {{quantizedResidual}}, reconstructed value {{reconstructed}}.",
+        "dctStart": "Start an 8×8 DCT compression with quantization step {{stepSize}}. Pixel values are level-shifted by 128.",
+        "dctTransform": "Apply the forward 2D DCT to produce 64 frequency coefficients.",
+        "dctQuantize": "Quantize coefficient (row {{u}}, column {{v}}): {{coefficient}} becomes {{quantized}} using step {{stepSize}}.",
+        "dctReconstruct": "Apply the inverse DCT to the quantized coefficients and clamp reconstructed pixels to 0–255.",
+        "complete": "Processing complete: {{count}} values were processed."
+      }
     },
     "dictionary": {
       "lz77Description": "Encode repeated sequences as a backward offset, a match length, and the next symbol.",

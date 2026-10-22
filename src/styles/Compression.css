@@ -356,3 +356,54 @@
     transition: none;
   }
 }
+
+
+/* Lossy compression lessons */
+.compression-course-hero--lossy {
+  border-color: color-mix(in srgb, #7054ad 26%, var(--border));
+  background:
+    radial-gradient(ellipse at 90% 12%, rgba(112, 84, 173, .15), transparent 36%),
+    linear-gradient(120deg, var(--surface), color-mix(in srgb, #f1edfa 64%, var(--surface)));
+}
+.compression-course-hero--lossy .compression-hero-icon { color: #7054ad; background: #f1edfa; }
+.compression-course-hero--lossy .compression-eyebrow { color: #7054ad; }
+.compression-page.lossy-page { padding-bottom: 30px; }
+.lossy-method-tabs .compression-part-tab.is-active { border-color: #7054ad; background: color-mix(in srgb, #f1edfa 70%, var(--surface)); color: #63469f; }
+.lossy-workspace { display: grid; gap: 16px; }
+.lossy-input-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(220px, .8fr); gap: 14px; margin: 17px 0; }
+.lossy-settings { display: grid; align-content: start; gap: 11px; }
+.lossy-settings > button { justify-self: start; }
+.lossy-workbench { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 15px 0; align-items: start; }
+.lossy-readout { min-width: 0; padding: 13px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.lossy-readout h4 { margin: 0 0 10px; color: var(--text); font-size: 11px; font-weight: 850; }
+.lossy-signal-values { display: flex; flex-wrap: wrap; gap: 5px; }
+.lossy-signal-values > span { display: grid; min-width: 47px; gap: 4px; padding: 7px 6px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); text-align: center; }
+.lossy-signal-values > span small { color: var(--text-muted); font-size: 8px; }
+.lossy-signal-values > span strong { color: var(--text); font: 750 10px/1.2 var(--font-mono, monospace); }
+.lossy-signal-values--original > span { background: color-mix(in srgb, #eaf4fc 64%, var(--surface)); }
+.lossy-signal-values--reconstruction > span { background: color-mix(in srgb, #eaf6f0 64%, var(--surface)); }
+.lossy-signal-values > span.is-active { outline: 2px solid #7054ad; outline-offset: 1px; }
+.lossy-detail-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.lossy-detail-grid > div { display: grid; gap: 6px; min-width: 0; padding: 9px; border-radius: 8px; background: color-mix(in srgb, var(--surface) 68%, var(--border)); }
+.lossy-detail-grid span, .lossy-metrics article span { color: var(--text-muted); font-size: 9px; line-height: 1.4; }
+.lossy-detail-grid strong, .lossy-metrics article strong { color: var(--text); font: 800 12px/1.35 var(--font-mono, monospace); overflow-wrap: anywhere; }
+.lossy-matrix { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 3px; width: 100%; max-width: 360px; }
+.lossy-matrix > span { display: grid; min-width: 0; aspect-ratio: 1; place-items: center; overflow: hidden; border: 1px solid color-mix(in srgb, var(--border) 85%, transparent); border-radius: 4px; font: 650 clamp(7px, .8vw, 10px)/1 var(--font-mono, monospace); }
+.lossy-matrix--coefficients > span { background: color-mix(in srgb, var(--surface) 70%, #d9ccef); color: var(--text); font-size: clamp(6px, .72vw, 9px); }
+.lossy-matrix--coefficients > span.is-active { outline: 2px solid #7054ad; outline-offset: -2px; background: #e6dcf7; color: #39245e; }
+.lossy-metrics { margin: 13px 0; padding: 13px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); }
+.lossy-metrics h3 { margin: 0 0 10px; color: var(--text); font-size: 12px; }
+.lossy-metrics > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.lossy-metrics article { display: grid; gap: 6px; min-width: 0; padding: 10px; border-radius: 8px; background: color-mix(in srgb, var(--surface) 68%, var(--border)); }
+.lossy-playback { margin-top: 4px; }
+.lossy-playback .lz77-current-explanation { min-height: 56px; }
+@media (max-width: 760px) {
+  .lossy-input-layout { grid-template-columns: minmax(0, 1fr); }
+  .lossy-workbench { grid-template-columns: minmax(0, 1fr); }
+  .lossy-metrics > div { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 420px) {
+  .lossy-detail-grid { grid-template-columns: minmax(0, 1fr); }
+  .lossy-matrix { gap: 2px; }
+  .lossy-matrix > span { border-radius: 2px; font-size: 6px; }
+}

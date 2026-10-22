@@ -2,12 +2,18 @@
   "title": "練習モード",
   "subtitle": "アルゴリズムの知識を試そう",
   "modes": {
-    "quiz": { "title": "クイズ", "description": "選択式の問題" },
-    "trace": { "title": "トレース", "description": "ステップごとの練習" }
+    "quiz": {
+      "title": "クイズ",
+      "description": "選択式の問題"
+    },
+    "trace": {
+      "title": "実行トレース",
+      "description": "ステップごとの実行トレース"
+    }
   },
   "session": {
     "quiz": "クイズ",
-    "trace": "トレース"
+    "trace": "実行トレース"
   },
   "comingSoon": "近日公開",
   "selectTopic": "トピックを選択",
@@ -46,7 +52,7 @@
     "descriptions": {
       "general": "{{topic}}の一般的な選択式問題",
       "code": "{{topic}}に関するコード片を解析",
-      "complexity": "{{topic}}の時間・空間計算量の問題"
+      "complexity": "{{topic}}の時間計算量・空間計算量に関する問題"
     },
     "actions": {
       "start": "▶ クイズを開始",

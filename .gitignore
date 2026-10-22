@@ -13,6 +13,11 @@ node_modules
 dist
 dist-ssr
 *.local
+# Test and coverage output
+coverage/
+test-artifacts/
+# Local Vercel CLI state
+.vercel/
 
 # Editor directories and files
 .vscode/*

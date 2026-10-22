@@ -2,8 +2,14 @@
   "title": "练习模式",
   "subtitle": "测试你的算法知识",
   "modes": {
-    "quiz": { "title": "测验", "description": "选择题" },
-    "trace": { "title": "追踪", "description": "分步练习" }
+    "quiz": {
+      "title": "测验",
+      "description": "选择题"
+    },
+    "trace": {
+      "title": "追踪",
+      "description": "分步练习"
+    }
   },
   "session": {
     "quiz": "测验",
@@ -12,7 +18,7 @@
   "comingSoon": "敬请期待",
   "selectTopic": "选择主题",
   "backToMenu": "返回菜单",
-  "questionsAttempted_zero": "无答题",
+  "questionsAttempted_zero": "尚未作答",
   "questionsAttempted_one": "{{count}} 题",
   "questionsAttempted_other": "{{count}} 题",
   "topics": {
@@ -26,7 +32,7 @@
     "questions": "题数",
     "correct": "正确",
     "accuracy": "正确率",
-    "bestStreak": "最长连对",
+    "bestStreak": "最长连续答对数",
     "reset": "🗑️ 清空",
     "confirm": "点击确认"
   },
@@ -39,14 +45,14 @@
       "lang": "语言:"
     },
     "modes": {
-      "general": "📚 通用",
+      "general": "📚 综合",
       "code": "💻 代码",
       "complexity": "📊 复杂度"
     },
     "descriptions": {
-      "general": "关于{{topic}}的通用选择题",
-      "code": "分析与{{topic}}相关的代码片段",
-      "complexity": "关于{{topic}}的时间/空间复杂度题"
+      "general": "关于 {{topic}} 的综合选择题",
+      "code": "分析与 {{topic}} 相关的代码片段",
+      "complexity": "关于 {{topic}} 的时间和空间复杂度题目"
     },
     "actions": {
       "start": "▶ 开始测验",

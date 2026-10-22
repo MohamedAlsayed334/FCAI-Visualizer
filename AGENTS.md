@@ -32,16 +32,27 @@ The commands below use the optional Windows launcher; replace `.\npm.cmd` with
 ```powershell
 .\npm.cmd run dev        # Vite dev server
 .\npm.cmd run lint       # ESLint (flat config) — must pass before finishing work
+.\npm.cmd run typecheck  # tsc, scoped to the i18n layer
+.\npm.cmd run i18n:check # locale bundles stay in sync with `en`
+.\npm.cmd run test       # Vitest — the pure logic layers
+.\npm.cmd run test:watch # Vitest in watch mode while you work
 .\npm.cmd run build      # production build (Vercel deploys with this)
 .\npm.cmd run preview    # serve the dist/ build
 ```
 
-- **Tests are not wired up.** `src/algorithms/trees/RedBlackTree.test.js`
-  exists but there is no `test` script and no runner dependency. Treat tests
-  as informational; verification = `npm run lint` + exercising the affected
-  page in the dev server, plus a full `npm run build` when touching build
-  config or many files. `npm run verify` runs lint + typecheck + i18n:check
-  + build in one pass and mirrors CI (`.github/workflows/ci.yml`).
+- **Tests live next to the code they cover** (`<name>.test.js`) and run under
+  Vitest (`vitest.config.js`, Node environment, no globals — import
+  `{ describe, it, expect }` from `'vitest'`). They cover the pure layers
+  (`domain`, `application`, `algorithms` engines); React components and the
+  canvas visualizers are out of scope. A loop over `AlgorithmRegistry` checks
+  the Step contract for every registered algorithm, so a new algorithm is
+  covered as soon as it is registered.
+- `npm run verify` runs lint + typecheck + i18n:check + test + build in one
+  pass and mirrors CI (`.github/workflows/ci.yml`).
+- CI runs on every push to `main` and every pull request: install → lint →
+  typecheck → i18n:check → test → build, on the Node version from
+  `.node-version`. Deployment stays with Vercel's Git integration — the
+  workflow only checks the code, it never deploys.
 - Do not hand-edit `dist/` (build output) or `package-lock.json`.
 
 ## Commit messages
@@ -117,7 +128,10 @@ See `docs/i18n.md`.
   numbers stored in steps must stay aligned (snippets are stored as line
   arrays and joined by pages).
 - Every step should carry a human-readable `msg` — it drives narration and
-  screen readers.
+  screen readers. Translated builds read `msgKey`/`msgParams` instead
+  (`stepText()` prefers `msgKey`), so a step needs at least one of the two;
+  the Step-contract test in `src/application/AlgorithmRegistry.test.js`
+  enforces that.
 
 ## Adding an algorithm (registry pattern)
 

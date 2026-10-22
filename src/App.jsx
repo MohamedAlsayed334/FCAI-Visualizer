@@ -40,7 +40,9 @@ export default function App() {
           <Route path="courses/data-structure/queues" element={<Queues />} />
           <Route path="courses/data-structure/linked-lists" element={<LinkedLists />} />
           <Route path="courses/data-structure/sorting" element={<CourseSorting />} />
+          <Route path="courses/data-structure/sorting/:algo" element={<CourseSorting />} />
           <Route path="courses/data-structure/searching" element={<CourseSearching />} />
+          <Route path="courses/data-structure/searching/:algo" element={<CourseSearching />} />
           <Route path="courses/data-structure/graphs" element={<CourseGraphs />} />
           <Route path="courses/data-structure/graphs/:algo" element={<CourseGraphs />} />
           <Route path="courses/advanced-data-structure" element={<AdvancedHome />} />

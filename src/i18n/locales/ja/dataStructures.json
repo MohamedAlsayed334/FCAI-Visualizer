@@ -1,12 +1,26 @@
 {
   "types": {
-    "array": { "label": "配列" },
-    "stack": { "label": "スタック" },
-    "queue": { "label": "キュー" },
-    "singly": { "label": "片方向連結リスト" },
-    "doubly": { "label": "双方向連結リスト" },
-    "circular": { "label": "循環連結リスト" },
-    "ordered": { "label": "順序付き連結リスト" }
+    "array": {
+      "label": "配列"
+    },
+    "stack": {
+      "label": "スタック"
+    },
+    "queue": {
+      "label": "キュー"
+    },
+    "singly": {
+      "label": "単方向連結リスト"
+    },
+    "doubly": {
+      "label": "双方向連結リスト"
+    },
+    "circular": {
+      "label": "循環連結リスト"
+    },
+    "ordered": {
+      "label": "順序付き連結リスト"
+    }
   },
   "tabs": {
     "aria": "グラフアルゴリズムのタブ"

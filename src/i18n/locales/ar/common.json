@@ -2,8 +2,8 @@
   "brand": "FCAI-Visualizer",
   "campus": "FCAI-CU",
   "header": {
-    "eyebrow": "FCAI-CU · منصّة تعلّم",
-    "toggleNav": "إظهار/إخفاء قائمة التنقّل",
+    "eyebrow": "FCAI-CU · منصّة تعليمية",
+    "toggleNav": "فتح/إغلاق قائمة التنقّل",
     "startLearning": "ابدأ التعلّم",
     "switchTheme": "التبديل إلى الوضع {{mode}}"
   },
@@ -15,22 +15,22 @@
   "settings": {
     "language": "اللغة",
     "digits": "نمط الأرقام",
-    "digitsToLatn": "التبديل إلى الأرقام الإنجليزية",
-    "digitsToArab": "التبديل إلى الأرقام العربية (الهندية)"
+    "digitsToLatn": "استخدام الأرقام الغربية (0–9)",
+    "digitsToArab": "استخدام الأرقام العربية الهندية (٠–٩)"
   },
   "routes": {
-    "home": "لوحة التعلّم",
+    "home": "الرئيسية",
     "data-structure": "هياكل البيانات",
     "advanced-data-structure": "هياكل البيانات المتقدّمة",
     "course-trees": "الأشجار",
     "course-avl-tree": "شجرة AVL",
-    "course-red-black-tree": "شجرة الأحمر-الأسود",
+    "course-red-black-tree": "شجرة حمراء-سوداء",
     "sorting": "خوارزميات الترتيب",
     "searching": "خوارزميات البحث",
     "data-structures": "هياكل البيانات",
     "trees": "عارض الأشجار",
-    "graphs": "الرسوم البيانية",
-    "practice": "وضع التدرب",
+    "graphs": "خوارزميات الرسوم البيانية",
+    "practice": "التدريب العملي",
     "compare": "مقارنة الخوارزميات"
   },
   "nav": {
@@ -39,17 +39,17 @@
     "workspace": "مساحة العمل",
     "courses": "المقررات",
     "learningTools": "أدوات التعلّم",
-    "expandSidebar": "تكبير الشريط الجانبي",
-    "collapseSidebar": "تصغير الشريط الجانبي",
+    "expandSidebar": "توسيع الشريط الجانبي",
+    "collapseSidebar": "طيّ الشريط الجانبي",
     "homeLink": "الصفحة الرئيسية لـ FCAI-Visualizer",
-    "brandTagline": "تعلّم بصريًا",
+    "brandTagline": "تعلّم من خلال التصوّر التفاعلي",
     "closeOverlay": "إغلاق التنقّل"
   },
   "sidebar": {
-    "supportTitle": "تعلّم بنشاط",
-    "supportBody": "شاهد خوارزمية، ثم جرّبها بنفسك.",
-    "supportLink": "استكشف التدرب",
-    "faculty": "كلية الحوسبات والذكاء الاصطناعي",
+    "supportTitle": "تعلّم بالممارسة",
+    "supportBody": "شاهد الخوارزمية أثناء عملها، ثم جرّبها بنفسك.",
+    "supportLink": "ابدأ التدريب العملي",
+    "faculty": "كلية الحاسبات والذكاء الاصطناعي",
     "university": "جامعة القاهرة"
   },
   "actions": {
@@ -61,9 +61,9 @@
     "play": "تشغيل",
     "size": "الحجم",
     "speed": "السرعة",
-    "customInputHint": "أدخل أعدادًا صحيحة مفصولة بفواصل ثم اضغط «تطبيق»",
+    "customInputHint": "أدخل أعدادًا صحيحة تفصل بينها فواصل، ثم اضغط «تطبيق».",
     "customInputPlaceholder": "مثال: 5، 3، 8، 1، 9",
-    "applyCustom": "تطبيق المدخل المخصّص",
+    "applyCustom": "تطبيق البيانات المدخلة",
     "close": "إغلاق",
     "clear": "مسح",
     "generate": "إنشاء",
@@ -74,10 +74,10 @@
     "description": "الوصف",
     "complexity": {
       "title": "التعقيد الزمني والمكاني",
-      "best": "أفضل زمن:",
-      "average": "المتوسط:",
-      "worst": "أسوأ زمن:",
-      "space": "التعقيد المكاني:"
+      "best": "زمن أفضل حالة:",
+      "average": "متوسط الزمن:",
+      "worst": "زمن أسوأ حالة:",
+      "space": "تعقيد المساحة:"
     }
   },
   "codePanel": {
@@ -87,8 +87,8 @@
   },
   "notFound": {
     "eyebrow": "404 · الصفحة غير موجودة",
-    "title": "هذه الصفحة خارج الخريطة.",
-    "body": "ربما تغيّر الرابط، لكن مسار تعلّمك ما زال هنا.",
-    "backHome": "الرجوع إلى FCAI-CU"
+    "title": "يبدو أن هذه الصفحة ضلّت طريقها.",
+    "body": "قد يكون الرابط تغيّر، لكن يمكنك متابعة التعلّم من الصفحة الرئيسية.",
+    "backHome": "العودة إلى الصفحة الرئيسية"
   }
 }

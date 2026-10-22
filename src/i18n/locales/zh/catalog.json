@@ -24,7 +24,7 @@
     "advanced-data-structure": {
       "eyebrow": "高级课程",
       "title": "高级数据结构",
-      "description": "研究组织层次化数据的树结构，让数据规模增长时操作依然高效。"
+      "description": "学习如何利用树结构组织层次化数据，并在数据规模增长时保持操作高效。"
     },
     "information-theory-compression": {
       "eyebrow": "信息论课程",
@@ -35,63 +35,111 @@
   "topic": {
     "arrays": {
       "title": "数组",
-      "description": "理解按索引存储、访问、更新及常见数组操作。",
-      "tags": ["索引", "插入", "删除"]
+      "description": "了解数组如何按索引存储、访问和更新元素，以及常见的数组操作。",
+      "tags": [
+        "索引",
+        "插入",
+        "删除"
+      ]
     },
     "stacks": {
       "title": "栈",
       "description": "通过 push、pop 和 peek 操作探究后进先出（LIFO）行为。",
-      "tags": ["LIFO", "Push", "Pop"]
+      "tags": [
+        "LIFO",
+        "Push",
+        "Pop"
+      ]
     },
     "queues": {
       "title": "队列",
       "description": "了解先进先出（FIFO）结构如何管理数据与调度。",
-      "tags": ["FIFO", "Enqueue", "Dequeue"]
+      "tags": [
+        "FIFO",
+        "Enqueue",
+        "Dequeue"
+      ]
     },
     "linked-lists": {
       "title": "链表",
       "description": "追踪单向、双向、循环和有序链表中的节点连接。",
-      "tags": ["节点", "指针", "变体"]
+      "tags": [
+        "节点",
+        "指针",
+        "变体"
+      ]
     },
     "sorting": {
       "title": "排序算法",
       "description": "逐步比较各排序策略如何整理数据。",
-      "tags": ["8 种算法", "步骤控制", "代码"]
+      "tags": [
+        "8 种算法",
+        "步骤控制",
+        "代码"
+      ]
     },
     "searching": {
       "title": "查找算法",
       "description": "追踪线性、二分和跳跃查找，高效定位目标值。",
-      "tags": ["3 种算法", "有序数据", "复杂度"]
+      "tags": [
+        "3 种算法",
+        "有序数据",
+        "复杂度"
+      ]
     },
     "graphs": {
       "title": "图",
       "description": "对连通数据进行建模，探索遍历与最短路径。",
-      "tags": ["BFS", "DFS", "Dijkstra"]
+      "tags": [
+        "BFS",
+        "DFS",
+        "Dijkstra"
+      ]
     },
     "trees": {
       "title": "二叉搜索树",
       "description": "在探索树遍历的同时插入、查找和删除值。",
-      "tags": ["BST", "遍历", "查找"]
+      "tags": [
+        "BST",
+        "遍历",
+        "查找"
+      ]
     },
     "avl-tree": {
       "title": "AVL 树",
       "description": "观察自平衡旋转如何保持对数级的树高。",
-      "tags": ["自平衡", "旋转", "高度"]
+      "tags": [
+        "自平衡",
+        "旋转",
+        "高度"
+      ]
     },
     "red-black-tree": {
       "title": "红黑树",
       "description": "探索节点着色、插入修复与平衡的查找路径。",
-      "tags": ["颜色规则", "旋转", "平衡"]
+      "tags": [
+        "颜色规则",
+        "旋转",
+        "平衡"
+      ]
     },
     "lossless-compression": {
       "title": "无损压缩",
       "description": "压缩数据时不丢失信息，并精确还原原始输入。",
-      "tags": ["精确还原", "LZ77", "交互式"]
+      "tags": [
+        "精确还原",
+        "LZ77",
+        "交互式"
+      ]
     },
     "lossy-compression": {
       "title": "有损压缩",
       "description": "通过丢弃不太明显的信息来减少数据大小。",
-      "tags": ["近似", "图像与音频", "即将推出"]
+      "tags": [
+        "近似",
+        "图像与音频",
+        "即将推出"
+      ]
     }
   },
   "compression": {
@@ -110,7 +158,7 @@
       "arithmeticDescription": "将消息表示为逐渐缩小的区间，包括浮点和自适应变体。",
       "adaptiveHuffmanTitle": "自适应霍夫曼编码",
       "adaptiveHuffmanDescription": "读取每个符号时更新霍夫曼树，无需预先计算频率表。",
-      "modifiedHuffmanTitle": "改进霍夫曼（其他符号）",
+      "modifiedHuffmanTitle": "改良霍夫曼编码（其他符号组）",
       "modifiedHuffmanDescription": "将概率不高于阈值的符号归入“其他”，并追加其定长原始符号代码。",
       "slideRule": "课件规则：匹配不能超出搜索缓冲区中候选后缀的长度。最长匹配相同时，选择距离最近的匹配。",
       "slideExample": "载入课件示例"
@@ -140,8 +188,8 @@
       "arithmeticPayloadPlaceholder": "{\"numerator\":\"1\",\"denominator\":\"2\",\"length\":1,\"frequencies\":{\"A\":1}}",
       "arithmeticModelLabel": "符号频率 (JSON)",
       "arithmeticModelHelp": "课件示例使用 {\"A\":80,\"B\":2,\"C\":18}。频率总和不必等于消息长度。",
-      "thresholdLabel": "“其他”符号的最小概率",
-      "thresholdHelp": "概率小于或等于阈值的符号使用“其他”代码，并追加定长符号代码。",
+      "thresholdLabel": "“其他”符号组的最小概率",
+      "thresholdHelp": "概率小于或等于该阈值的符号会使用“其他”代码，并附加定长的符号代码。",
       "adaptiveTreeTitle": "当前自适应树叶节点",
       "nytNode": "NYT",
       "nodeNumber": "节点 {{count}}",
@@ -160,14 +208,14 @@
       "lookaheadBuffer": "前瞻缓冲区",
       "remaining": "尚未检查",
       "cursor": "游标",
-      "tokensTitle": "编码标签",
-      "tokenFormat": "标签格式：<偏移量，长度，下一个符号>",
-      "emptyTokens": "运行压缩以生成 LZ77 标签。",
+      "tokensTitle": "编码项",
+      "tokenFormat": "编码项格式：<偏移量，长度，下一个符号>",
+      "emptyTokens": "运行压缩以生成 LZ77 编码项。",
       "decodedTitle": "解码结果",
-      "emptyDecoded": "运行解压以还原输入。",
+      "emptyDecoded": "运行解压以还原原始输入。",
       "statisticsTitle": "课件中的位数示例",
       "originalBits": "原始文本",
-      "compressedBits": "编码标签",
+      "compressedBits": "编码项",
       "savedBits": "节省空间",
       "bitsValue": "{{count}} 位",
       "compressionNote": "每个标签由 {{positionBits}} 位偏移量 + {{lengthBits}} 位长度 + 8 位下一个符号组成。",

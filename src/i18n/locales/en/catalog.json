@@ -4,16 +4,12 @@
     "status": "Interactive",
     "openTopic": "Open topic",
     "exploreCourse": "Explore course",
-    "learningTopics": {
-      "one": "{{count}} learning topic",
-      "other": "{{count}} learning topics"
-    }
+    "learningTopics_one": "learning topic",
+    "learningTopics_other": "learning topics"
   },
   "overview": {
-    "metaTopics": {
-      "one": "{{count}} topic",
-      "other": "{{count}} topics"
-    },
+    "metaTopics_one": "{{count}} topic",
+    "metaTopics_other": "{{count}} topics",
     "interactiveLessons": "Interactive lessons",
     "contentEyebrow": "COURSE CONTENT",
     "contentTitle": "Choose a topic to explore",

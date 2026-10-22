@@ -4,24 +4,20 @@
     "status": "تفاعلي",
     "openTopic": "افتح الموضوع",
     "exploreCourse": "استكشف المقرر",
-    "learningTopics": {
-      "zero": "لا مواضيع للتعلّم",
-      "one": "موضوع واحد للتعلّم",
-      "two": "موضعان للتعلّم",
-      "few": "{{count}} مواضيع للتعلّم",
-      "many": "{{count}} موضوعًا للتعلّم",
-      "other": "{{count}} من المواضيع للتعلّم"
-    }
+    "learningTopics_zero": "لا مواضيع للتعلّم",
+    "learningTopics_one": "موضوع واحد للتعلّم",
+    "learningTopics_two": "موضعان للتعلّم",
+    "learningTopics_few": "مواضيع للتعلّم",
+    "learningTopics_many": "موضوعًا للتعلّم",
+    "learningTopics_other": "مواضيع للتعلّم"
   },
   "overview": {
-    "metaTopics": {
-      "zero": "لا مواضيع",
-      "one": "موضوع واحد",
-      "two": "موضعان",
-      "few": "{{count}} مواضيع",
-      "many": "{{count}} موضوعًا",
-      "other": "{{count}} من المواضيع"
-    },
+    "metaTopics_zero": "لا مواضيع",
+    "metaTopics_one": "موضوع واحد",
+    "metaTopics_two": "موضعان",
+    "metaTopics_few": "{{count}} مواضيع",
+    "metaTopics_many": "{{count}} موضوعًا",
+    "metaTopics_other": "{{count}} من المواضيع",
     "interactiveLessons": "دروس تفاعلية",
     "contentEyebrow": "محتوى المقرر",
     "contentTitle": "اختر موضوعًا لاستكشافه",

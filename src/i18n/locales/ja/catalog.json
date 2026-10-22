@@ -4,16 +4,12 @@
     "status": "インタラクティブ",
     "openTopic": "トピックを開く",
     "exploreCourse": "コースを見る",
-    "learningTopics": {
-      "one": "学習トピック {{count}} 件",
-      "other": "学習トピック {{count}} 件"
-    }
+    "learningTopics_one": "学習トピック",
+    "learningTopics_other": "学習トピック"
   },
   "overview": {
-    "metaTopics": {
-      "one": "トピック {{count}} 件",
-      "other": "トピック {{count}} 件"
-    },
+    "metaTopics_one": "トピック {{count}} 件",
+    "metaTopics_other": "トピック {{count}} 件",
     "interactiveLessons": "インタラクティブなレッスン",
     "contentEyebrow": "コース内容",
     "contentTitle": "学ぶトピックを選びましょう",

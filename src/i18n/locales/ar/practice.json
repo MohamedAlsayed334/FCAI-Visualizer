@@ -12,14 +12,12 @@
   "comingSoon": "قريبًا",
   "selectTopic": "اختر موضوعًا",
   "backToMenu": "الرجوع إلى القائمة",
-  "questionsAttempted": {
-    "zero": "لا أسئلة",
-    "one": "سؤال واحد",
-    "two": "سؤالان",
-    "few": "{{count}} أسئلة",
-    "many": "{{count}} سؤالًا",
-    "other": "{{count}} من الأسئلة"
-  },
+  "questionsAttempted_zero": "لا أسئلة",
+  "questionsAttempted_one": "سؤال واحد",
+  "questionsAttempted_two": "سؤالان",
+  "questionsAttempted_few": "{{count}} أسئلة",
+  "questionsAttempted_many": "{{count}} سؤالًا",
+  "questionsAttempted_other": "{{count}} من الأسئلة",
   "topics": {
     "sorting": "الترتيب",
     "searching": "البحث",

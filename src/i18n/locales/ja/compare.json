@@ -77,11 +77,9 @@
     "mstEdges": "MST の辺: {{edges}}",
     "visitOrder": "訪問順: {{order}}",
     "remainingValues": "残りの値: [{{values}}]",
-    "treeSummary": "最終的な高さ: {{height}} · {{count}} {{nodeWord}} · 通りがけ順: {{order}}",
-    "treeNodes": {
-      "one": "ノード",
-      "other": "ノード"
-    },
+    "treeSummary": "最終的な高さ: {{height}} · {{nodeWord}} · 通りがけ順: {{order}}",
+    "treeNodes_one": "{{count}}ノード",
+    "treeNodes_other": "{{count}}ノード",
     "finalOutput": "最終的な可視化は上に表示されます。"
   },
   "playback": {

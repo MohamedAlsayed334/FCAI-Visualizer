@@ -12,11 +12,9 @@
   "comingSoon": "敬请期待",
   "selectTopic": "选择主题",
   "backToMenu": "返回菜单",
-  "questionsAttempted": {
-    "zero": "无答题",
-    "one": "{{count}} 题",
-    "other": "{{count}} 题"
-  },
+  "questionsAttempted_zero": "无答题",
+  "questionsAttempted_one": "{{count}} 题",
+  "questionsAttempted_other": "{{count}} 题",
   "topics": {
     "sorting": "排序",
     "searching": "查找",

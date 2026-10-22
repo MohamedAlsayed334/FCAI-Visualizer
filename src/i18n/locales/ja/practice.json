@@ -12,11 +12,9 @@
   "comingSoon": "近日公開",
   "selectTopic": "トピックを選択",
   "backToMenu": "メニューに戻る",
-  "questionsAttempted": {
-    "zero": "回答なし",
-    "one": "{{count}}問",
-    "other": "{{count}}問"
-  },
+  "questionsAttempted_zero": "回答なし",
+  "questionsAttempted_one": "{{count}}問",
+  "questionsAttempted_other": "{{count}}問",
   "topics": {
     "sorting": "ソート",
     "searching": "探索",

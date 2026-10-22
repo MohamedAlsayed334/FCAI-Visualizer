@@ -2,7 +2,7 @@
   "page": {
     "eyebrow": "算法对比实验室",
     "title": "一个输入。两种方法。",
-    "subtitle": "并排比较现有的算法可视化，一次一个记录的步骤。"
+    "subtitle": "并排比较不同算法的可视化结果，按记录的步骤逐步对照。"
   },
   "groups": {
     "sorting": "排序",
@@ -13,7 +13,7 @@
     "trees": "BST vs AVL 树"
   },
   "setup": {
-    "forLabel": "比较以下类别的算法",
+    "forLabel": "要比较的算法类别",
     "algorithmSide": "算法 {{side}}",
     "graphLabel": "共享的带权图",
     "operationsLabel": "共享的操作序列",
@@ -22,7 +22,7 @@
     "targetLabel": "查找目标",
     "startNode": "起始节点",
     "addEdgesFirst": "请先添加边",
-    "prepare": "准备对比",
+    "prepare": "开始比较",
     "tryInput": "试试输入:",
     "graphHelp": "无向边写成 A-B，带权边写成 A-B:4。用逗号分隔多条边。遍历比较访问顺序；最小生成树比较所选边和总权重。",
     "operationsHelp": "用 insert 10 和 delete 这样的写法，以逗号分隔。两个结构接收相同的序列。栈移除最新的值（LIFO）；队列移除最旧的值（FIFO）。在空结构上的删除会被忽略，不出现在其轨迹中。",
@@ -105,10 +105,10 @@
     "body": "选择算法和共享输入，然后准备对比。尝试不同的预设，观察行为如何变化。"
   },
   "errors": {
-    "fallback": "无法准备此次对比。请检查输入。",
+    "fallback": "无法准备此次比较，请检查输入。",
     "sameAlgo": "请选择两个不同的算法进行对比。",
     "noSteps": "{{name}} 未生成任何步骤。",
-    "graphEmpty": "至少添加一条边，例如 A-B:4。",
+    "graphEmpty": "请至少添加一条边，例如 A-B:4。",
     "graphItem": "无法读取\"{{item}}\"。无权边用 A-B，带权边用 A-B:4。",
     "selfLoop": "边 {{edge}} 是自环。请使用两个不同的节点名。",
     "weightRange": "边权必须大于 0 且不超过 999。",

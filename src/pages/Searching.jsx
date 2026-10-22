@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getAlgorithm, getAlgorithmsByCategory } from '../application/AlgorithmRegistry';
 import { SearchingVisualizer } from '../algorithms/searching/searchingVisualizer';
 import { useLang } from '../hooks/useLang';
@@ -39,6 +39,7 @@ function sortedCopy(arr) {
 export default function Searching() {
   const { algo: urlAlgo } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const canvasRef = useRef(null);
 
   const initialAlgo = urlAlgo && searchAlgorithms[urlAlgo] ? urlAlgo : 'linear-search';
@@ -255,7 +256,11 @@ export default function Searching() {
         algorithm={algo}
         setAlgorithm={(a) => {
           setAlgo(a);
-          navigate(`/searching/${a}`);
+          // Keep the algorithm switch inside the current (course or legacy) route.
+          const base = location.pathname.startsWith('/courses/data-structure/searching')
+            ? '/courses/data-structure/searching'
+            : '/searching';
+          navigate(`${base}/${a}`);
           resetPlayback();
         }}
         arraySize={arraySize}

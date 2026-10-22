@@ -1,86 +1,30 @@
 {
-  "bubble": {
-    "name": "バブルソート"
-  },
-  "selection": {
-    "name": "選択ソート"
-  },
-  "insertion": {
-    "name": "挿入ソート"
-  },
-  "merge": {
-    "name": "マージソート"
-  },
-  "quick": {
-    "name": "クイックソート"
-  },
-  "heap": {
-    "name": "ヒープソート"
-  },
-  "counting": {
-    "name": "計数ソート"
-  },
-  "radix": {
-    "name": "基数ソート"
-  },
-  "linear-search": {
-    "name": "線形探索"
-  },
-  "binary-search": {
-    "name": "二分探索"
-  },
-  "jump-search": {
-    "name": "ジャンプ探索"
-  },
-  "array-ds": {
-    "name": "配列"
-  },
-  "stack-ds": {
-    "name": "スタック"
-  },
-  "queue-ds": {
-    "name": "キュー"
-  },
-  "singly-ll": {
-    "name": "単方向連結リスト"
-  },
-  "doubly-ll": {
-    "name": "双方向連結リスト"
-  },
-  "circular-ll": {
-    "name": "循環連結リスト"
-  },
-  "ordered-ll": {
-    "name": "順序付き連結リスト"
-  },
-  "bst": {
-    "name": "二分探索木"
-  },
-  "avl": {
-    "name": "AVL木"
-  },
-  "heap-tree": {
-    "name": "ヒープ"
-  },
-  "binary-tree": {
-    "name": "二分木の走査"
-  },
-  "bfs": {
-    "name": "幅優先探索（BFS）"
-  },
-  "dfs": {
-    "name": "深さ優先探索（DFS）"
-  },
-  "dijkstra": {
-    "name": "ダイクストラ法 — 最短経路"
-  },
-  "prim": {
-    "name": "プリム法 — 最小全域木"
-  },
-  "kruskal": {
-    "name": "クラスカル法 — 最小全域木"
-  },
-  "compare": {
-    "name": "アルゴリズム比較"
-  }
+  "bubble": { "name": "バブルソート" },
+  "selection": { "name": "選択ソート" },
+  "insertion": { "name": "挿入ソート" },
+  "merge": { "name": "マージソート" },
+  "quick": { "name": "クイックソート" },
+  "heap": { "name": "ヒープソート" },
+  "counting": { "name": "計数ソート" },
+  "radix": { "name": "基数ソート" },
+  "linear-search": { "name": "線形探索" },
+  "binary-search": { "name": "二分探索" },
+  "jump-search": { "name": "ジャンプ探索" },
+  "array-ds": { "name": "配列" },
+  "stack-ds": { "name": "スタック" },
+  "queue-ds": { "name": "キュー" },
+  "singly-ll": { "name": "単方向連結リスト" },
+  "doubly-ll": { "name": "双方向連結リスト" },
+  "circular-ll": { "name": "循環連結リスト" },
+  "ordered-ll": { "name": "順序付き連結リスト" },
+  "bst": { "name": "二分探索木" },
+  "avl": { "name": "AVL木" },
+  "heap-tree": { "name": "ヒープ" },
+  "binary-tree": { "name": "二分木の走査" },
+  "bfs": { "name": "幅優先探索（BFS）" },
+  "dfs": { "name": "深さ優先探索（DFS）" },
+  "dijkstra": { "name": "ダイクストラ法 — 最短経路" },
+  "prim": { "name": "プリム法 — 最小全域木" },
+  "kruskal": { "name": "クラスカル法 — 最小全域木" },
+  "compare": { "name": "アルゴリズム比較" }
 }

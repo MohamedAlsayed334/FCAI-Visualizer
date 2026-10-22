@@ -1,18 +1,24 @@
 {
-  "title": "وضع التدرب",
-  "subtitle": "اختبر معلوماتك في الخوارزميات",
+  "title": "التدريب العملي",
+  "subtitle": "اختبر فهمك للخوارزميات",
   "modes": {
-    "quiz": { "title": "اختبار", "description": "أسئلة اختيار من متعدد" },
-    "trace": { "title": "التتبّع", "description": "تدريب خطوة بخطوة" }
+    "quiz": {
+      "title": "اختبار",
+      "description": "أسئلة اختيار من متعدد"
+    },
+    "trace": {
+      "title": "تتبّع التنفيذ",
+      "description": "تدريب عملي خطوةً بخطوة"
+    }
   },
   "session": {
     "quiz": "اختبار",
-    "trace": "تتبّع"
+    "trace": "تتبّع التنفيذ"
   },
   "comingSoon": "قريبًا",
   "selectTopic": "اختر موضوعًا",
   "backToMenu": "الرجوع إلى القائمة",
-  "questionsAttempted_zero": "لا أسئلة",
+  "questionsAttempted_zero": "لم تُجب عن أي سؤال",
   "questionsAttempted_one": "سؤال واحد",
   "questionsAttempted_two": "سؤالان",
   "questionsAttempted_few": "{{count}} أسئلة",
@@ -29,7 +35,7 @@
     "questions": "الأسئلة",
     "correct": "الصحيحة",
     "accuracy": "الدقة",
-    "bestStreak": "أطول سلسلة",
+    "bestStreak": "أفضل سلسلة إجابات صحيحة متتالية",
     "reset": "🗑️ مسح",
     "confirm": "اضغط للتأكيد"
   },
@@ -47,14 +53,14 @@
       "complexity": "📊 التعقيد"
     },
     "descriptions": {
-      "general": "أسئلة اختيار من متعدد في {{topic}}",
-      "code": "حلّل مقاطع الكود المتعلقة بـ {{topic}}",
-      "complexity": "أسئلة التعقيد الزمني/المكاني في {{topic}}"
+      "general": "أسئلة اختيار من متعدد حول {{topic}}",
+      "code": "حلّل مقاطع الشيفرة المرتبطة بـ {{topic}}",
+      "complexity": "أسئلة عن التعقيد الزمني والمكاني لـ {{topic}}"
     },
     "actions": {
       "start": "▶ ابدأ الاختبار",
       "tryAgain": "↺ حاول مجددًا",
-      "submit": "أرسل الإجابة",
+      "submit": "إرسال الإجابة",
       "next": "السؤال التالي →"
     },
     "loading": {
@@ -71,9 +77,9 @@
       "answered_zero": "لم تُجب على أي سؤال",
       "answered_one": "أجبت على سؤال واحد",
       "answered_two": "أجبت على سؤالين",
-      "answered_few": "أجبت على {{count}} أسئلة",
-      "answered_many": "أجبت على {{count}} سؤالًا",
-      "answered_other": "أجبت على {{count}} من الأسئلة"
+      "answered_few": "أجبت عن {{count}} أسئلة",
+      "answered_many": "أجبت عن {{count}} سؤالًا",
+      "answered_other": "أجبت عن {{count}} سؤالًا"
     },
     "badges": {
       "builtIn": "📚 مدمج",

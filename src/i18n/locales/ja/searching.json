@@ -1,10 +1,10 @@
 {
   "title": "探索",
-  "canvasAria": "探索の可視化キャンバス",
-  "descriptionFallback": "{{name}}探索",
-  "target": "ターゲット:",
+  "canvasAria": "探索アルゴリズムの可視化エリア",
+  "descriptionFallback": "{{name}}による探索",
+  "target": "探索対象：",
   "result": {
-    "foundAt": "✅ idx {{index}}",
+    "foundAt": "✅ インデックス {{index}} で見つかりました",
     "notFound": "❌ 見つかりません"
   },
   "legend": {

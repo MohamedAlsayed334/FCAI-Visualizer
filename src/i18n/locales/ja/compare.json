@@ -15,11 +15,11 @@
   "setup": {
     "forLabel": "比較するアルゴリズム",
     "algorithmSide": "アルゴリズム {{side}}",
-    "graphLabel": "共有の重み付きグラフ",
-    "operationsLabel": "共有の操作列",
-    "arrayLabel": "共有の入力",
-    "treeLabel": "共有の挿入順序",
-    "targetLabel": "探索ターゲット",
+    "graphLabel": "共通の重み付きグラフ",
+    "operationsLabel": "共通の操作列",
+    "arrayLabel": "共通の入力",
+    "treeLabel": "共通の挿入順序",
+    "targetLabel": "探索対象",
     "startNode": "開始ノード",
     "addEdgesFirst": "先に辺を追加してください",
     "prepare": "比較を準備",
@@ -51,7 +51,7 @@
     },
     "recordedSteps": "記録されたステップ",
     "resultLabel": "結果: ",
-    "narrationStart": "同じ入力から開始します。再生または次へを押してください。",
+    "narrationStart": "同じ入力から開始します。再生または「次へ」を押してください。",
     "previewPlay": "再生を押すと値を順に挿入します。",
     "viewCode": "既存の実装を見る（JavaScript）",
     "aria": {
@@ -90,7 +90,7 @@
     "speed": "速度",
     "stepsPerSecond": "{{value}} ステップ/秒",
     "timeline": "タイムライン",
-    "disclaimer": "1チックごとに各側1ステップずつ、記録されたステップを進めます。完了したパネルは結果を保持します。ステップ数は教材としてのトレースを表すものであり、実行時間や計算量の等価性を表すものではありません。"
+    "disclaimer": "再生の1ステップごとに、左右それぞれの記録済みステップを1つ進めます。完了したパネルは結果を保持します。ステップ数は学習用の実行記録を表し、実行時間や計算量が等しいことを意味しません。"
   },
   "status": {
     "searchingFor": "{{target}} を探索中",

@@ -2,14 +2,8 @@
   "title": "练习模式",
   "subtitle": "测试你的算法知识",
   "modes": {
-    "quiz": {
-      "title": "测验",
-      "description": "选择题"
-    },
-    "trace": {
-      "title": "追踪",
-      "description": "分步练习"
-    }
+    "quiz": { "title": "测验", "description": "选择题" },
+    "trace": { "title": "追踪", "description": "分步练习" }
   },
   "session": {
     "quiz": "测验",

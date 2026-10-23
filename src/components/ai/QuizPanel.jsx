@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { useLang } from '../../hooks/useLang';
 import { useT } from '../../hooks/useT';
 import { complexity, algoNames, codeSnippets } from '../../data/algorithmData';

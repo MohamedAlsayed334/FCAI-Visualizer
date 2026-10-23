@@ -420,7 +420,7 @@ export default function QuizPanel({ topic, onComplete, difficulty = 'easy' }) {
     setIsTransitioning(false);
   };
 
-  const loadQuestion = useCallback(async () => {
+  const loadQuestion = async () => {
     setLoading(true);
     setSelectedAnswer(null);
     setSubmitted(false);
@@ -442,7 +442,7 @@ export default function QuizPanel({ topic, onComplete, difficulty = 'easy' }) {
     setSource('built-in');
     setLoading(false);
     setLoadingMode(null);
-  }, [topic, questionMode, lang, difficulty]);
+  };
 
   const handleSubmit = () => {
     console.log('Submit clicked - submitted:', submitted, 'selectedAnswer:', selectedAnswer);

@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useLang } from '../../hooks/useLang';
 import { useT } from '../../hooks/useT';
 import { complexity, algoNames, codeSnippets } from '../../data/algorithmData';
-import { TRAINING_QUESTION_BANK } from '../../data/trainingQuestionBank';
+import { questionBankByTopic as TRAINING_QUESTION_BANK } from '../../data/questionBank';
 
 const CODE_LANGUAGES = [
   { value: 'js', label: 'JavaScript' },

@@ -30,7 +30,7 @@ export default function PracticeMode() {
   const [selectedMode, setSelectedMode] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState('sorting');
   const [showTopicSelect, setShowTopicSelect] = useState(true);
-  const { progress, recordAnswer, getStats, resetProgress } = useProgress();
+  const { progress, recordAnswer, getDifficulty, getStats, resetProgress } = useProgress();
 
   const stats = getStats();
 
@@ -174,6 +174,7 @@ export default function PracticeMode() {
           {selectedMode === 'quiz' ? (
             <QuizPanel
               topic={selectedTopic}
+              difficulty={getDifficulty(selectedTopic)}
               onComplete={(topic, isCorrect) => handleComplete(topic, isCorrect)}
             />
           ) : (

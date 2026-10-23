@@ -2,7 +2,6 @@ import { useState, useCallback } from 'react';
 import QuizPanel from '../components/ai/QuizPanel';
 import TracePanel from '../components/ai/TracePanel';
 import ScoreBoard from '../components/ai/ScoreBoard';
-import TrainingLevels from '../components/TrainingLevels';
 import { useProgress } from '../hooks/useProgress';
 import { useT } from '../hooks/useT';
 import '../styles/Training.css';
@@ -23,7 +22,6 @@ const TOPIC_COLORS = {
 
 const MODES = [
   { id: 'quiz', icon: '⊕' },
-  { id: 'levels', icon: '★' },
   { id: 'trace', icon: '⟳', comingSoon: true },
 ];
 
@@ -32,7 +30,7 @@ export default function PracticeMode() {
   const [selectedMode, setSelectedMode] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState('sorting');
   const [showTopicSelect, setShowTopicSelect] = useState(true);
-  const { progress, recordAnswer, recordStageResult, getStats, resetProgress } = useProgress();
+  const { progress, recordAnswer, getStats, resetProgress } = useProgress();
 
   const stats = getStats();
 
@@ -170,16 +168,10 @@ export default function PracticeMode() {
       ) : (
         <div>
           <h2 style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-            {TOPICS[selectedTopic].icon} {selectedMode === 'levels' ? t('levels.title', { defaultValue: 'Training levels' }) : t(`session.${selectedMode}`)}: {t(`topics.${selectedTopic}`)}
+            {TOPICS[selectedTopic].icon} {t(`session.${selectedMode}`)}: {t(`topics.${selectedTopic}`)}
           </h2>
 
-          {selectedMode === 'levels' ? (
-            <TrainingLevels
-              topic={selectedTopic}
-              levels={progress.levels}
-              onStageComplete={recordStageResult}
-            />
-          ) : selectedMode === 'quiz' ? (
+          {selectedMode === 'quiz' ? (
             <QuizPanel
               topic={selectedTopic}
               onComplete={(topic, isCorrect) => handleComplete(topic, isCorrect)}

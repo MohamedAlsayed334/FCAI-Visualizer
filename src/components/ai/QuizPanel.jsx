@@ -76,8 +76,9 @@ function CodeBlock({ question }) {
   );
 }
 
-function getRandomQuestion(topic, questionType = 'general', lang = 'js') {
+function getRandomQuestion(topic, questionType = 'general', lang = 'js', difficulty = 'easy') {
   const levels = ['easy', 'medium', 'hard'];
+  const requestedDifficulty = levels.includes(difficulty) ? difficulty : 'easy';
   const typeKey = questionType === 'code' ? 'code' : questionType === 'complexity' ? 'complexity' : 'general';
 
   const topicAlgos = {
@@ -89,22 +90,23 @@ function getRandomQuestion(topic, questionType = 'general', lang = 'js') {
 
   const algos = topicAlgos[topic] || topicAlgos.sorting;
   const randomAlgo = algos[Math.floor(Math.random() * algos.length)];
-  
+
   if (questionType === 'complexity') {
     const comp = complexity[randomAlgo];
     if (comp) {
-      const complexityQuestions = generateComplexityQuestions(randomAlgo, comp);
-      if (complexityQuestions.length > 0) {
-        const random = complexityQuestions[Math.floor(Math.random() * complexityQuestions.length)];
+      const candidates = generateComplexityQuestions(randomAlgo, comp)
+        .filter((item) => item.level === requestedDifficulty);
+      if (candidates.length > 0) {
+        const random = candidates[Math.floor(Math.random() * candidates.length)];
         return {
           question: random.q,
           options: random.options,
           correctAnswer: random.answer,
           explanation: random.exp,
-          topic: topic,
+          topic,
           source: 'built-in',
           level: random.level,
-          questionType: questionType,
+          questionType,
           algorithm: randomAlgo
         };
       }
@@ -112,55 +114,56 @@ function getRandomQuestion(topic, questionType = 'general', lang = 'js') {
   }
 
   if (questionType === 'code') {
-    const codeQuestions = generateCodeQuestions(randomAlgo, topic, lang);
-    if (codeQuestions.length > 0) {
-      const random = codeQuestions[Math.floor(Math.random() * codeQuestions.length)];
+    const candidates = generateCodeQuestions(randomAlgo, topic, lang)
+      .filter((item) => item.level === requestedDifficulty);
+    if (candidates.length > 0) {
+      const random = candidates[Math.floor(Math.random() * candidates.length)];
       return {
         question: random.q,
         options: random.options,
         correctAnswer: random.answer,
         explanation: random.exp,
-        topic: topic,
+        topic,
         source: 'built-in',
         level: random.level,
-        questionType: questionType,
+        questionType,
         algorithm: randomAlgo,
         language: lang
       };
     }
   }
 
-  for (let i = 0; i < levels.length; i++) {
-    const level = levels[i];
-    const questions = TRAINING_QUESTION_BANK[topic]?.[typeKey]?.[level];
-    if (questions && questions.length > 0) {
-      const random = questions[Math.floor(Math.random() * questions.length)];
-      return {
-        question: random.q,
-        options: random.options,
-        correctAnswer: random.answer,
-        explanation: random.exp,
-        topic: topic,
-        source: 'built-in',
-        level: level,
-        questionType: questionType,
-        // General questions span the whole topic — only tag one when the
-        // question text names exactly one algorithm, never a random one.
-        algorithm: inferAlgorithm(random, algos)
-      };
-    }
+  const requestedQuestions = TRAINING_QUESTION_BANK[topic]?.[typeKey]?.[requestedDifficulty];
+  if (requestedQuestions?.length) {
+    const random = requestedQuestions[Math.floor(Math.random() * requestedQuestions.length)];
+    return {
+      question: random.q,
+      options: random.options,
+      correctAnswer: random.answer,
+      explanation: random.exp,
+      topic,
+      source: 'built-in',
+      level: requestedDifficulty,
+      questionType,
+      algorithm: inferAlgorithm(random, algos)
+    };
   }
 
-  const fallback = TRAINING_QUESTION_BANK.sorting.general.easy[0];
+  // If this topic has no questions at the requested difficulty, choose the
+  // nearest available tier instead of always falling back to easy.
+  const fallbackLevel = levels.find((level) => TRAINING_QUESTION_BANK[topic]?.[typeKey]?.[level]?.length);
+  const fallback = TRAINING_QUESTION_BANK[topic]?.[typeKey]?.[fallbackLevel]?.[0]
+    ?? TRAINING_QUESTION_BANK.sorting.general.easy[0];
+
   return {
     question: fallback.q,
     options: fallback.options,
     correctAnswer: fallback.answer,
     explanation: fallback.exp,
-    topic: topic,
+    topic,
     source: 'built-in',
-    level: 'easy',
-    questionType: questionType,
+    level: fallbackLevel ?? 'easy',
+    questionType,
     algorithm: randomAlgo
   };
 }
@@ -372,7 +375,7 @@ function generateAlgoOptions(correctAlgo) {
   };
 }
 
-export default function QuizPanel({ topic, onComplete }) {
+export default function QuizPanel({ topic, onComplete, difficulty = 'easy' }) {
   const t = useT('practice');
   const [started, setStarted] = useState(false);
   const [questionLimit, setQuestionLimit] = useState(10);
@@ -418,7 +421,7 @@ export default function QuizPanel({ topic, onComplete }) {
 
     setLoadingMode('built-in');
     await new Promise(resolve => setTimeout(resolve, 300));
-    const questionData = getRandomQuestion(topic, actualType, lang);
+    const questionData = getRandomQuestion(topic, actualType, lang, difficulty);
 
     if (questionData) {
       questionData.questionType = actualType;
@@ -428,7 +431,7 @@ export default function QuizPanel({ topic, onComplete }) {
     setSource('built-in');
     setLoading(false);
     setLoadingMode(null);
-  }, [topic, questionMode, lang]);
+  }, [topic, questionMode, lang, difficulty]);
 
   const handleSubmit = () => {
     console.log('Submit clicked - submitted:', submitted, 'selectedAnswer:', selectedAnswer);

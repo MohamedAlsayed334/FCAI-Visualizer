@@ -475,7 +475,7 @@ function flattenTopic(topic) {
       const items = RAW_QUESTION_BANK[topic]?.[type]?.[difficulty] ?? [];
       for (const item of items) {
         if (DUPLICATES[topic]?.has(item.q)) continue;
-        if (topic === 'sorting' && item.q.startsWith('What does this code implement?\\n```\\nmid = (low + high)')) {
+        if (topic === 'sorting' && item.q.startsWith('What does this code implement?\n```\nmid = (low + high)')) {
           RAW_QUESTION_BANK.searching.code.easy.push({ ...item });
           continue;
         }
@@ -490,7 +490,7 @@ function flattenTopic(topic) {
     const shift = (desiredIndex - oldCorrectIndex + 4) % 4;
     const options = ['A', 'B', 'C', 'D'].map((letter, optionIndex) => {
       const oldIndex = (optionIndex - shift + 4) % 4;
-      const optionText = item.options[oldIndex].replace(/^[A-D]\\)\\s*/, '');
+      const optionText = item.options[oldIndex].replace(/^[A-D]\)\s*/, '');
       return `${letter}) ${optionText}`;
     });
     return {

@@ -1,14 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { applyStageResult } from '../data/trainingLevels';
 
 const STORAGE_KEY = 'fcai_visualizer_training_progress';
-
-const DEFAULT_LEVELS = {
-  sorting: { unlockedStage: 1, completedStages: {} },
-  searching: { unlockedStage: 1, completedStages: {} },
-  trees: { unlockedStage: 1, completedStages: {} },
-  graphs: { unlockedStage: 1, completedStages: {} },
-};
 
 const DEFAULT_PROGRESS = {
   scores: {
@@ -18,7 +10,6 @@ const DEFAULT_PROGRESS = {
     graphs: { total: 0, correct: 0, streak: 0, difficulty: 'easy' },
   },
   history: [],
-  levels: DEFAULT_LEVELS,
   settings: {
     soundEnabled: true,
     showHints: true,
@@ -34,25 +25,7 @@ export function useProgress() {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        return {
-          ...DEFAULT_PROGRESS,
-          ...parsed,
-          scores: { ...DEFAULT_PROGRESS.scores, ...(parsed.scores ?? {}) },
-          history: Array.isArray(parsed.history) ? parsed.history : [],
-          settings: { ...DEFAULT_PROGRESS.settings, ...(parsed.settings ?? {}) },
-          levels: Object.fromEntries(
-            Object.keys(DEFAULT_LEVELS).map((topic) => [
-              topic,
-              {
-                ...DEFAULT_LEVELS[topic],
-                ...(parsed.levels?.[topic] ?? {}),
-                completedStages: {
-                  ...(parsed.levels?.[topic]?.completedStages ?? {}),
-                },
-              },
-            ]),
-          ),
-        };
+        return { ...DEFAULT_PROGRESS, ...parsed };
       }
     } catch (e) {
       console.error('Failed to load progress:', e);
@@ -93,13 +66,6 @@ export function useProgress() {
         history: newHistory,
       };
     });
-  }, []);
-
-  const recordStageResult = useCallback((topic, stage, correctCount) => {
-    setProgress((prev) => ({
-      ...prev,
-      levels: applyStageResult(prev.levels, topic, stage, correctCount),
-    }));
   }, []);
 
   const getTopicScore = useCallback((topic) => {
@@ -145,7 +111,6 @@ export function useProgress() {
   return {
     progress,
     recordAnswer,
-    recordStageResult,
     getTopicScore,
     getDifficulty,
     updateSettings,

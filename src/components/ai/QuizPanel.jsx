@@ -11,6 +11,21 @@ const CODE_LANGUAGES = [
   { value: 'java', label: 'Java' },
 ];
 
+const TOPIC_COLORS = {
+  sorting: { bg: 'rgba(59, 130, 246, 0.12)', text: '#60a5fa', border: '#3b82f6' },
+  searching: { bg: 'rgba(16, 185, 129, 0.12)', text: '#34d399', border: '#10b981' },
+  trees: { bg: 'rgba(168, 85, 247, 0.12)', text: '#c084fc', border: '#a855f7' },
+  graphs: { bg: 'rgba(245, 158, 11, 0.12)', text: '#fbbf24', border: '#f59e0b' },
+};
+
+function inferAlgorithm(question, algos) {
+  const text = `${question.q} ${question.exp || ''}`.toLowerCase();
+  return algos.find((algo) => {
+    const name = algoNames[algo];
+    return name && text.includes(name.toLowerCase());
+  }) || algos[0];
+}
+
 function CodeBlock({ question }) {
   const codeBlockMatch = question.match(/```[\s\S]*?```/);
   const codeBlock = codeBlockMatch ? codeBlockMatch[0].replace(/```\w*\n?/g, '').trim() : '';
@@ -405,10 +420,6 @@ export default function QuizPanel({ topic, onComplete, difficulty = 'easy' }) {
     setIsTransitioning(false);
   };
 
-  const getActualQuestionType = () => {
-    return questionMode;
-  };
-
   const loadQuestion = useCallback(async () => {
     setLoading(true);
     setSelectedAnswer(null);
@@ -417,7 +428,7 @@ export default function QuizPanel({ topic, onComplete, difficulty = 'easy' }) {
     setSource('loading');
     setLoadingMode(null);
 
-    const actualType = getActualQuestionType();
+    const actualType = questionMode;
 
     setLoadingMode('built-in');
     await new Promise(resolve => setTimeout(resolve, 300));

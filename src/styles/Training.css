@@ -542,25 +542,3 @@
     align-self: flex-end;
   }
 }
-
-/* Offline topic ladder */
-.training-levels { max-width: 900px; margin: 0 auto; }
-.training-levels-summary { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; padding: 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
-.training-levels-summary h2 { margin: 0 0 .35rem; font-size: 1.25rem; }
-.training-levels-summary p { margin: 0; color: var(--text-muted); }
-.training-levels-summary > strong { margin-left: auto; white-space: nowrap; }
-.training-levels-topic-icon { font-size: 2rem; }
-.training-levels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 1rem; }
-.training-level-card { display: flex; min-height: 150px; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; padding: 1rem; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); transition: border-color .2s, transform .2s; }
-.training-level-card.unlocked { cursor: pointer; }
-.training-level-card.unlocked:hover { border-color: var(--accent); transform: translateY(-2px); }
-.training-level-card.locked { opacity: .5; cursor: not-allowed; }
-.training-level-card.completed { border-color: var(--accent3); }
-.training-level-number { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: 50%; background: var(--surface2); font-weight: 800; }
-.training-level-card small { color: var(--text-muted); }
-.training-stage-result { text-align: center; }
-.training-stage-result-score { font-size: 3rem; font-weight: 800; }
-.training-stage-stars { color: var(--yellow); font-size: 2rem; letter-spacing: .2rem; }
-.training-stage-quiz .quiz-header { gap: 1rem; }
-.training-stage-quiz .quiz-header .btn { padding: .5rem .75rem; }
-@media (max-width: 600px) { .training-levels-summary { align-items: flex-start; flex-wrap: wrap; } .training-levels-summary > strong { margin-left: 0; } .training-levels-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
